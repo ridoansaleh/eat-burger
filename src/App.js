@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Layout from "./layout";
 import Home from "./routes/home";
 import Menus from "./routes/menus";
 import Order from "./routes/order";
@@ -11,19 +12,29 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Layout>
+            <Home />
+          </Layout>
         </Route>
         <Route path="/menus">
-          <Menus />
+          <Layout>
+            <Menus />
+          </Layout>
         </Route>
         <Route path="/order">
-          <Order />
+          <Layout>
+            <Order />
+          </Layout>
         </Route>
         <Route path="/registration">
-          <Registration />
+          <Layout>
+            <Registration />
+          </Layout>
         </Route>
         <Route path="/login">
-          <Login />
+          <Layout>
+            <Login />
+          </Layout>
         </Route>
       </Switch>
     </Router>
