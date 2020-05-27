@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c3ce376612d5b58842fe93a552dc2e0c",
+    "revision": "e1851cbc66f9013f82a16541b312ffea",
     "url": "/eat-burger/index.html"
   },
   {
-    "revision": "1ed84730c382812fc606",
+    "revision": "a59594245ab336893ae9",
     "url": "/eat-burger/static/css/main.5ecd60fb.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/eat-burger/static/js/2.7fac5b65.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1ed84730c382812fc606",
-    "url": "/eat-burger/static/js/main.9e8011c8.chunk.js"
+    "revision": "a59594245ab336893ae9",
+    "url": "/eat-burger/static/js/main.13fa7311.chunk.js"
   },
   {
     "revision": "1fc860ba68e5778f2b30",
