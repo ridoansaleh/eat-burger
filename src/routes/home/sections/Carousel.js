@@ -18,7 +18,7 @@ function Carousel() {
   const classes = useStyles();
 
   return (
-    <Slider navButtonsAlwaysVisible animation="slide">
+    <Slider navButtonsAlwaysVisible animation="slide" autoPlay={false}>
       {items.map((item, index) => (
         <Paper variant="outlined" square key={index} className={classes.slider}>
           <h2>{item.name}</h2>
