@@ -11,27 +11,27 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/eat-burger">
           <Layout>
             <Home />
           </Layout>
         </Route>
-        <Route path="/menus">
+        <Route path="/eat-burger/menus">
           <Layout>
             <Menus />
           </Layout>
         </Route>
-        <Route path="/order">
+        <Route path="/eat-burger/order">
           <Layout>
             <Order />
           </Layout>
         </Route>
-        <Route path="/registration">
+        <Route path="/eat-burger/registration">
           <Layout>
             <Registration />
           </Layout>
         </Route>
-        <Route path="/login">
+        <Route path="/eat-burger/login">
           <Layout>
             <Login />
           </Layout>
