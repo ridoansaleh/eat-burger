@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     background: "black",
     color: "white",
-    padding: "10px 20px",
+    padding: "10px 20px 60px",
     marginTop: "100px",
   },
   wrapper: {

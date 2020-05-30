@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -20,10 +21,17 @@ import {
   MoveToInbox as InboxIcon,
 } from "@material-ui/icons";
 import useStyles from "./_headerStyle";
+import {
+  LOGIN_PATH,
+  HOME_PATH,
+  MENUS_PATH,
+  SHOPPING_CART_PATH,
+} from "../../utils/path";
 
 function Header() {
   const [anchor, setAnchor] = useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
   const toggleDrawer = (event) => {
     if (
@@ -33,6 +41,22 @@ function Header() {
       return;
     }
     setAnchor((prevState) => !prevState);
+  };
+
+  const handleHomeClick = () => {
+    history.push(HOME_PATH);
+  };
+
+  const handleMenusClick = () => {
+    history.push(MENUS_PATH);
+  };
+
+  const handleLoginClick = () => {
+    history.push(LOGIN_PATH);
+  };
+
+  const handleShoppingCartClick = () => {
+    history.push(SHOPPING_CART_PATH);
   };
 
   return (
@@ -59,21 +83,34 @@ function Header() {
                     Eat Burger
                   </Typography>
                 </IconButton>
-                <Typography variant="h6" className={classes.homeLink}>
+                <Typography
+                  variant="h6"
+                  className={classes.homeLink}
+                  onClick={handleHomeClick}
+                >
                   Home
                 </Typography>
-                <Typography variant="h6" className={classes.menusLink}>
+                <Typography
+                  variant="h6"
+                  className={classes.menusLink}
+                  onClick={handleMenusClick}
+                >
                   Menus
                 </Typography>
               </Grid>
               <Grid item xs={2} md={2} className={classes.right}>
-                <Typography variant="h6" className={classes.loginLink}>
+                <Typography
+                  variant="h6"
+                  className={classes.loginLink}
+                  onClick={handleLoginClick}
+                >
                   Login
                 </Typography>
                 <IconButton
                   edge="end"
                   aria-label="show 4 new items in Shopping Cart"
                   color="inherit"
+                  onClick={handleShoppingCartClick}
                 >
                   <Badge badgeContent={4} color="secondary">
                     <ShoppingCartIcon />
@@ -100,10 +137,10 @@ function Header() {
         >
           <List>
             <ListItem button>
-              <ListItemText primary="Home" />
+              <ListItemText primary="Home" onClick={handleHomeClick} />
             </ListItem>
             <ListItem button>
-              <ListItemText primary="Menus" />
+              <ListItemText primary="Menus" onClick={handleMenusClick} />
             </ListItem>
           </List>
           <Divider />
@@ -112,7 +149,7 @@ function Header() {
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="Login" />
+              <ListItemText primary="Login" onClick={handleLoginClick} />
             </ListItem>
           </List>
         </div>
