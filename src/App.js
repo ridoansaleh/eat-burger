@@ -4,34 +4,48 @@ import Layout from "./layout";
 import Home from "./routes/home";
 import Menus from "./routes/menus";
 import Order from "./routes/order";
+import ShoppingCart from "./routes/shopping_cart";
 import Registration from "./routes/registration";
 import Login from "./routes/login";
+import {
+  HOME_PATH,
+  MENUS_PATH,
+  ORDER_PATH,
+  SHOPPING_CART_PATH,
+  REGISTRATION_PATH,
+  LOGIN_PATH,
+} from "./utils/path";
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/eat-burger">
+        <Route exact path={HOME_PATH}>
           <Layout>
             <Home />
           </Layout>
         </Route>
-        <Route path="/eat-burger/menus">
+        <Route path={MENUS_PATH}>
           <Layout>
             <Menus />
           </Layout>
         </Route>
-        <Route path="/eat-burger/order">
+        <Route path={ORDER_PATH}>
           <Layout>
             <Order />
           </Layout>
         </Route>
-        <Route path="/eat-burger/registration">
+        <Route path={SHOPPING_CART_PATH}>
+          <Layout>
+            <ShoppingCart />
+          </Layout>
+        </Route>
+        <Route path={REGISTRATION_PATH}>
           <Layout>
             <Registration />
           </Layout>
         </Route>
-        <Route path="/eat-burger/login">
+        <Route path={LOGIN_PATH}>
           <Layout>
             <Login />
           </Layout>

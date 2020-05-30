@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   homeLink: {
     display: "none",
     marginLeft: "40px",
+    cursor: "pointer",
     [theme.breakpoints.up("md")]: {
       display: "block",
     },
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   menusLink: {
     display: "none",
     marginLeft: "30px",
+    cursor: "pointer",
     [theme.breakpoints.up("md")]: {
       display: "block",
     },
@@ -53,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
   loginLink: {
     display: "none",
     marginRight: "20px",
+    cursor: "pointer",
     [theme.breakpoints.up("md")]: {
       display: "block",
     },

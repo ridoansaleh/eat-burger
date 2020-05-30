@@ -46,7 +46,7 @@ function MenusList() {
               <CardMedia
                 className={classes.media}
                 image={burgerImage}
-                title="Contemplative Reptile"
+                title="Delicious Burger"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
