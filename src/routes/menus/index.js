@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   OutlinedInput,
   InputAdornment,
@@ -18,6 +19,7 @@ import {
 import { Search as SearchIcon } from "@material-ui/icons";
 import useStyles from "./_menusStyle";
 import burgerImage from "./assets/burger.jpg";
+import { ORDER_PATH } from "../../utils/path";
 
 const items = [
   {
@@ -46,6 +48,7 @@ function Menus() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState(1);
   const classes = useStyles();
+  const history = useHistory();
 
   const handleClickSearch = () => {};
 
@@ -55,6 +58,10 @@ function Menus() {
 
   const handleClickCategory = (val) => {
     setActiveCategory(val);
+  };
+
+  const handleOrderClick = () => {
+    history.push(ORDER_PATH);
   };
 
   return (
@@ -143,7 +150,12 @@ function Menus() {
                     <Typography gutterBottom variant="h5" component="h2">
                       {item.name}
                     </Typography>
-                    <Button variant="contained" fullWidth color="primary">
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      color="primary"
+                      onClick={handleOrderClick}
+                    >
                       Order
                     </Button>
                   </CardContent>
