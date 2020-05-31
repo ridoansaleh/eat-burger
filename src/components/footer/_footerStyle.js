@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     padding: "10px 20px 60px",
     marginTop: "100px",
+    minWidth: "320px",
   },
   wrapper: {
     display: "flex",

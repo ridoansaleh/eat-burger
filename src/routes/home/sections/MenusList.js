@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Card,
   CardActionArea,
@@ -9,6 +10,7 @@ import {
 } from "@material-ui/core";
 import burgerImage from "../assets/burger.jpg";
 import useStyles from "./_menusListStyle";
+import { ORDER_PATH } from "../../../utils/path";
 
 const items = [
   {
@@ -35,6 +37,11 @@ const items = [
 
 function MenusList() {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleOrderClick = () => {
+    history.push(ORDER_PATH);
+  };
 
   return (
     <div className={classes.menus}>
@@ -52,7 +59,12 @@ function MenusList() {
                 <Typography gutterBottom variant="h5" component="h2">
                   {item.name}
                 </Typography>
-                <Button variant="contained" fullWidth color="primary">
+                <Button
+                  variant="contained"
+                  fullWidth
+                  color="primary"
+                  onClick={handleOrderClick}
+                >
                   Order
                 </Button>
               </CardContent>
