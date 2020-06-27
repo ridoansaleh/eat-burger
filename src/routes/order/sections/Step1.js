@@ -92,8 +92,9 @@ function Step1() {
             <TableHead>
               <TableRow>
                 <TableCell>MENU ITEM</TableCell>
-                <TableCell align="right">QUANTITY</TableCell>
-                <TableCell align="right">SUBTOTAL</TableCell>
+                <TableCell align="center">QUANTITY</TableCell>
+                <TableCell>SUBTOTAL</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -102,12 +103,14 @@ function Step1() {
                   <TableCell component="th" scope="row">
                     {row.name}
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell>
                     <QuantityField />
                   </TableCell>
-                  <TableCell className={classes.deleteWrapper}>
+                  <TableCell align="center">
                     <span>$ {row.fat}</span>
-                    <DeleteOutlineIcon />
+                  </TableCell>
+                  <TableCell>
+                    <DeleteOutlineIcon className={classes.deleteIcon} />
                   </TableCell>
                 </TableRow>
               ))}
