@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {
@@ -9,14 +10,15 @@ import {
   Button,
 } from "@material-ui/core";
 import {
-  VideoLabel as VideoLabelIcon,
-  GroupAdd as GroupAddIcon,
-  Settings as SettingsIcon,
+  RestaurantMenu as RestaurantMenuIcon,
+  Motorcycle as MotorcycleIcon,
+  Payment as PaymentIcon,
 } from "@material-ui/icons";
 import Step1 from "./sections/Step1";
 import Step2 from "./sections/Step2";
 import Step3 from "./sections/Step3";
 import useStyles from "./_orderStyle";
+import { ORDER_SUCCESS_PATH } from "../../utils/path";
 
 const ColorlibConnector = withStyles({
   alternativeLabel: {
@@ -70,9 +72,9 @@ function ColorlibStepIcon(props) {
   const { active, completed } = props;
 
   const icons = {
-    1: <SettingsIcon />,
-    2: <GroupAddIcon />,
-    3: <VideoLabelIcon />,
+    1: <RestaurantMenuIcon />,
+    2: <MotorcycleIcon />,
+    3: <PaymentIcon />,
   };
 
   return (
@@ -93,6 +95,7 @@ function Order() {
   const [activeStep, setActiveStep] = useState(0);
   const [isMobile, setMobile] = useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
   const handleWindowResize = () => {
     setMobile(window.outerWidth <= 600);
@@ -112,6 +115,8 @@ function Order() {
   const handleNext = () => {
     if (activeStep !== steps.length - 1) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    } else {
+      history.push(ORDER_SUCCESS_PATH);
     }
   };
 

@@ -4,6 +4,7 @@ import Layout from "./layout";
 import Home from "./routes/home";
 import Menus from "./routes/menus";
 import Order from "./routes/order";
+import OrderSuccess from "./routes/order_success";
 import ShoppingCart from "./routes/shopping_cart";
 import Registration from "./routes/registration";
 import Login from "./routes/login";
@@ -11,6 +12,7 @@ import {
   HOME_PATH,
   MENUS_PATH,
   ORDER_PATH,
+  ORDER_SUCCESS_PATH,
   SHOPPING_CART_PATH,
   REGISTRATION_PATH,
   LOGIN_PATH,
@@ -33,6 +35,11 @@ function App() {
         <Route path={ORDER_PATH}>
           <Layout>
             <Order />
+          </Layout>
+        </Route>
+        <Route path={ORDER_SUCCESS_PATH}>
+          <Layout>
+            <OrderSuccess />
           </Layout>
         </Route>
         <Route path={SHOPPING_CART_PATH}>
