@@ -163,6 +163,7 @@ function Header() {
                       role={undefined}
                       transition
                       disablePortal
+                      className={classes.paper}
                     >
                       {({ TransitionProps, placement }) => (
                         <Grow
