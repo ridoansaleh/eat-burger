@@ -58,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     },
   },
+  paper: {
+    zIndex: "400",
+  },
   loginLink: {
     display: "none",
     marginRight: "20px",
