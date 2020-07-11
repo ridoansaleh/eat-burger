@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/eat-burger/static/css/main.69eda509.chunk.css",
-    "main.js": "/eat-burger/static/js/main.5382f640.chunk.js",
-    "main.js.map": "/eat-burger/static/js/main.5382f640.chunk.js.map",
+    "main.js": "/eat-burger/static/js/main.1d6f6b43.chunk.js",
+    "main.js.map": "/eat-burger/static/js/main.1d6f6b43.chunk.js.map",
     "runtime-main.js": "/eat-burger/static/js/runtime-main.08a557bb.js",
     "runtime-main.js.map": "/eat-burger/static/js/runtime-main.08a557bb.js.map",
     "static/js/2.7b0b98c8.chunk.js": "/eat-burger/static/js/2.7b0b98c8.chunk.js",
     "static/js/2.7b0b98c8.chunk.js.map": "/eat-burger/static/js/2.7b0b98c8.chunk.js.map",
     "index.html": "/eat-burger/index.html",
-    "precache-manifest.71fd5f3ded1ff5fe0c49880207fb9db7.js": "/eat-burger/precache-manifest.71fd5f3ded1ff5fe0c49880207fb9db7.js",
+    "precache-manifest.c17471433194ce8abb9250ae2fdbf341.js": "/eat-burger/precache-manifest.c17471433194ce8abb9250ae2fdbf341.js",
     "service-worker.js": "/eat-burger/service-worker.js",
     "static/css/main.69eda509.chunk.css.map": "/eat-burger/static/css/main.69eda509.chunk.css.map",
     "static/js/2.7b0b98c8.chunk.js.LICENSE.txt": "/eat-burger/static/js/2.7b0b98c8.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.08a557bb.js",
     "static/js/2.7b0b98c8.chunk.js",
     "static/css/main.69eda509.chunk.css",
-    "static/js/main.5382f640.chunk.js"
+    "static/js/main.1d6f6b43.chunk.js"
   ]
 }
