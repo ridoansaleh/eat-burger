@@ -52,6 +52,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     alignItems: "center",
   },
+  account: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
+    },
+  },
   loginLink: {
     display: "none",
     marginRight: "20px",
@@ -65,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paperAnchorTop: {
     top: "60px",
+  },
+  menuItem: {
+    minWidth: "28px",
   },
 }));
 
