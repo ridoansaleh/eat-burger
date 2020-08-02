@@ -37,6 +37,7 @@ import {
   MENUS_PATH,
   SHOPPING_CART_PATH,
   ORDER_LIST_PATH,
+  PROFILE_PATH,
 } from "../../utils/path";
 
 function Header() {
@@ -84,9 +85,19 @@ function Header() {
     setOpen((prevOpen) => !prevOpen);
   };
 
+  const handleProfileClick = () => {
+    setOpen(false);
+    history.push(PROFILE_PATH);
+  };
+
   const handleOrderListClick = () => {
     setOpen(false);
     history.push(ORDER_LIST_PATH);
+  };
+
+  const handleLogoutClick = () => {
+    setOpen(false);
+    history.push(LOGIN_PATH);
   };
 
   const handleHomeClick = () => {
@@ -182,13 +193,13 @@ function Header() {
                                 id="menu-list-grow"
                                 onKeyDown={handleListKeyDown}
                               >
-                                <MenuItem onClick={handleClose}>
+                                <MenuItem onClick={handleProfileClick}>
                                   Profile
                                 </MenuItem>
                                 <MenuItem onClick={handleOrderListClick}>
                                   Order List
                                 </MenuItem>
-                                <MenuItem onClick={handleClose}>
+                                <MenuItem onClick={handleLogoutClick}>
                                   Logout
                                 </MenuItem>
                               </MenuList>
@@ -252,7 +263,10 @@ function Header() {
                   <ListItemIcon className={classes.menuItem}>
                     <AccountCircleIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Profile" />
+                  <ListItemText
+                    primary="Profile"
+                    onClick={handleProfileClick}
+                  />
                 </ListItem>
                 <ListItem button>
                   <ListItemIcon className={classes.menuItem}>
@@ -267,7 +281,7 @@ function Header() {
                   <ListItemIcon className={classes.menuItem}>
                     <ExitToAppIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Logout" />
+                  <ListItemText primary="Logout" onClick={handleLogoutClick} />
                 </ListItem>
               </>
             ) : (

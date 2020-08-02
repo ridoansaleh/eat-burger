@@ -9,6 +9,7 @@ import OrderList from "./routes/order_list";
 import OrderDetail from "./routes/order_detail";
 import ShoppingCart from "./routes/shopping_cart";
 import Registration from "./routes/registration";
+import Profile from "./routes/profile";
 import Login from "./routes/login";
 import {
   HOME_PATH,
@@ -19,6 +20,7 @@ import {
   ORDER_DETAIL,
   SHOPPING_CART_PATH,
   REGISTRATION_PATH,
+  PROFILE_PATH,
   LOGIN_PATH,
 } from "./utils/path";
 
@@ -55,6 +57,10 @@ const app_routes = [
   {
     path: REGISTRATION_PATH,
     component: Registration,
+  },
+  {
+    path: PROFILE_PATH,
+    component: Profile,
   },
   {
     path: LOGIN_PATH,
