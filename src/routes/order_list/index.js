@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   AppBar,
   Tabs,
@@ -11,13 +12,19 @@ import {
   TableCell,
 } from "@material-ui/core";
 import useStyles from "./_orderListStyle";
+import { ORDER_DETAIL } from "../../utils/path";
 
 function OrderList(props) {
   const [value, setValue] = useState(0);
   const classes = useStyles();
+  const history = useHistory();
 
   const handleChange = (_, newValue) => {
     setValue(newValue);
+  };
+
+  const handleOrderClick = () => {
+    history.push(ORDER_DETAIL);
   };
 
   const a11yProps = (index) => ({
@@ -48,21 +55,21 @@ function OrderList(props) {
         >
           <Table aria-label="simple table" className={classes.table}>
             <TableBody>
-              <TableRow className={classes.tableRow}>
+              <TableRow className={classes.tableRow} onClick={handleOrderClick}>
                 <TableCell component="th" scope="row">
                   Frozen yoghurt, Ice cream sandwich, Eclair etc
                 </TableCell>
                 <TableCell align="right">$ 30</TableCell>
                 <TableCell align="right">12 June 2020</TableCell>
               </TableRow>
-              <TableRow className={classes.tableRow}>
+              <TableRow className={classes.tableRow} onClick={handleOrderClick}>
                 <TableCell component="th" scope="row">
                   Cupcake, Ice cream sandwich, Eclair etc
                 </TableCell>
                 <TableCell align="right">$ 40</TableCell>
                 <TableCell align="right">7 May 2020</TableCell>
               </TableRow>
-              <TableRow className={classes.tableRow}>
+              <TableRow className={classes.tableRow} onClick={handleOrderClick}>
                 <TableCell component="th" scope="row">
                   Gingerbread, Cupcake, Eclair etc
                 </TableCell>
