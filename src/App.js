@@ -6,6 +6,7 @@ import Menus from "./routes/menus";
 import Order from "./routes/order";
 import OrderSuccess from "./routes/order_success";
 import OrderList from "./routes/order_list";
+import OrderDetail from "./routes/order_detail";
 import ShoppingCart from "./routes/shopping_cart";
 import Registration from "./routes/registration";
 import Login from "./routes/login";
@@ -15,56 +16,62 @@ import {
   ORDER_PATH,
   ORDER_SUCCESS_PATH,
   ORDER_LIST_PATH,
+  ORDER_DETAIL,
   SHOPPING_CART_PATH,
   REGISTRATION_PATH,
   LOGIN_PATH,
 } from "./utils/path";
 
+const app_routes = [
+  {
+    exact: true,
+    path: HOME_PATH,
+    component: Home,
+  },
+  {
+    path: MENUS_PATH,
+    component: Menus,
+  },
+  {
+    path: ORDER_PATH,
+    component: Order,
+  },
+  {
+    path: ORDER_SUCCESS_PATH,
+    component: OrderSuccess,
+  },
+  {
+    path: ORDER_LIST_PATH,
+    component: OrderList,
+  },
+  {
+    path: ORDER_DETAIL,
+    component: OrderDetail,
+  },
+  {
+    path: SHOPPING_CART_PATH,
+    component: ShoppingCart,
+  },
+  {
+    path: REGISTRATION_PATH,
+    component: Registration,
+  },
+  {
+    path: LOGIN_PATH,
+    component: Login,
+  },
+];
+
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route exact path={HOME_PATH}>
-          <Layout>
-            <Home />
-          </Layout>
-        </Route>
-        <Route path={MENUS_PATH}>
-          <Layout>
-            <Menus />
-          </Layout>
-        </Route>
-        <Route path={ORDER_PATH}>
-          <Layout>
-            <Order />
-          </Layout>
-        </Route>
-        <Route path={ORDER_SUCCESS_PATH}>
-          <Layout>
-            <OrderSuccess />
-          </Layout>
-        </Route>
-        <Route path={ORDER_LIST_PATH}>
-          <Layout>
-            <OrderList />
-          </Layout>
-        </Route>
-        <Route path={SHOPPING_CART_PATH}>
-          <Layout>
-            <ShoppingCart />
-          </Layout>
-        </Route>
-        <Route path={REGISTRATION_PATH}>
-          <Layout>
-            <Registration />
-          </Layout>
-        </Route>
-        <Route path={LOGIN_PATH}>
-          <Layout>
-            <Login />
-          </Layout>
-        </Route>
-      </Switch>
+      <Layout>
+        <Switch>
+          {app_routes.map((data, index) => (
+            <Route key={index} {...data} />
+          ))}
+        </Switch>
+      </Layout>
     </Router>
   );
 }
