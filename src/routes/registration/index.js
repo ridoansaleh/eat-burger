@@ -8,6 +8,7 @@ import {
   FormControlLabel,
   FormControl,
   FormLabel,
+  TextareaAutosize,
 } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -36,9 +37,9 @@ function Registration() {
         <form noValidate autoComplete="off" className={classes.boxForm}>
           <TextField label="Full Name" variant="outlined" size="small" />
           <TextField
-            label="Email"
+            label="Phone Number"
             variant="outlined"
-            type="email"
+            type="number"
             size="small"
           />
           <FormControl component="fieldset">
@@ -71,6 +72,12 @@ function Registration() {
               }}
             />
           </MuiPickersUtilsProvider>
+          <TextareaAutosize
+            aria-label="address"
+            rowsMin={5}
+            placeholder="Address"
+            className={classes.address}
+          />
           <TextField label="Username" variant="outlined" size="small" />
           <TextField
             label="Password"

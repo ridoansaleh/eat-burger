@@ -13,13 +13,17 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   boxForm: {
-    height: "390px",
+    height: "520px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
   },
   gender: {
     flexDirection: "row",
+  },
+  address: {
+    padding: "15px",
+    fontSize: "18px",
   },
 }));
 

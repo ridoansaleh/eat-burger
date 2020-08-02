@@ -8,6 +8,7 @@ const ORDER_LIST_PATH = BASE + "/order-list";
 const ORDER_DETAIL = BASE + "/order-detail";
 const SHOPPING_CART_PATH = BASE + "/shopping-cart";
 const REGISTRATION_PATH = BASE + "/registration";
+const PROFILE_PATH = BASE + "/profile";
 const LOGIN_PATH = BASE + "/login";
 
 export {
@@ -19,5 +20,6 @@ export {
   ORDER_DETAIL,
   SHOPPING_CART_PATH,
   REGISTRATION_PATH,
+  PROFILE_PATH,
   LOGIN_PATH,
 };
