@@ -4,6 +4,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import "./index.css";
 import App from "./App";
+import Firebase, { FirebaseContext } from "./database";
 import * as serviceWorker from "./serviceWorker";
 
 const customTheme = createMuiTheme({
@@ -22,7 +23,9 @@ ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
     <ThemeProvider theme={customTheme}>
-      <App />
+      <FirebaseContext.Provider value={{ ...new Firebase() }}>
+        <App />
+      </FirebaseContext.Provider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
