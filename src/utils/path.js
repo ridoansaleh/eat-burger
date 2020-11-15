@@ -1,4 +1,4 @@
-const BASE = "/eat-burger";
+const BASE = "";
 
 const HOME_PATH = BASE + "/";
 const MENUS_PATH = BASE + "/menus";

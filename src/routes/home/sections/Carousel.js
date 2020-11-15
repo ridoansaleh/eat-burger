@@ -1,16 +1,22 @@
 import React from "react";
-import { Paper, Button } from "@material-ui/core";
 import Slider from "react-material-ui-carousel";
 import useStyles from "./_carouselStyle";
+import banner1 from "../assets/4121849_cropped.jpg";
+import banner2 from "../assets/4344187_cropped.jpg";
+import banner3 from "../assets/4587917_cropped.jpg";
 
 const items = [
   {
-    name: "Burger A #1",
-    description: "The best ever Burger that cooked in this city",
+    banner: banner1,
+    credit: "Banner vector created by freepik - www.freepik.com",
   },
   {
-    name: "Burger B #2",
-    description: "Your favorite Burger while hungout with friends",
+    banner: banner2,
+    credit: "Banner vector created by freepik - www.freepik.com",
+  },
+  {
+    banner: banner3,
+    credit: "Banner psd created by freepik - www.freepik.com",
   },
 ];
 
@@ -20,14 +26,12 @@ function Carousel() {
   return (
     <Slider navButtonsAlwaysVisible animation="slide" autoPlay={false}>
       {items.map((item, index) => (
-        <Paper variant="outlined" square key={index} className={classes.slider}>
-          <h2>{item.name}</h2>
-          <p>{item.description}</p>
-
-          <Button variant="contained" color="primary">
-            Check it out!
-          </Button>
-        </Paper>
+        <img
+          key={index}
+          className={classes.banner}
+          src={item.banner}
+          alt={item.credit}
+        />
       ))}
     </Slider>
   );
