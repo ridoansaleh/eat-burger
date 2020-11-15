@@ -7,7 +7,6 @@ import appRoutes from "./routes";
 
 function App() {
   const context = useContext(FirebaseContext);
-  console.log(context);
   return (
     <HashRouter>
       <Layout>
