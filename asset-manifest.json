@@ -1,22 +1,21 @@
 {
   "files": {
     "main.css": "/eat-burger/static/css/main.abe0b0c7.chunk.css",
-    "main.js": "/eat-burger/static/js/main.69a86a14.chunk.js",
-    "main.js.map": "/eat-burger/static/js/main.69a86a14.chunk.js.map",
+    "main.js": "/eat-burger/static/js/main.01ca13d0.chunk.js",
+    "main.js.map": "/eat-burger/static/js/main.01ca13d0.chunk.js.map",
     "runtime-main.js": "/eat-burger/static/js/runtime-main.08a557bb.js",
     "runtime-main.js.map": "/eat-burger/static/js/runtime-main.08a557bb.js.map",
-    "static/js/2.1e93bc27.chunk.js": "/eat-burger/static/js/2.1e93bc27.chunk.js",
-    "static/js/2.1e93bc27.chunk.js.map": "/eat-burger/static/js/2.1e93bc27.chunk.js.map",
+    "static/js/2.51ae68f9.chunk.js": "/eat-burger/static/js/2.51ae68f9.chunk.js",
+    "static/js/2.51ae68f9.chunk.js.map": "/eat-burger/static/js/2.51ae68f9.chunk.js.map",
     "index.html": "/eat-burger/index.html",
-    "precache-manifest.b747cf6555e672cefef279804f9b54b3.js": "/eat-burger/precache-manifest.b747cf6555e672cefef279804f9b54b3.js",
+    "precache-manifest.fbf8e11bf3f188ef497917d02230c545.js": "/eat-burger/precache-manifest.fbf8e11bf3f188ef497917d02230c545.js",
     "service-worker.js": "/eat-burger/service-worker.js",
     "static/css/main.abe0b0c7.chunk.css.map": "/eat-burger/static/css/main.abe0b0c7.chunk.css.map",
-    "static/js/2.1e93bc27.chunk.js.LICENSE.txt": "/eat-burger/static/js/2.1e93bc27.chunk.js.LICENSE.txt",
+    "static/js/2.51ae68f9.chunk.js.LICENSE.txt": "/eat-burger/static/js/2.51ae68f9.chunk.js.LICENSE.txt",
     "static/media/4121849_cropped.jpg": "/eat-burger/static/media/4121849_cropped.a930462e.jpg",
     "static/media/4344187_cropped.jpg": "/eat-burger/static/media/4344187_cropped.293ec78f.jpg",
     "static/media/4587917_cropped.jpg": "/eat-burger/static/media/4587917_cropped.9ec4e2b4.jpg",
     "static/media/bison-burgers.jpg": "/eat-burger/static/media/bison-burgers.7568fe01.jpg",
-    "static/media/burger.jpg": "/eat-burger/static/media/burger.9ab60386.jpg",
     "static/media/classic-beef-burger.jpg": "/eat-burger/static/media/classic-beef-burger.d47e553a.jpg",
     "static/media/elk-burger.jpg": "/eat-burger/static/media/elk-burger.42a57390.jpg",
     "static/media/pumpkin-veggie-burger.jpg": "/eat-burger/static/media/pumpkin-veggie-burger.b6aaaa2b.jpg",
@@ -27,8 +26,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.08a557bb.js",
-    "static/js/2.1e93bc27.chunk.js",
+    "static/js/2.51ae68f9.chunk.js",
     "static/css/main.abe0b0c7.chunk.css",
-    "static/js/main.69a86a14.chunk.js"
+    "static/js/main.01ca13d0.chunk.js"
   ]
 }
