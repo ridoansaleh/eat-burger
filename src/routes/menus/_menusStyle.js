@@ -17,10 +17,26 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "row",
     },
   },
-  menuCategory: {
+  menuCategoryMobile: {
+    marginLeft: "10px",
+    marginTop: "10px",
+    marginBottom: "10px",
+    width: "calc(100vw - 20px)",
     [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
+  menuCategoryDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
       width: "250px",
     },
+  },
+  selectWrapper: {
+    width: "100%",
+    border: "1px solid rgba(0, 0, 0, 0.12)",
+    padding: "0 2px",
   },
   menusContainer: {
     [theme.breakpoints.up("md")]: {
@@ -32,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   searchField: {
+    width: "calc(100vw - 20px)",
     height: "40px",
     marginLeft: "10px",
     [theme.breakpoints.up("md")]: {
@@ -44,6 +61,18 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     marginTop: "30px",
     maxWidth: "1000px",
+  },
+  notFoundWrapper: {
+    width: "100%",
+    height: "40vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "23px",
+    [theme.breakpoints.up("md")]: {
+      fontSize: "33px",
+    },
   },
   menuItem: {
     width: "100%",

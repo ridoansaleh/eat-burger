@@ -10,66 +10,8 @@ import {
   Grid,
 } from "@material-ui/core";
 import useStyles from "./_menusListStyle";
-import beefBurger from "../assets/classic-beef-burger.jpg";
-import elkBurger from "../assets/elk-burger.jpg";
-import portobelloBurger from "../assets/raw-portobello-burger.jpg";
-import turkeyBurger from "../assets/turkey-burger.jpg";
-import veggieBurger from "../assets/veggie-burger.jpg";
-import bisonBurger from "../assets/bison-burgers.jpg";
-import salmonBurger from "../assets/salmon-burger.jpg";
-import blackBeanBurger from "../assets/pumpkin-veggie-burger.jpg";
 import { ORDER_PATH } from "../../../utils/path";
-
-const items = [
-  {
-    name: "Beef Burgers",
-    image: beefBurger,
-    credit: "https://www.eatthis.com/types-of-burgers/",
-    price: 20,
-  },
-  {
-    name: "Elk Burgers",
-    image: elkBurger,
-    credit: "https://www.eatthis.com/types-of-burgers/",
-    price: 15,
-  },
-  {
-    name: "Portobello Mushroom Burgers",
-    image: portobelloBurger,
-    credit: "https://www.eatthis.com/types-of-burgers/",
-    price: 10,
-  },
-  {
-    name: "Turkey Burgers",
-    image: turkeyBurger,
-    credit: "https://www.eatthis.com/types-of-burgers/",
-    price: 14,
-  },
-  {
-    name: "Veggie Burgers",
-    image: veggieBurger,
-    credit: "https://www.eatthis.com/types-of-burgers/",
-    price: 9,
-  },
-  {
-    name: "Bison Burgers",
-    image: bisonBurger,
-    credit: "https://www.eatthis.com/types-of-burgers/",
-    price: 25,
-  },
-  {
-    name: "Wild Salmon Burgers",
-    image: salmonBurger,
-    credit: "https://www.eatthis.com/types-of-burgers/",
-    price: 24,
-  },
-  {
-    name: "Black Bean Burgers",
-    image: blackBeanBurger,
-    credit: "https://www.eatthis.com/types-of-burgers/",
-    price: 17,
-  },
-];
+import { BURGER_LIST } from "../../../dummy";
 
 function MenusList() {
   const classes = useStyles();
@@ -83,7 +25,7 @@ function MenusList() {
     <div className={classes.menus}>
       <h2 className={classes.menusTitle}>Our Menus</h2>
       <div className={classes.list}>
-        {items.map((item, index) => (
+        {BURGER_LIST.map((item, index) => (
           <Card className={classes.menuItem} key={index}>
             <CardActionArea>
               <CardMedia

@@ -9,109 +9,97 @@ import {
   List,
   ListItem,
   ListItemText,
+  Grid,
   Card,
   CardActionArea,
   CardContent,
   CardMedia,
   Button,
   Typography,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import { Search as SearchIcon } from "@material-ui/icons";
 import useStyles from "./_menusStyle";
-import burgerImage from "./assets/burger.jpg";
 import { ORDER_PATH } from "../../utils/path";
+import { BURGER_LIST } from "../../dummy";
 
-const items = [
-  {
-    name: "Burger A",
-    description: "",
-  },
-  {
-    name: "Burger B",
-    description: "",
-  },
-  {
-    name: "Burger C",
-    description: "",
-  },
-  {
-    name: "Burger D",
-    description: "",
-  },
-  {
-    name: "Burger E",
-    description: "",
-  },
+const CATEGORY_LIST = [
+  "All",
+  "Latest Event",
+  "Promotion",
+  "Favorite",
+  "New Burger",
+  "Group Menu",
+  "Best Deals",
 ];
 
 function Menus() {
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState(1);
+  const [burgerList, setBurgerList] = useState(BURGER_LIST);
+  const [category, setCategory] = useState("All");
+
   const classes = useStyles();
   const history = useHistory();
 
-  const handleClickSearch = () => {};
+  const handleClickSearch = () => {
+    if (search === "" || search === " ") {
+      setBurgerList(BURGER_LIST);
+      return;
+    }
+    const foundList = BURGER_LIST.filter((d) =>
+      d.name.toLowerCase().includes(search.toLowerCase())
+    );
+    setBurgerList(foundList);
+  };
 
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
-  };
-
-  const handleClickCategory = (val) => {
-    setActiveCategory(val);
   };
 
   const handleOrderClick = () => {
     history.push(ORDER_PATH);
   };
 
+  const handleChange = (e) => {
+    setCategory(e.target.value);
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.wrapper}>
-        <div className={classes.menuCategory}>
+        <div className={classes.menuCategoryMobile}>
+          <FormControl className={classes.selectWrapper}>
+            <Select
+              labelId="menu-category-label"
+              id="menu-category-id"
+              value={category}
+              onChange={handleChange}
+            >
+              <MenuItem value="" disabled>
+                Select Menu's Category
+              </MenuItem>
+              {CATEGORY_LIST.map((d) => (
+                <MenuItem key={d} value={d}>
+                  {d}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+        <div className={classes.menuCategoryDesktop}>
           <Divider />
           <List component="nav" aria-label="secondary mailbox folders">
-            <ListItem
-              button
-              style={activeCategory === 1 ? { backgroundColor: "pink" } : {}}
-              onClick={() => handleClickCategory(1)}
-            >
-              <ListItemText primary="Latest Event" />
-            </ListItem>
-            <ListItem
-              button
-              style={activeCategory === 2 ? { backgroundColor: "pink" } : {}}
-              onClick={() => handleClickCategory(2)}
-            >
-              <ListItemText primary="Promotion" />
-            </ListItem>
-            <ListItem
-              button
-              style={activeCategory === 3 ? { backgroundColor: "pink" } : {}}
-              onClick={() => handleClickCategory(3)}
-            >
-              <ListItemText primary="Favorite" />
-            </ListItem>
-            <ListItem
-              button
-              style={activeCategory === 4 ? { backgroundColor: "pink" } : {}}
-              onClick={() => handleClickCategory(4)}
-            >
-              <ListItemText primary="New Burger" />
-            </ListItem>
-            <ListItem
-              button
-              style={activeCategory === 5 ? { backgroundColor: "pink" } : {}}
-              onClick={() => handleClickCategory(5)}
-            >
-              <ListItemText primary="Group Menu" />
-            </ListItem>
-            <ListItem
-              button
-              style={activeCategory === 6 ? { backgroundColor: "pink" } : {}}
-              onClick={() => handleClickCategory(6)}
-            >
-              <ListItemText primary="Best Deals" />
-            </ListItem>
+            {CATEGORY_LIST.map((d) => (
+              <ListItem
+                key={d}
+                button
+                style={category === d ? { backgroundColor: "pink" } : {}}
+                onClick={() => setCategory(d)}
+              >
+                <ListItemText primary={d} />
+              </ListItem>
+            ))}
           </List>
         </div>
         <div className={classes.menusContainer}>
@@ -138,18 +126,27 @@ function Menus() {
             </FormControl>
           </div>
           <div className={classes.burgerList}>
-            {items.map((item, index) => (
+            {burgerList.map((item, index) => (
               <Card className={classes.menuItem} key={index}>
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    image={burgerImage}
-                    title="Delicious Burger"
+                    image={item.image}
+                    title={item.name}
+                    alt={item.credit}
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h6">
                       {item.name}
                     </Typography>
+                    <Grid container direction="row" justify="space-between">
+                      <Typography gutterBottom component="h5">
+                        Price
+                      </Typography>
+                      <Typography gutterBottom component="h5">
+                        ${item.price}
+                      </Typography>
+                    </Grid>
                     <Button
                       variant="contained"
                       fullWidth
@@ -162,6 +159,20 @@ function Menus() {
                 </CardActionArea>
               </Card>
             ))}
+            {burgerList.length === 0 && (
+              <div className={classes.notFoundWrapper}>
+                <p>
+                  <b>{search}</b> is not found
+                </p>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setBurgerList(BURGER_LIST)}
+                >
+                  Reset
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
