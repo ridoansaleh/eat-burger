@@ -1,5 +1,6 @@
 import "date-fns";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import clsx from "clsx";
 import {
   TextField,
   Button,
@@ -7,7 +8,6 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
-  FormLabel,
   TextareaAutosize,
 } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
@@ -16,45 +16,117 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import useStyles from "./_registrationStyle";
+import validateForm from "./validation";
+
+const changeBorderColor = (color) => {
+  let birthdateField = document.getElementsByClassName(
+    "MuiOutlinedInput-notchedOutline"
+  );
+  birthdateField = birthdateField.length > 3 ? birthdateField[2] : null;
+  if (birthdateField) {
+    birthdateField.style.borderColor = color;
+  }
+};
 
 function Registration() {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [gender, setGender] = useState("male");
+  const [fullname, setFullname] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [gender, setGender] = useState("");
+  const [birthdate, setBirthdate] = useState(null);
+  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [retypePassword, setRetypePassword] = useState("");
+  const [isFormSubmitted, setFormSubmitted] = useState(false);
+
   const classes = useStyles();
 
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
-  };
+  useEffect(() => {
+    if (isFormSubmitted && !birthdate) {
+      changeBorderColor("red");
+    } else {
+      changeBorderColor("rgba(0, 0, 0, 0.23)");
+    }
+  }, [isFormSubmitted, birthdate]);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const isValid = validateForm(
+      fullname,
+      phoneNumber,
+      gender,
+      birthdate,
+      address,
+      email,
+      password,
+      retypePassword
+    );
+    setFormSubmitted(true);
+    console.log("isValid :  ", isValid);
   };
 
   return (
     <div className={classes.container}>
       <div>
         <h1 className={classes.title}>Registration</h1>
-        <form noValidate autoComplete="off" className={classes.boxForm}>
-          <TextField label="Full Name" variant="outlined" size="small" />
+        <form
+          noValidate
+          autoComplete="off"
+          className={classes.boxForm}
+          onSubmit={handleFormSubmit}
+        >
+          <TextField
+            label="Full Name"
+            variant="outlined"
+            size="small"
+            className={classes.field}
+            error={isFormSubmitted && !/^[A-Za-z\s]+$/.test(fullname)}
+            value={fullname}
+            onChange={(e) => setFullname(e.target.value)}
+          />
           <TextField
             label="Phone Number"
             variant="outlined"
             type="number"
             size="small"
+            className={classes.field}
+            error={isFormSubmitted && phoneNumber.length < 8}
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
           />
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Gender</FormLabel>
+          <FormControl component="fieldset" className={classes.field}>
             <RadioGroup
               aria-label="gender"
-              name="gender1"
-              value={gender}
+              name="gender"
               className={classes.gender}
-              onChange={handleGenderChange}
+              error={isFormSubmitted && !gender}
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
             >
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
+              <FormControlLabel
+                value="male"
+                control={
+                  <Radio
+                    classes={{
+                      root: clsx({
+                        [classes.errorGender]: isFormSubmitted && !gender,
+                      }),
+                    }}
+                  />
+                }
+                label="Male"
+              />
               <FormControlLabel
                 value="female"
-                control={<Radio />}
+                control={
+                  <Radio
+                    classes={{
+                      root: clsx({
+                        [classes.errorGender]: isFormSubmitted && !gender,
+                      }),
+                    }}
+                  />
+                }
                 label="Female"
               />
             </RadioGroup>
@@ -65,27 +137,64 @@ function Registration() {
               inputVariant="outlined"
               label="Birth Date"
               format="MM/dd/yyyy"
-              value={selectedDate}
-              onChange={handleDateChange}
+              value={birthdate}
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
+              className={classes.field}
+              onChange={(date) => setBirthdate(date)}
             />
           </MuiPickersUtilsProvider>
           <TextareaAutosize
             aria-label="address"
             rowsMin={5}
             placeholder="Address"
-            className={classes.address}
+            className={clsx(classes.address, {
+              [classes.errorAddress]: isFormSubmitted && address.length < 10,
+            })}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
           />
-          <TextField label="Username" variant="outlined" size="small" />
+          <TextField
+            label="Email"
+            type="email"
+            variant="outlined"
+            size="small"
+            className={classes.field}
+            error={isFormSubmitted && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <TextField
             label="Password"
             type="password"
             variant="outlined"
             size="small"
+            className={classes.field}
+            error={isFormSubmitted && password.length < 8}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <Button variant="contained" color="secondary">
+          <TextField
+            label="Re-enter Password"
+            type="password"
+            variant="outlined"
+            size="small"
+            className={classes.field}
+            error={
+              isFormSubmitted &&
+              password.length >= 8 &&
+              retypePassword !== password
+            }
+            value={retypePassword}
+            onChange={(e) => setRetypePassword(e.target.value)}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            className={classes.registerBtn}
+          >
             Register
           </Button>
         </form>
