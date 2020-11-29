@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import clsx from "clsx";
 import {
   TextField,
@@ -15,7 +15,9 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import DialogSuccess from "./DialogSuccess";
 import useStyles from "./_registrationStyle";
+import { FirebaseContext } from "../../database";
 import validateForm from "./validation";
 
 const changeBorderColor = (color) => {
@@ -38,8 +40,12 @@ function Registration() {
   const [password, setPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
   const [isFormSubmitted, setFormSubmitted] = useState(false);
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
   const classes = useStyles();
+
+  const context = useContext(FirebaseContext);
+  const { db, auth, signUp } = context;
 
   useEffect(() => {
     if (isFormSubmitted && !birthdate) {
@@ -62,7 +68,53 @@ function Registration() {
       retypePassword
     );
     setFormSubmitted(true);
-    console.log("isValid :  ", isValid);
+    if (isValid) {
+      signUp(email, password)
+        .then(() => {
+          auth.onAuthStateChanged((user) => {
+            if (user) {
+              console.log("User is signed in");
+              // send email verification
+              auth.currentUser
+                .sendEmailVerification()
+                .then(() => {
+                  console.log("Email sent");
+                })
+                .catch((error) => {
+                  console.log("An error happened while send email: ", error);
+                });
+              // add user to database
+              db.collection("users")
+                .add({
+                  fullname,
+                  phone_number: phoneNumber,
+                  gender,
+                  birthdate,
+                  address,
+                  email,
+                })
+                .then(() => {
+                  setFullname("");
+                  setPhoneNumber("");
+                  setGender("");
+                  setBirthdate(null);
+                  setAddress("");
+                  setEmail("");
+                  setPassword("");
+                  setRetypePassword("");
+                  setFormSubmitted(false);
+                  setDialogOpen(true);
+                })
+                .catch((error) => {
+                  console.error("Error adding document: ", error);
+                });
+            } else {
+              console.log("No user is signed in");
+            }
+          });
+        })
+        .catch((error) => console.log(error));
+    }
   };
 
   return (
@@ -199,6 +251,10 @@ function Registration() {
           </Button>
         </form>
       </div>
+      <DialogSuccess
+        isOpen={isDialogOpen}
+        onDialogClose={() => setDialogOpen(false)}
+      />
     </div>
   );
 }
