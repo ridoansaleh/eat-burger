@@ -1,5 +1,6 @@
 import app from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
 import "firebase/analytics";
 
 const config = {
@@ -30,6 +31,10 @@ function Firebase() {
     auth.signInWithEmailAndPassword(email, password);
 
   props.signOut = () => auth.signOut();
+
+  props.auth = auth;
+
+  props.db = app.firestore();
 
   return props;
 }
