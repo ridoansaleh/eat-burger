@@ -36,6 +36,7 @@ const CATEGORY_LIST = [
 
 function Menus() {
   const [search, setSearch] = useState("");
+  const [finalSearch, setFinalSearch] = useState("");
   const [burgerList, setBurgerList] = useState(BURGER_LIST);
   const [category, setCategory] = useState("All");
 
@@ -51,6 +52,7 @@ function Menus() {
       d.name.toLowerCase().includes(search.toLowerCase())
     );
     setBurgerList(foundList);
+    setFinalSearch(search);
   };
 
   const handleChangeSearch = (e) => {
@@ -161,8 +163,10 @@ function Menus() {
             ))}
             {burgerList.length === 0 && (
               <div className={classes.notFoundWrapper}>
-                <p>
-                  <b>{search}</b> is not found
+                <p className={classes.notFoundText}>
+                  <b>{finalSearch}</b>
+                  {` `}
+                  is not found
                 </p>
                 <Button
                   variant="contained"

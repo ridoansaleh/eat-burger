@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Card,
@@ -10,12 +10,28 @@ import {
   Grid,
 } from "@material-ui/core";
 import useStyles from "./_menusListStyle";
+import { FirebaseContext } from "../../../database";
 import { ORDER_PATH } from "../../../utils/path";
-import { BURGER_LIST } from "../../../dummy";
 
 function MenusList() {
+  const [products, setProducts] = useState([]);
+
   const classes = useStyles();
   const history = useHistory();
+
+  const { db } = useContext(FirebaseContext);
+
+  useEffect(() => {
+    db.collection("products")
+      .get()
+      .then((querySnapshot) => {
+        let data = [];
+        querySnapshot.forEach((doc) => {
+          data.push({ id: doc.id, ...doc.data() });
+        });
+        setProducts(data);
+      });
+  }, []);
 
   const handleOrderClick = () => {
     history.push(ORDER_PATH);
@@ -25,14 +41,14 @@ function MenusList() {
     <div className={classes.menus}>
       <h2 className={classes.menusTitle}>Our Menus</h2>
       <div className={classes.list}>
-        {BURGER_LIST.map((item, index) => (
-          <Card className={classes.menuItem} key={index}>
+        {products.map((item) => (
+          <Card className={classes.menuItem} key={item.id}>
             <CardActionArea>
               <CardMedia
                 className={classes.media}
                 image={item.image}
                 title={item.name}
-                alt={item.credit}
+                alt={item.image_credit}
               />
               <CardContent>
                 <Typography gutterBottom variant="h6">
