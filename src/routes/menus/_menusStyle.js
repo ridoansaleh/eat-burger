@@ -89,6 +89,9 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: "300px",
   },
+  addCartBtn: {
+    marginTop: "7px",
+  },
 }));
 
 export default useStyles;

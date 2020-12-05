@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
   OutlinedInput,
@@ -21,8 +21,8 @@ import {
 } from "@material-ui/core";
 import { Search as SearchIcon } from "@material-ui/icons";
 import useStyles from "./_menusStyle";
+import { FirebaseContext } from "../../database";
 import { ORDER_PATH } from "../../utils/path";
-import { BURGER_LIST } from "../../dummy";
 
 const CATEGORY_LIST = [
   "All",
@@ -37,18 +37,36 @@ const CATEGORY_LIST = [
 function Menus() {
   const [search, setSearch] = useState("");
   const [finalSearch, setFinalSearch] = useState("");
-  const [burgerList, setBurgerList] = useState(BURGER_LIST);
+  const [burgerList, setBurgerList] = useState([]);
   const [category, setCategory] = useState("All");
 
   const classes = useStyles();
   const history = useHistory();
 
+  const { db } = useContext(FirebaseContext);
+
+  const getProducts = () => {
+    db.collection("products")
+      .get()
+      .then((querySnapshot) => {
+        let data = [];
+        querySnapshot.forEach((doc) => {
+          data.push({ id: doc.id, ...doc.data() });
+        });
+        setBurgerList(data);
+      });
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   const handleClickSearch = () => {
     if (search === "" || search === " ") {
-      setBurgerList(BURGER_LIST);
+      getProducts();
       return;
     }
-    const foundList = BURGER_LIST.filter((d) =>
+    const foundList = burgerList.filter((d) =>
       d.name.toLowerCase().includes(search.toLowerCase())
     );
     setBurgerList(foundList);
@@ -97,7 +115,10 @@ function Menus() {
                 key={d}
                 button
                 style={category === d ? { backgroundColor: "pink" } : {}}
-                onClick={() => setCategory(d)}
+                onClick={() => {
+                  getProducts();
+                  setCategory(d);
+                }}
               >
                 <ListItemText primary={d} />
               </ListItem>
@@ -150,18 +171,26 @@ function Menus() {
                       </Typography>
                     </Grid>
                     <Button
-                      variant="contained"
                       fullWidth
+                      variant="contained"
                       color="primary"
                       onClick={handleOrderClick}
                     >
                       Order
                     </Button>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="secondary"
+                      className={classes.addCartBtn}
+                    >
+                      Add to Cart
+                    </Button>
                   </CardContent>
                 </CardActionArea>
               </Card>
             ))}
-            {burgerList.length === 0 && (
+            {search && burgerList.length === 0 && (
               <div className={classes.notFoundWrapper}>
                 <p className={classes.notFoundText}>
                   <b>{finalSearch}</b>
@@ -171,7 +200,7 @@ function Menus() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => setBurgerList(BURGER_LIST)}
+                  onClick={() => getProducts()}
                 >
                   Reset
                 </Button>
