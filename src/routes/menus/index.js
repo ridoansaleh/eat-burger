@@ -19,6 +19,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import { Search as SearchIcon } from "@material-ui/icons";
 import useStyles from "./_menusStyle";
 import { FirebaseContext } from "../../database";
@@ -34,11 +35,14 @@ const CATEGORY_LIST = [
   "Best Deals",
 ];
 
+const sixBoxSkeleton = [1, 2, 3, 4, 5, 6];
+
 function Menus() {
   const [search, setSearch] = useState("");
   const [finalSearch, setFinalSearch] = useState("");
   const [burgerList, setBurgerList] = useState([]);
   const [category, setCategory] = useState("All");
+  const [loading, setLoading] = useState(true);
 
   const classes = useStyles();
   const history = useHistory();
@@ -54,6 +58,7 @@ function Menus() {
           data.push({ id: doc.id, ...doc.data() });
         });
         setBurgerList(data);
+        setLoading(false);
       });
   };
 
@@ -149,47 +154,85 @@ function Menus() {
             </FormControl>
           </div>
           <div className={classes.burgerList}>
-            {burgerList.map((item, index) => (
-              <Card className={classes.menuItem} key={index}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={item.image}
-                    title={item.name}
-                    alt={item.credit}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h6">
-                      {item.name}
-                    </Typography>
-                    <Grid container direction="row" justify="space-between">
-                      <Typography gutterBottom component="h5">
-                        Price
-                      </Typography>
-                      <Typography gutterBottom component="h5">
-                        ${item.price}
-                      </Typography>
-                    </Grid>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      onClick={handleOrderClick}
-                    >
-                      Order
-                    </Button>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      color="secondary"
-                      className={classes.addCartBtn}
-                    >
-                      Add to Cart
-                    </Button>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            ))}
+            {loading ? (
+              <>
+                {sixBoxSkeleton.map((data) => (
+                  <Card className={classes.menuItem} key={data}>
+                    <CardActionArea>
+                      <Skeleton
+                        variant="rect"
+                        animation="wave"
+                        classes={{ root: classes.media }}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h6">
+                          <Skeleton animation="wave" />
+                        </Typography>
+                        <Grid container direction="row" justify="space-between">
+                          <Skeleton animation="wave" width="30%" height="20px">
+                            <Typography
+                              gutterBottom
+                              component="h5"
+                            ></Typography>
+                          </Skeleton>
+                          <Skeleton animation="wave" width="30%" height="20px">
+                            <Typography
+                              gutterBottom
+                              component="h5"
+                            ></Typography>
+                          </Skeleton>
+                        </Grid>
+                        <Skeleton variant="rect" animation="wave" />
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                ))}
+              </>
+            ) : (
+              <>
+                {burgerList.map((item, index) => (
+                  <Card className={classes.menuItem} key={index}>
+                    <CardActionArea>
+                      <CardMedia
+                        className={classes.media}
+                        image={item.image}
+                        title={item.name}
+                        alt={item.credit}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h6">
+                          {item.name}
+                        </Typography>
+                        <Grid container direction="row" justify="space-between">
+                          <Typography gutterBottom component="h5">
+                            Price
+                          </Typography>
+                          <Typography gutterBottom component="h5">
+                            ${item.price}
+                          </Typography>
+                        </Grid>
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          color="primary"
+                          onClick={handleOrderClick}
+                        >
+                          Order
+                        </Button>
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          color="secondary"
+                          className={classes.addCartBtn}
+                        >
+                          Add to Cart
+                        </Button>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                ))}
+              </>
+            )}
             {search && burgerList.length === 0 && (
               <div className={classes.notFoundWrapper}>
                 <p className={classes.notFoundText}>
