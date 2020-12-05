@@ -1,33 +1,22 @@
 {
   "files": {
     "main.css": "/eat-burger/static/css/main.6b0f788d.chunk.css",
-    "main.js": "/eat-burger/static/js/main.c603908d.chunk.js",
-    "main.js.map": "/eat-burger/static/js/main.c603908d.chunk.js.map",
+    "main.js": "/eat-burger/static/js/main.e6ea23a2.chunk.js",
+    "main.js.map": "/eat-burger/static/js/main.e6ea23a2.chunk.js.map",
     "runtime-main.js": "/eat-burger/static/js/runtime-main.08a557bb.js",
     "runtime-main.js.map": "/eat-burger/static/js/runtime-main.08a557bb.js.map",
-    "static/js/2.690df87c.chunk.js": "/eat-burger/static/js/2.690df87c.chunk.js",
-    "static/js/2.690df87c.chunk.js.map": "/eat-burger/static/js/2.690df87c.chunk.js.map",
+    "static/js/2.2bd20336.chunk.js": "/eat-burger/static/js/2.2bd20336.chunk.js",
+    "static/js/2.2bd20336.chunk.js.map": "/eat-burger/static/js/2.2bd20336.chunk.js.map",
     "index.html": "/eat-burger/index.html",
-    "precache-manifest.e7c9f6d3072dd0e63db05543d8f1196c.js": "/eat-burger/precache-manifest.e7c9f6d3072dd0e63db05543d8f1196c.js",
+    "precache-manifest.3ab173067f8666f793f3fdf5e9fe9cf4.js": "/eat-burger/precache-manifest.3ab173067f8666f793f3fdf5e9fe9cf4.js",
     "service-worker.js": "/eat-burger/service-worker.js",
     "static/css/main.6b0f788d.chunk.css.map": "/eat-burger/static/css/main.6b0f788d.chunk.css.map",
-    "static/js/2.690df87c.chunk.js.LICENSE.txt": "/eat-burger/static/js/2.690df87c.chunk.js.LICENSE.txt",
-    "static/media/4121849_cropped.jpg": "/eat-burger/static/media/4121849_cropped.a930462e.jpg",
-    "static/media/4344187_cropped.jpg": "/eat-burger/static/media/4344187_cropped.293ec78f.jpg",
-    "static/media/4587917_cropped.jpg": "/eat-burger/static/media/4587917_cropped.9ec4e2b4.jpg",
-    "static/media/bison-burgers.jpg": "/eat-burger/static/media/bison-burgers.7568fe01.jpg",
-    "static/media/classic-beef-burger.jpg": "/eat-burger/static/media/classic-beef-burger.d47e553a.jpg",
-    "static/media/elk-burger.jpg": "/eat-burger/static/media/elk-burger.42a57390.jpg",
-    "static/media/pumpkin-veggie-burger.jpg": "/eat-burger/static/media/pumpkin-veggie-burger.b6aaaa2b.jpg",
-    "static/media/raw-portobello-burger.jpg": "/eat-burger/static/media/raw-portobello-burger.e9cd3782.jpg",
-    "static/media/salmon-burger.jpg": "/eat-burger/static/media/salmon-burger.179a6981.jpg",
-    "static/media/turkey-burger.jpg": "/eat-burger/static/media/turkey-burger.86f803c7.jpg",
-    "static/media/veggie-burger.jpg": "/eat-burger/static/media/veggie-burger.46bc1e7f.jpg"
+    "static/js/2.2bd20336.chunk.js.LICENSE.txt": "/eat-burger/static/js/2.2bd20336.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.08a557bb.js",
-    "static/js/2.690df87c.chunk.js",
+    "static/js/2.2bd20336.chunk.js",
     "static/css/main.6b0f788d.chunk.css",
-    "static/js/main.c603908d.chunk.js"
+    "static/js/main.e6ea23a2.chunk.js"
   ]
 }
