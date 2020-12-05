@@ -74,6 +74,11 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "33px",
     },
   },
+  notFoundText: {
+    width: "100%",
+    overflowWrap: "break-word",
+    textAlign: "center",
+  },
   menuItem: {
     width: "100%",
     [theme.breakpoints.up("sm")]: {
