@@ -19,7 +19,7 @@ import {
   REGISTRATION_PATH,
   PROFILE_PATH,
   LOGIN_PATH,
-} from "../utils/path";
+} from "../constant/path";
 
 const app_routes = [
   {

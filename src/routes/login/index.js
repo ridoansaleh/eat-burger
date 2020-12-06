@@ -4,7 +4,7 @@ import { TextField, Button, Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import useStyles from "./_loginStyle";
 import { FirebaseContext } from "../../database";
-import { HOME_PATH, REGISTRATION_PATH } from "../../utils/path";
+import { HOME_PATH, REGISTRATION_PATH } from "../../constant/path";
 
 function Login() {
   const [email, setEmail] = useState("");

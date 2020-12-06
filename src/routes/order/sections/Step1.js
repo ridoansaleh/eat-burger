@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Paper,
   TableRow,
@@ -20,13 +20,28 @@ import {
   DeleteOutline as DeleteOutlineIcon,
 } from "@material-ui/icons";
 import useStyles from "../_orderStyle";
+import { STORAGE_ORDER_LIST } from "../../../constant/storage";
 
-function QuantityField() {
-  const [total, setTotal] = useState(1);
+function QuantityField({ id, count, orderList, onSetOrderList }) {
+  const [total, setTotal] = useState(count);
   const classes = useStyles();
 
+  useEffect(() => {
+    setTotal(count);
+  }, [count]);
+
+  useEffect(() => {
+    let newOrderList = orderList.map((order) => {
+      if (order.id === id) {
+        return { ...order, count: total, total_price: total * order.price };
+      }
+      return order;
+    });
+    onSetOrderList(newOrderList);
+  }, [total]);
+
   const handleDecreaseClick = () => {
-    if (total !== 0) {
+    if (total !== 1) {
       setTotal((prevState) => prevState - 1);
     }
   };
@@ -69,20 +84,26 @@ function QuantityField() {
   );
 }
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
+function Step1({ onGetTotalPrice }) {
+  let storageOrderList = sessionStorage.getItem(STORAGE_ORDER_LIST);
+  storageOrderList = storageOrderList ? JSON.parse(storageOrderList) : [];
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0),
-  createData("Ice cream sandwich", 237, 9.0),
-  createData("Eclair", 262, 16.0),
-  createData("Cupcake", 305, 3.7),
-  createData("Gingerbread", 356, 16.0),
-];
+  const [orderList, setOrderList] = useState(storageOrderList);
+  const [totalOrder, setTotalOrder] = useState(
+    onGetTotalPrice(storageOrderList)
+  );
 
-function Step1() {
   const classes = useStyles();
+
+  useEffect(() => {
+    sessionStorage.setItem(STORAGE_ORDER_LIST, JSON.stringify(orderList));
+    setTotalOrder(onGetTotalPrice(orderList));
+  }, [orderList]);
+
+  const handleRemoveProduct = (product) => {
+    let newOrderList = orderList.filter((order) => order.id !== product.id);
+    setOrderList(newOrderList);
+  };
 
   return (
     <div className={classes.menuWrapper}>
@@ -98,19 +119,29 @@ function Step1() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.name}>
+              {orderList.map((row) => (
+                <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
                     {row.name}
                   </TableCell>
                   <TableCell>
-                    <QuantityField />
+                    <QuantityField
+                      id={row.id}
+                      count={row.count}
+                      orderList={orderList}
+                      onSetOrderList={setOrderList}
+                    />
                   </TableCell>
                   <TableCell align="center">
-                    <span>$ {row.fat}</span>
+                    <span>$ {row.total_price}</span>
                   </TableCell>
                   <TableCell>
-                    <DeleteOutlineIcon className={classes.deleteIcon} />
+                    {orderList.length > 1 && (
+                      <DeleteOutlineIcon
+                        className={classes.deleteIcon}
+                        onClick={() => handleRemoveProduct(row)}
+                      />
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -123,7 +154,7 @@ function Step1() {
           <CardContent>
             <Typography component="h2">ORDER TOTAL*</Typography>
             <Typography variant="body2" component="p">
-              $ 30
+              $ {totalOrder}
             </Typography>
             <Typography
               color="textSecondary"

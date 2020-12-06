@@ -12,7 +12,7 @@ import {
   TableCell,
 } from "@material-ui/core";
 import useStyles from "./_orderListStyle";
-import { ORDER_DETAIL } from "../../utils/path";
+import { ORDER_DETAIL } from "../../constant/path";
 
 function OrderList(props) {
   const [value, setValue] = useState(0);
