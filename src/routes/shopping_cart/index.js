@@ -22,7 +22,7 @@ import {
   DeleteOutline as DeleteOutlineIcon,
 } from "@material-ui/icons";
 import useStyles from "./_shoppingCartStyle";
-import { MENUS_PATH, ORDER_PATH } from "../../utils/path";
+import { MENUS_PATH, ORDER_PATH } from "../../constant/path";
 
 function QuantityField() {
   const [total, setTotal] = useState(1);

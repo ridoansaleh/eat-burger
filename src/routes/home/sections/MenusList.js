@@ -12,7 +12,8 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import useStyles from "./_menusListStyle";
 import { FirebaseContext } from "../../../database";
-import { ORDER_PATH } from "../../../utils/path";
+import { ORDER_PATH } from "../../../constant/path";
+import { STORAGE_ORDER_LIST } from "../../../constant/storage";
 
 const sixBoxSkeleton = [1, 2, 3, 4, 5, 6];
 
@@ -38,7 +39,15 @@ function MenusList() {
       });
   }, []);
 
-  const handleOrderClick = () => {
+  const handleOrderClick = (selectedProduct) => {
+    const data = JSON.stringify([
+      {
+        ...selectedProduct,
+        count: 1,
+        total_price: selectedProduct.price,
+      },
+    ]);
+    sessionStorage.setItem(STORAGE_ORDER_LIST, data);
     history.push(ORDER_PATH);
   };
 
@@ -101,7 +110,7 @@ function MenusList() {
                       variant="contained"
                       fullWidth
                       color="primary"
-                      onClick={handleOrderClick}
+                      onClick={() => handleOrderClick(item)}
                     >
                       Order
                     </Button>

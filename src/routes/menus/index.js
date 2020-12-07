@@ -23,7 +23,8 @@ import { Skeleton } from "@material-ui/lab";
 import { Search as SearchIcon } from "@material-ui/icons";
 import useStyles from "./_menusStyle";
 import { FirebaseContext } from "../../database";
-import { ORDER_PATH } from "../../utils/path";
+import { ORDER_PATH } from "../../constant/path";
+import { STORAGE_ORDER_LIST } from "../../constant/storage";
 
 const CATEGORY_LIST = [
   "All",
@@ -82,7 +83,15 @@ function Menus() {
     setSearch(e.target.value);
   };
 
-  const handleOrderClick = () => {
+  const handleOrderClick = (selectedProduct) => {
+    const data = JSON.stringify([
+      {
+        ...selectedProduct,
+        count: 1,
+        total_price: selectedProduct.price,
+      },
+    ]);
+    sessionStorage.setItem(STORAGE_ORDER_LIST, data);
     history.push(ORDER_PATH);
   };
 
@@ -215,7 +224,7 @@ function Menus() {
                           fullWidth
                           variant="contained"
                           color="primary"
-                          onClick={handleOrderClick}
+                          onClick={() => handleOrderClick(item)}
                         >
                           Order
                         </Button>

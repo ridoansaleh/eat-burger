@@ -1,0 +1,4 @@
+const STORAGE_ORDER_LIST = "34xzOr?Ls,.x-0";
+const STORAGE_ORDER_CREATOR = "35xzOr?Cr,.x-1";
+
+export { STORAGE_ORDER_LIST, STORAGE_ORDER_CREATOR };

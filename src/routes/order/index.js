@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import clsx from "clsx";
+import { v4 as uuidv4 } from "uuid";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {
   Step,
@@ -8,6 +9,8 @@ import {
   StepLabel,
   StepConnector,
   Button,
+  Backdrop,
+  CircularProgress,
 } from "@material-ui/core";
 import {
   RestaurantMenu as RestaurantMenuIcon,
@@ -18,7 +21,12 @@ import Step1 from "./sections/Step1";
 import Step2 from "./sections/Step2";
 import Step3 from "./sections/Step3";
 import useStyles from "./_orderStyle";
-import { ORDER_SUCCESS_PATH } from "../../utils/path";
+import { FirebaseContext } from "../../database";
+import { ORDER_SUCCESS_PATH } from "../../constant/path";
+import {
+  STORAGE_ORDER_LIST,
+  STORAGE_ORDER_CREATOR,
+} from "../../constant/storage";
 
 const ColorlibConnector = withStyles({
   alternativeLabel: {
@@ -89,13 +97,34 @@ function ColorlibStepIcon(props) {
   );
 }
 
+const getTotalPrice = (arr) => {
+  const { total_price } = arr.reduce(
+    (ac, cr) => ({
+      total_price: ac.total_price + cr.total_price,
+    }),
+    { total_price: 0 }
+  );
+  return total_price;
+};
+
 const steps = ["Menu", "Delivery Info", "Payment"];
 
 function Order() {
   const [activeStep, setActiveStep] = useState(0);
   const [isMobile, setMobile] = useState(false);
+  const [disableNextBtn, setDisableNextBtn] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const classes = useStyles();
   const history = useHistory();
+
+  let storageOrderList = sessionStorage.getItem(STORAGE_ORDER_LIST);
+  storageOrderList = storageOrderList ? JSON.parse(storageOrderList) : [];
+
+  let orderCreator = sessionStorage.getItem(STORAGE_ORDER_CREATOR);
+  orderCreator = orderCreator ? JSON.parse(orderCreator) : null;
+
+  const { db } = useContext(FirebaseContext);
 
   const handleWindowResize = () => {
     setMobile(window.outerWidth <= 600);
@@ -112,11 +141,30 @@ function Order() {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
   const handleNext = () => {
     if (activeStep !== steps.length - 1) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
-      history.push(ORDER_SUCCESS_PATH);
+      setLoading(true);
+      db.collection("orders")
+        .doc(uuidv4())
+        .set({
+          ...orderCreator,
+          menus: storageOrderList,
+          total_price:
+            getTotalPrice(storageOrderList) +
+            0.1 * getTotalPrice(storageOrderList),
+          status: "process",
+        })
+        .then(() => {
+          console.log("Document successfully written!");
+          history.push(ORDER_SUCCESS_PATH);
+        })
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+          setLoading(false);
+        });
     }
   };
 
@@ -140,21 +188,21 @@ function Order() {
         <>
           {activeStep === 0 && (
             <div className={classes.content}>
-              <Step1 />
+              <Step1 onGetTotalPrice={getTotalPrice} />
             </div>
           )}
         </>
         <>
           {activeStep === 1 && (
             <div className={classes.content}>
-              <Step2 />
+              <Step2 onSetDisableNextBtn={setDisableNextBtn} />
             </div>
           )}
         </>
         <>
           {activeStep === 2 && (
             <div className={classes.content}>
-              <Step3 />
+              <Step3 onGetTotalPrice={getTotalPrice} />
             </div>
           )}
         </>
@@ -168,11 +216,19 @@ function Order() {
           >
             Back
           </Button>
-          <Button variant="contained" color="primary" onClick={handleNext}>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={activeStep === 1 && disableNextBtn}
+            onClick={handleNext}
+          >
             {activeStep === steps.length - 1 ? "Submit" : "Next"}
           </Button>
         </div>
       </div>
+      <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

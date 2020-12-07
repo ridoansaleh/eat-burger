@@ -38,7 +38,7 @@ import {
   SHOPPING_CART_PATH,
   ORDER_LIST_PATH,
   PROFILE_PATH,
-} from "../../utils/path";
+} from "../../constant/path";
 
 function Header() {
   const [anchor, setAnchor] = useState(false);
