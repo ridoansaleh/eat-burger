@@ -26,6 +26,7 @@ import { ORDER_SUCCESS_PATH } from "../../constant/path";
 import {
   STORAGE_ORDER_LIST,
   STORAGE_ORDER_CREATOR,
+  STORAGE_ORDER_ID,
 } from "../../constant/storage";
 
 const ColorlibConnector = withStyles({
@@ -147,8 +148,9 @@ function Order() {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
       setLoading(true);
+      const order_id = uuidv4();
       db.collection("orders")
-        .doc(uuidv4())
+        .doc(order_id)
         .set({
           ...orderCreator,
           menus: storageOrderList,
@@ -159,7 +161,8 @@ function Order() {
         })
         .then(() => {
           console.log("Document successfully written!");
-          history.push(ORDER_SUCCESS_PATH);
+          sessionStorage.setItem(STORAGE_ORDER_ID, order_id);
+          history.replace(ORDER_SUCCESS_PATH);
         })
         .catch((error) => {
           console.error("Error writing document: ", error);

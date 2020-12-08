@@ -35,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
   notes: {
     fontSize: "13px",
   },
+  data: {
+    height: "30px",
+    marginBottom: "10px",
+  },
 }));
 
 export default useStyles;
