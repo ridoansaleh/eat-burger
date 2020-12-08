@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Accordion,
   AccordionSummary,
@@ -9,6 +9,7 @@ import {
   TableCell,
   TableRow,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import {
   CheckCircle as CheckCircleIcon,
   RestaurantMenu as RestaurantMenuIcon,
@@ -16,9 +17,43 @@ import {
   Payment as PaymentIcon,
 } from "@material-ui/icons";
 import useStyles from "./_orderSuccessStyle";
+import { FirebaseContext } from "../../database";
+import { STORAGE_ORDER_ID } from "../../constant/storage";
 
-function OrderSuccess(props) {
+const threeBoxSkeleton = [1, 2, 3];
+
+function OrderSuccess() {
+  const [orderDetail, setOrderDetail] = useState({
+    fullname: "",
+    address: "",
+    phone_number: "",
+    menus: [],
+    total_price: "",
+  });
+  const [loading, setLoading] = useState(true);
+
   const classes = useStyles();
+
+  const { db } = useContext(FirebaseContext);
+
+  useEffect(() => {
+    const orderId = sessionStorage.getItem(STORAGE_ORDER_ID);
+    db.collection("orders")
+      .doc(orderId)
+      .get()
+      .then((doc) => {
+        let data = orderDetail;
+        if (doc.exists) {
+          data = doc.data();
+        }
+        setOrderDetail(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+  }, []);
+
   return (
     <div className={classes.container}>
       <div className={classes.wrapper}>
@@ -35,27 +70,29 @@ function OrderSuccess(props) {
           <AccordionDetails>
             <Table size="small" aria-label="a dense table">
               <TableBody>
-                <TableRow>
-                  <TableCell component="th" scope="row">
-                    Frozen yoghurt
-                  </TableCell>
-                  <TableCell align="right">1</TableCell>
-                  <TableCell align="right">$ 6</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">
-                    Ice cream sandwich
-                  </TableCell>
-                  <TableCell align="right">1</TableCell>
-                  <TableCell align="right">$ 9</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell component="th" scope="row">
-                    Eclair
-                  </TableCell>
-                  <TableCell align="right">1</TableCell>
-                  <TableCell align="right">$ 16</TableCell>
-                </TableRow>
+                {loading ? (
+                  threeBoxSkeleton.map((d) => (
+                    <TableRow key={d}>
+                      <Skeleton
+                        variant="rect"
+                        animation="wave"
+                        classes={{ root: classes.data }}
+                      />
+                    </TableRow>
+                  ))
+                ) : (
+                  <>
+                    {orderDetail.menus.map((d) => (
+                      <TableRow key={d.name}>
+                        <TableCell component="th" scope="row">
+                          {d.name}
+                        </TableCell>
+                        <TableCell align="right">{d.count}</TableCell>
+                        <TableCell align="right">$ {d.total_price}</TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                )}
               </TableBody>
             </Table>
           </AccordionDetails>
@@ -78,19 +115,37 @@ function OrderSuccess(props) {
                   <TableCell component="th" scope="row">
                     Name
                   </TableCell>
-                  <TableCell align="right">Ridoan Saleh Nasution</TableCell>
+                  <TableCell align="right">
+                    {loading ? (
+                      <Skeleton variant="rect" animation="wave" />
+                    ) : (
+                      orderDetail.fullname
+                    )}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell component="th" scope="row">
                     Address
                   </TableCell>
-                  <TableCell align="right">Kabil, Batam</TableCell>
+                  <TableCell align="right">
+                    {loading ? (
+                      <Skeleton variant="rect" animation="wave" />
+                    ) : (
+                      orderDetail.address
+                    )}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell component="th" scope="row">
                     Phone
                   </TableCell>
-                  <TableCell align="right">081211002211</TableCell>
+                  <TableCell align="right">
+                    {loading ? (
+                      <Skeleton variant="rect" animation="wave" />
+                    ) : (
+                      orderDetail.phone_number
+                    )}
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -110,7 +165,13 @@ function OrderSuccess(props) {
               <TableBody>
                 <TableRow>
                   <TableCell scope="row">Total</TableCell>
-                  <TableCell align="right">$ 31</TableCell>
+                  <TableCell align="right">
+                    {loading ? (
+                      <Skeleton variant="rect" animation="wave" />
+                    ) : (
+                      <>$ {orderDetail.total_price}</>
+                    )}
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
