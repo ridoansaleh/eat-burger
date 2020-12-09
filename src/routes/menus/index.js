@@ -9,18 +9,13 @@ import {
   List,
   ListItem,
   ListItemText,
-  Grid,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
   Button,
-  Typography,
   Select,
   MenuItem,
 } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
 import { Search as SearchIcon } from "@material-ui/icons";
+import ProductsSkeleton from "../../components/ProductsSkeleton";
+import Product from "../../components/Product";
 import useStyles from "./_menusStyle";
 import { FirebaseContext } from "../../database";
 import { ORDER_PATH } from "../../constant/path";
@@ -35,8 +30,6 @@ const CATEGORY_LIST = [
   "Group Menu",
   "Best Deals",
 ];
-
-const sixBoxSkeleton = [1, 2, 3, 4, 5, 6];
 
 function Menus() {
   const [search, setSearch] = useState("");
@@ -164,81 +157,16 @@ function Menus() {
           </div>
           <div className={classes.burgerList}>
             {loading ? (
-              <>
-                {sixBoxSkeleton.map((data) => (
-                  <Card className={classes.menuItem} key={data}>
-                    <CardActionArea>
-                      <Skeleton
-                        variant="rect"
-                        animation="wave"
-                        classes={{ root: classes.media }}
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h6">
-                          <Skeleton animation="wave" />
-                        </Typography>
-                        <Grid container direction="row" justify="space-between">
-                          <Skeleton animation="wave" width="30%" height="20px">
-                            <Typography
-                              gutterBottom
-                              component="h5"
-                            ></Typography>
-                          </Skeleton>
-                          <Skeleton animation="wave" width="30%" height="20px">
-                            <Typography
-                              gutterBottom
-                              component="h5"
-                            ></Typography>
-                          </Skeleton>
-                        </Grid>
-                        <Skeleton variant="rect" animation="wave" />
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                ))}
-              </>
+              <ProductsSkeleton />
             ) : (
               <>
                 {burgerList.map((item, index) => (
-                  <Card className={classes.menuItem} key={index}>
-                    <CardActionArea>
-                      <CardMedia
-                        className={classes.media}
-                        image={item.image}
-                        title={item.name}
-                        alt={item.credit}
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h6">
-                          {item.name}
-                        </Typography>
-                        <Grid container direction="row" justify="space-between">
-                          <Typography gutterBottom component="h5">
-                            Price
-                          </Typography>
-                          <Typography gutterBottom component="h5">
-                            ${item.price}
-                          </Typography>
-                        </Grid>
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleOrderClick(item)}
-                        >
-                          Order
-                        </Button>
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          color="secondary"
-                          className={classes.addCartBtn}
-                        >
-                          Add to Cart
-                        </Button>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
+                  <Product
+                    id={index}
+                    item={item}
+                    displayCartBtn
+                    handleOrderClick={() => handleOrderClick(item)}
+                  />
                 ))}
               </>
             )}
