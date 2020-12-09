@@ -13,7 +13,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Menu,
   MenuList,
   MenuItem,
   Grow,
@@ -68,7 +67,6 @@ function Header() {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
         setLogin(true);
       } else {
         setLogin(false);

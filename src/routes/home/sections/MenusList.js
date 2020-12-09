@@ -2,19 +2,32 @@ import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import ProductsSkeleton from "../../../components/ProductsSkeleton";
 import Product from "../../../components/Product";
+import DialogAuthentication from "../../../components/Authentication";
 import useStyles from "./_menusListStyle";
 import { FirebaseContext } from "../../../database";
-import { ORDER_PATH } from "../../../constant/path";
+import { ORDER_PATH, LOGIN_PATH } from "../../../constant/path";
 import { STORAGE_ORDER_LIST } from "../../../constant/storage";
 
 function MenusList() {
   const [products, setProducts] = useState([]);
+  const [isLogin, setLogin] = useState(false);
+  const [displayAuth, setDisplayAuth] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const classes = useStyles();
   const history = useHistory();
 
-  const { db } = useContext(FirebaseContext);
+  const { auth, db } = useContext(FirebaseContext);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setLogin(true);
+      } else {
+        setLogin(false);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     db.collection("products")
@@ -29,16 +42,24 @@ function MenusList() {
       });
   }, []);
 
+  const handleLoginClick = () => {
+    history.push(LOGIN_PATH);
+  };
+
   const handleOrderClick = (selectedProduct) => {
-    const data = JSON.stringify([
-      {
-        ...selectedProduct,
-        count: 1,
-        total_price: selectedProduct.price,
-      },
-    ]);
-    sessionStorage.setItem(STORAGE_ORDER_LIST, data);
-    history.push(ORDER_PATH);
+    if (isLogin) {
+      const data = JSON.stringify([
+        {
+          ...selectedProduct,
+          count: 1,
+          total_price: selectedProduct.price,
+        },
+      ]);
+      sessionStorage.setItem(STORAGE_ORDER_LIST, data);
+      history.push(ORDER_PATH);
+    } else {
+      setDisplayAuth(true);
+    }
   };
 
   return (
@@ -59,6 +80,11 @@ function MenusList() {
           </>
         )}
       </div>
+      <DialogAuthentication
+        isOpen={displayAuth}
+        onDialogClose={() => setDisplayAuth(false)}
+        onLoginClick={handleLoginClick}
+      />
     </div>
   );
 }
