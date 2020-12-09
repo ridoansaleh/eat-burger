@@ -16,9 +16,10 @@ import {
 import { Search as SearchIcon } from "@material-ui/icons";
 import ProductsSkeleton from "../../components/ProductsSkeleton";
 import Product from "../../components/Product";
+import DialogAuthentication from "../../components/Authentication";
 import useStyles from "./_menusStyle";
 import { FirebaseContext } from "../../database";
-import { ORDER_PATH } from "../../constant/path";
+import { ORDER_PATH, LOGIN_PATH } from "../../constant/path";
 import { STORAGE_ORDER_LIST } from "../../constant/storage";
 
 const CATEGORY_LIST = [
@@ -36,12 +37,14 @@ function Menus() {
   const [finalSearch, setFinalSearch] = useState("");
   const [burgerList, setBurgerList] = useState([]);
   const [category, setCategory] = useState("All");
+  const [isLogin, setLogin] = useState(false);
+  const [displayAuth, setDisplayAuth] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const classes = useStyles();
   const history = useHistory();
 
-  const { db } = useContext(FirebaseContext);
+  const { auth, db } = useContext(FirebaseContext);
 
   const getProducts = () => {
     db.collection("products")
@@ -60,6 +63,16 @@ function Menus() {
     getProducts();
   }, []);
 
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setLogin(true);
+      } else {
+        setLogin(false);
+      }
+    });
+  }, []);
+
   const handleClickSearch = () => {
     if (search === "" || search === " ") {
       getProducts();
@@ -76,16 +89,24 @@ function Menus() {
     setSearch(e.target.value);
   };
 
+  const handleLoginClick = () => {
+    history.push(LOGIN_PATH);
+  };
+
   const handleOrderClick = (selectedProduct) => {
-    const data = JSON.stringify([
-      {
-        ...selectedProduct,
-        count: 1,
-        total_price: selectedProduct.price,
-      },
-    ]);
-    sessionStorage.setItem(STORAGE_ORDER_LIST, data);
-    history.push(ORDER_PATH);
+    if (isLogin) {
+      const data = JSON.stringify([
+        {
+          ...selectedProduct,
+          count: 1,
+          total_price: selectedProduct.price,
+        },
+      ]);
+      sessionStorage.setItem(STORAGE_ORDER_LIST, data);
+      history.push(ORDER_PATH);
+    } else {
+      setDisplayAuth(true);
+    }
   };
 
   const handleChange = (e) => {
@@ -189,6 +210,11 @@ function Menus() {
           </div>
         </div>
       </div>
+      <DialogAuthentication
+        isOpen={displayAuth}
+        onDialogClose={() => setDisplayAuth(false)}
+        onLoginClick={handleLoginClick}
+      />
     </div>
   );
 }
