@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
   AppBar,
@@ -31,6 +31,7 @@ import {
   ListAlt as ListAltIcon,
 } from "@material-ui/icons";
 import useStyles from "./_headerStyle";
+import { FirebaseContext } from "../../database";
 import {
   LOGIN_PATH,
   HOME_PATH,
@@ -42,11 +43,13 @@ import {
 
 function Header() {
   const [anchor, setAnchor] = useState(false);
-  const [isLogin, setLogin] = useState(true);
+  const [isLogin, setLogin] = useState(false);
   const [open, setOpen] = useState(false);
+
   const anchorRef = useRef(null);
   const classes = useStyles();
   const history = useHistory();
+  const { auth } = useContext(FirebaseContext);
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -61,6 +64,17 @@ function Header() {
       setOpen(false);
     }
   };
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log(user);
+        setLogin(true);
+      } else {
+        setLogin(false);
+      }
+    });
+  }, []);
 
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open);

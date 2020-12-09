@@ -79,19 +79,6 @@ const useStyles = makeStyles((theme) => ({
     overflowWrap: "break-word",
     textAlign: "center",
   },
-  menuItem: {
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "250px",
-    },
-    margin: "10px",
-  },
-  media: {
-    height: "300px",
-  },
-  addCartBtn: {
-    marginTop: "7px",
-  },
 }));
 
 export default useStyles;

@@ -18,16 +18,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     maxWidth: "1000px",
   },
-  media: {
-    height: "300px",
-  },
-  menuItem: {
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "250px",
-    },
-    margin: "10px",
-  },
 }));
 
 export default useStyles;
