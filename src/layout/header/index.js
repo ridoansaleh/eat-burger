@@ -48,7 +48,7 @@ function Header() {
   const anchorRef = useRef(null);
   const classes = useStyles();
   const history = useHistory();
-  const { auth } = useContext(FirebaseContext);
+  const { auth, signOut } = useContext(FirebaseContext);
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -108,6 +108,7 @@ function Header() {
   };
 
   const handleLogoutClick = () => {
+    signOut();
     setOpen(false);
     history.push(LOGIN_PATH);
   };

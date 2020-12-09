@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Typography,
   Avatar,
@@ -8,28 +8,91 @@ import {
   ListItemText,
   Divider,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import { LocationOn as Location, Phone, AccessTime } from "@material-ui/icons";
 import useStyles from "./_profileStyle";
+import { FirebaseContext } from "../../database";
 
-function Profile(props) {
+function Profile() {
+  const [userData, setUserData] = useState({
+    avatarName: "",
+    name: "",
+    address: "",
+    phoneNumber: "",
+    lastimeLogin: "",
+  });
+  const [loading, setLoading] = useState(true);
+
   const classes = useStyles();
+  const { auth, db } = useContext(FirebaseContext);
+
+  const createAvatarName = (fullname) => {
+    let arrName = fullname.split(" ");
+    return arrName[0].charAt(0) + arrName[1].charAt(0);
+  };
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        db.collection("users")
+          .where("email", "==", user.email)
+          .get()
+          .then((querySnapshot) => {
+            let data = null;
+            querySnapshot.forEach((doc) => {
+              data = doc.data();
+            });
+            setUserData({
+              avatarName: createAvatarName(data.fullname),
+              name: data.fullname,
+              address: data.address,
+              phoneNumber: data.phone_number,
+              lastimeLogin: user.metadata.lastSignInTime,
+            });
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+      } else {
+        console.log("User is not login");
+      }
+    });
+  }, []);
+
+  const renderText = (text) => {
+    return loading ? (
+      <Skeleton
+        variant="rect"
+        animation="wave"
+        classes={{ root: classes.textSkeleton }}
+      />
+    ) : (
+      <>{text}</>
+    );
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.wrapper}>
-        <Avatar className={classes.avatar}>RS</Avatar>
-        <Typography className={classes.name}>Ridoan Saleh Nasution</Typography>
+        <div className={classes.profileHead}>
+          <Avatar className={classes.avatar}>{userData.avatarName}</Avatar>
+          <Typography className={classes.name}>
+            {renderText(userData.name)}
+          </Typography>
+        </div>
         <List component="nav" aria-label="user detail">
           <ListItem button>
             <ListItemIcon>
               <Location />
             </ListItemIcon>
-            <ListItemText primary="Jalan Hang Kesturi No. 1 Kabil, Batam" />
+            <ListItemText primary={renderText(userData.address)} />
           </ListItem>
           <ListItem button>
             <ListItemIcon>
               <Phone />
             </ListItemIcon>
-            <ListItemText primary="081211002211" />
+            <ListItemText primary={renderText(userData.phoneNumber)} />
           </ListItem>
         </List>
         <Divider />
@@ -38,7 +101,7 @@ function Profile(props) {
             <ListItemIcon>
               <AccessTime />
             </ListItemIcon>
-            <ListItemText primary="Saturday, 11 March 2020 09.45" />
+            <ListItemText primary={renderText(userData.lastimeLogin)} />
           </ListItem>
         </List>
       </div>
