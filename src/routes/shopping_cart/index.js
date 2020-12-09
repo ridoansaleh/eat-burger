@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Paper,
@@ -22,7 +22,9 @@ import {
   DeleteOutline as DeleteOutlineIcon,
 } from "@material-ui/icons";
 import useStyles from "./_shoppingCartStyle";
-import { MENUS_PATH, ORDER_PATH } from "../../constant/path";
+import DialogAuthentication from "../../components/Authentication";
+import { FirebaseContext } from "../../database";
+import { MENUS_PATH, ORDER_PATH, LOGIN_PATH } from "../../constant/path";
 
 function QuantityField() {
   const [total, setTotal] = useState(1);
@@ -85,15 +87,38 @@ const rows = [
 ];
 
 function ShoppingCart() {
+  const [isLogin, setLogin] = useState(false);
+  const [displayAuth, setDisplayAuth] = useState(false);
+
   const classes = useStyles();
   const history = useHistory();
+
+  const { auth } = useContext(FirebaseContext);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setLogin(true);
+      } else {
+        setLogin(false);
+      }
+    });
+  }, []);
 
   const handleShoppingBtnClick = () => {
     history.push(MENUS_PATH);
   };
 
   const handleOrderBtnClick = () => {
-    history.push(ORDER_PATH);
+    if (isLogin) {
+      history.push(ORDER_PATH);
+    } else {
+      setDisplayAuth(true);
+    }
+  };
+
+  const handleLoginClick = () => {
+    history.push(LOGIN_PATH);
   };
 
   return (
@@ -165,6 +190,11 @@ function ShoppingCart() {
           </Button>
         </div>
       </div>
+      <DialogAuthentication
+        isOpen={displayAuth}
+        onDialogClose={() => setDisplayAuth(false)}
+        onLoginClick={handleLoginClick}
+      />
     </div>
   );
 }

@@ -32,6 +32,25 @@ const app_routes = [
     component: Menus,
   },
   {
+    path: SHOPPING_CART_PATH,
+    component: ShoppingCart,
+  },
+  {
+    path: REGISTRATION_PATH,
+    component: Registration,
+  },
+  {
+    path: LOGIN_PATH,
+    component: Login,
+  },
+];
+
+const protected_routes = [
+  {
+    path: PROFILE_PATH,
+    component: Profile,
+  },
+  {
     path: ORDER_PATH,
     component: Order,
   },
@@ -47,22 +66,6 @@ const app_routes = [
     path: ORDER_DETAIL,
     component: OrderDetail,
   },
-  {
-    path: SHOPPING_CART_PATH,
-    component: ShoppingCart,
-  },
-  {
-    path: REGISTRATION_PATH,
-    component: Registration,
-  },
-  {
-    path: PROFILE_PATH,
-    component: Profile,
-  },
-  {
-    path: LOGIN_PATH,
-    component: Login,
-  },
 ];
 
-export default app_routes;
+export { app_routes, protected_routes };

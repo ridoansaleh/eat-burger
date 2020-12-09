@@ -11,6 +11,21 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: "40px",
     },
   },
+  profileHead: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    "& > p": {
+      width: "100%",
+      textAlign: "center",
+    },
+    [theme.breakpoints.up("md")]: {
+      alignItems: "flex-start",
+      "& > p": {
+        textAlign: "left",
+      },
+    },
+  },
   wrapper: {
     width: "100%",
     position: "relative",
@@ -27,6 +42,17 @@ const useStyles = makeStyles((theme) => ({
   },
   name: {
     marginBottom: "30px",
+  },
+  avatarSkeleton: {
+    width: "40px",
+    height: "45px",
+  },
+  textSkeleton: {
+    width: "100%",
+    height: "20px",
+    [theme.breakpoints.up("md")]: {
+      width: "35%",
+    },
   },
 }));
 
