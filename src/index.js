@@ -4,7 +4,8 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import App from "./App";
 import "./index.css";
-import Firebase, { FirebaseContext } from "./database";
+import Firebase from "./database";
+import { FirebaseContext } from "./context";
 import * as serviceWorker from "./serviceWorker";
 
 const customTheme = createMuiTheme({

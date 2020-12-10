@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import {
   OutlinedInput,
   InputAdornment,
@@ -18,9 +19,16 @@ import ProductsSkeleton from "../../components/ProductsSkeleton";
 import Product from "../../components/Product";
 import DialogAuthentication from "../../components/Authentication";
 import useStyles from "./_menusStyle";
-import { FirebaseContext } from "../../database";
+import {
+  FirebaseContext,
+  UserContext,
+  ShoppingCartContext,
+} from "../../context";
 import { ORDER_PATH, LOGIN_PATH } from "../../constant/path";
-import { STORAGE_ORDER_LIST } from "../../constant/storage";
+import {
+  STORAGE_ORDER_LIST,
+  STORAGE_SHOPPING_CART,
+} from "../../constant/storage";
 
 const CATEGORY_LIST = [
   "All",
@@ -37,14 +45,15 @@ function Menus() {
   const [finalSearch, setFinalSearch] = useState("");
   const [burgerList, setBurgerList] = useState([]);
   const [category, setCategory] = useState("All");
-  const [isLogin, setLogin] = useState(false);
   const [displayAuth, setDisplayAuth] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const classes = useStyles();
   const history = useHistory();
 
-  const { auth, db } = useContext(FirebaseContext);
+  const { db } = useContext(FirebaseContext);
+  const { onSetStatus } = useContext(ShoppingCartContext);
+  const { isLogin, id: userId } = useContext(UserContext);
 
   const getProducts = () => {
     db.collection("products")
@@ -61,16 +70,6 @@ function Menus() {
 
   useEffect(() => {
     getProducts();
-  }, []);
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setLogin(true);
-      } else {
-        setLogin(false);
-      }
-    });
   }, []);
 
   const handleClickSearch = () => {
@@ -106,6 +105,59 @@ function Menus() {
       history.push(ORDER_PATH);
     } else {
       setDisplayAuth(true);
+    }
+  };
+
+  const handleAddToCartClick = (selectedProduct) => {
+    if (isLogin) {
+      db.collection("shopping_cart")
+        .where("user_id", "==", userId)
+        .where("id", "==", selectedProduct.id)
+        .get()
+        .then((querySnapshot) => {
+          let data = null;
+          querySnapshot.forEach((doc) => {
+            data = doc.data();
+          });
+          if (!data) {
+            const cart_id = uuidv4();
+            db.collection("shopping_cart")
+              .doc(cart_id)
+              .set({
+                ...selectedProduct,
+                user_id: userId,
+                cart_id,
+                count: 1,
+                total_price: selectedProduct.price,
+              })
+              .then(() => {
+                console.log("Document successfully written!");
+                onSetStatus(`changed ${Date.now()}`);
+              })
+              .catch((error) => {
+                console.error("Error writing document: ", error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+    } else {
+      let shoppingCart = localStorage.getItem(STORAGE_SHOPPING_CART);
+      shoppingCart = shoppingCart ? JSON.parse(shoppingCart) : [];
+      const isExist = shoppingCart.some((d) => d.id === selectedProduct.id);
+      if (isExist) return;
+      const finalData = [
+        ...shoppingCart,
+        {
+          ...selectedProduct,
+          cart_id: uuidv4(),
+          count: 1,
+          total_price: selectedProduct.price,
+        },
+      ];
+      localStorage.setItem(STORAGE_SHOPPING_CART, JSON.stringify(finalData));
+      onSetStatus(`changed ${Date.now()}`);
     }
   };
 
@@ -183,10 +235,11 @@ function Menus() {
               <>
                 {burgerList.map((item, index) => (
                   <Product
-                    id={index}
+                    key={index}
                     item={item}
                     displayCartBtn
                     handleOrderClick={() => handleOrderClick(item)}
+                    handleAddToCartClick={() => handleAddToCartClick(item)}
                   />
                 ))}
               </>

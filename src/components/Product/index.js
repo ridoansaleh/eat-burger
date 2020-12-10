@@ -12,7 +12,6 @@ import {
 import useStyles from "./_productStyle";
 
 function Product({
-  id,
   item,
   displayCartBtn,
   handleOrderClick,
@@ -21,7 +20,7 @@ function Product({
   const classes = useStyles();
 
   return (
-    <Card className={classes.menuItem} key={id}>
+    <Card className={classes.menuItem}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
@@ -55,7 +54,7 @@ function Product({
               variant="contained"
               color="secondary"
               className={classes.addCartBtn}
-              onClikc={handleAddToCartClick}
+              onClick={handleAddToCartClick}
             >
               Add to Cart
             </Button>
@@ -67,13 +66,12 @@ function Product({
 }
 
 Product.propTypes = {
-  id: PropTypes.string,
   item: PropTypes.shape({
     image: PropTypes.string,
     title: PropTypes.string,
     credit: PropTypes.string,
     name: PropTypes.string,
-    price: PropTypes.string,
+    price: PropTypes.number,
   }),
   displayCartBtn: PropTypes.bool,
   handleOrderClick: PropTypes.func,
@@ -81,13 +79,12 @@ Product.propTypes = {
 };
 
 Product.defaultProps = {
-  id: "",
   item: {
     image: "",
     title: "",
     credit: "",
     name: "",
-    price: "",
+    price: 0,
   },
   displayCartBtn: false,
   handleOrderClick: () => null,

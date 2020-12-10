@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Slider from "react-material-ui-carousel";
 import { Skeleton } from "@material-ui/lab";
 import useStyles from "./_carouselStyle";
-import { FirebaseContext } from "../../../database";
+import { FirebaseContext } from "../../../context";
 
 function Carousel() {
   const [banners, setBanners] = useState([]);

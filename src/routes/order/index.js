@@ -21,7 +21,7 @@ import Step1 from "./sections/Step1";
 import Step2 from "./sections/Step2";
 import Step3 from "./sections/Step3";
 import useStyles from "./_orderStyle";
-import { FirebaseContext } from "../../database";
+import { FirebaseContext, UserContext } from "../../context";
 import { ORDER_SUCCESS_PATH } from "../../constant/path";
 import {
   STORAGE_ORDER_LIST,
@@ -126,6 +126,7 @@ function Order() {
   orderCreator = orderCreator ? JSON.parse(orderCreator) : null;
 
   const { db } = useContext(FirebaseContext);
+  const { id: userId } = useContext(UserContext);
 
   const handleWindowResize = () => {
     setMobile(window.outerWidth <= 600);
@@ -153,6 +154,7 @@ function Order() {
         .doc(order_id)
         .set({
           ...orderCreator,
+          user_id: userId,
           menus: storageOrderList,
           total_price:
             getTotalPrice(storageOrderList) +

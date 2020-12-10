@@ -11,7 +11,7 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import { LocationOn as Location, Phone, AccessTime } from "@material-ui/icons";
 import useStyles from "./_profileStyle";
-import { FirebaseContext } from "../../database";
+import { FirebaseContext, UserContext } from "../../context";
 
 function Profile() {
   const [userData, setUserData] = useState({
@@ -24,7 +24,8 @@ function Profile() {
   const [loading, setLoading] = useState(true);
 
   const classes = useStyles();
-  const { auth, db } = useContext(FirebaseContext);
+  const { db } = useContext(FirebaseContext);
+  const { isLogin, email, lastSignInTime } = useContext(UserContext);
 
   const createAvatarName = (fullname) => {
     let arrName = fullname.split(" ");
@@ -32,32 +33,28 @@ function Profile() {
   };
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        db.collection("users")
-          .where("email", "==", user.email)
-          .get()
-          .then((querySnapshot) => {
-            let data = null;
-            querySnapshot.forEach((doc) => {
-              data = doc.data();
-            });
-            setUserData({
-              avatarName: createAvatarName(data.fullname),
-              name: data.fullname,
-              address: data.address,
-              phoneNumber: data.phone_number,
-              lastimeLogin: user.metadata.lastSignInTime,
-            });
-            setLoading(false);
-          })
-          .catch((error) => {
-            console.log("Error getting documents: ", error);
+    if (isLogin) {
+      db.collection("users")
+        .where("email", "==", email)
+        .get()
+        .then((querySnapshot) => {
+          let data = null;
+          querySnapshot.forEach((doc) => {
+            data = doc.data();
           });
-      } else {
-        console.log("User is not login");
-      }
-    });
+          setUserData({
+            avatarName: createAvatarName(data.fullname),
+            name: data.fullname,
+            address: data.address,
+            phoneNumber: data.phone_number,
+            lastimeLogin: lastSignInTime,
+          });
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+    }
   }, []);
 
   const renderText = (text) => {

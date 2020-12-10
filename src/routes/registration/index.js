@@ -17,7 +17,7 @@ import {
 } from "@material-ui/pickers";
 import DialogSuccess from "./DialogSuccess";
 import useStyles from "./_registrationStyle";
-import { FirebaseContext } from "../../database";
+import { FirebaseContext, UserContext } from "../../context";
 import validateForm from "./validation";
 
 const changeBorderColor = (color) => {
@@ -44,8 +44,8 @@ function Registration() {
 
   const classes = useStyles();
 
-  const context = useContext(FirebaseContext);
-  const { db, auth, signUp } = context;
+  const { db, auth, signUp } = useContext(FirebaseContext);
+  const { isLogin } = useContext(UserContext);
 
   useEffect(() => {
     if (isFormSubmitted && !birthdate) {
@@ -71,47 +71,43 @@ function Registration() {
     if (isValid) {
       signUp(email, password)
         .then(() => {
-          auth.onAuthStateChanged((user) => {
-            if (user) {
-              console.log("User is signed in");
-              // send email verification
-              auth.currentUser
-                .sendEmailVerification()
-                .then(() => {
-                  console.log("Email sent");
-                })
-                .catch((error) => {
-                  console.log("An error happened while send email: ", error);
-                });
-              // add user to database
-              db.collection("users")
-                .add({
-                  fullname,
-                  phone_number: phoneNumber,
-                  gender,
-                  birthdate,
-                  address,
-                  email,
-                })
-                .then(() => {
-                  setFullname("");
-                  setPhoneNumber("");
-                  setGender("");
-                  setBirthdate(null);
-                  setAddress("");
-                  setEmail("");
-                  setPassword("");
-                  setRetypePassword("");
-                  setFormSubmitted(false);
-                  setDialogOpen(true);
-                })
-                .catch((error) => {
-                  console.error("Error adding document: ", error);
-                });
-            } else {
-              console.log("No user is signed in");
-            }
-          });
+          if (isLogin) {
+            console.log("User is signed in");
+            // send email verification
+            auth.currentUser
+              .sendEmailVerification()
+              .then(() => {
+                console.log("Email sent");
+              })
+              .catch((error) => {
+                console.log("An error happened while send email: ", error);
+              });
+            // add user to database
+            db.collection("users")
+              .add({
+                fullname,
+                phone_number: phoneNumber,
+                gender,
+                birthdate,
+                address,
+                email,
+              })
+              .then(() => {
+                setFullname("");
+                setPhoneNumber("");
+                setGender("");
+                setBirthdate(null);
+                setAddress("");
+                setEmail("");
+                setPassword("");
+                setRetypePassword("");
+                setFormSubmitted(false);
+                setDialogOpen(true);
+              })
+              .catch((error) => {
+                console.error("Error adding document: ", error);
+              });
+          }
         })
         .catch((error) => console.log(error));
     }

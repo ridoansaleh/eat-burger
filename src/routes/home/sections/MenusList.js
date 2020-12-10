@@ -4,30 +4,20 @@ import ProductsSkeleton from "../../../components/ProductsSkeleton";
 import Product from "../../../components/Product";
 import DialogAuthentication from "../../../components/Authentication";
 import useStyles from "./_menusListStyle";
-import { FirebaseContext } from "../../../database";
+import { FirebaseContext, UserContext } from "../../../context";
 import { ORDER_PATH, LOGIN_PATH } from "../../../constant/path";
 import { STORAGE_ORDER_LIST } from "../../../constant/storage";
 
 function MenusList() {
   const [products, setProducts] = useState([]);
-  const [isLogin, setLogin] = useState(false);
   const [displayAuth, setDisplayAuth] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const classes = useStyles();
   const history = useHistory();
 
-  const { auth, db } = useContext(FirebaseContext);
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setLogin(true);
-      } else {
-        setLogin(false);
-      }
-    });
-  }, []);
+  const { db } = useContext(FirebaseContext);
+  const { isLogin } = useContext(UserContext);
 
   useEffect(() => {
     db.collection("products")
@@ -72,7 +62,7 @@ function MenusList() {
           <>
             {products.map((item, index) => (
               <Product
-                id={index}
+                key={index}
                 item={item}
                 handleOrderClick={() => handleOrderClick(item)}
               />
