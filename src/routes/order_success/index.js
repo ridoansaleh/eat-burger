@@ -33,7 +33,6 @@ function OrderSuccess() {
   const [loading, setLoading] = useState(true);
 
   const classes = useStyles();
-
   const { db } = useContext(FirebaseContext);
 
   useEffect(() => {

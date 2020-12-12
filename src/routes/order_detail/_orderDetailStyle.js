@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
       margin: "40px 0 20px",
     },
   },
+  infoItem: {
+    display: "flex",
+  },
+  infoItemSkeleton: {
+    marginLeft: "5px",
+  },
   accordion: {
     boxShadow: "none",
   },
@@ -35,6 +41,24 @@ const useStyles = makeStyles((theme) => ({
   accordionSummary: {
     backgroundColor: "#D5D8DC",
     border: "1px solid rgba(0, 0, 0, .125)",
+  },
+  data: {
+    height: "30px",
+    marginBottom: "10px",
+  },
+  paper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    marginTop: "25px",
+    padding: "15px 0",
+  },
+  confirmBtn: {
+    marginTop: "20px",
+    [theme.breakpoints.up("md")]: {
+      width: "150px",
+    },
   },
 }));
 
