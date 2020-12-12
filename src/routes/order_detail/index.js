@@ -24,6 +24,7 @@ import {
 import useStyles from "./_orderDetailStyle";
 import { FirebaseContext } from "../../context";
 import { STORAGE_ORDER_ID } from "../../constant/storage";
+import { COLLECTION_ORDERS } from "../../constant/collection";
 
 const threeBoxSkeleton = [1, 2, 3];
 
@@ -48,7 +49,7 @@ function OrderDetail() {
   };
 
   const getOrderDetails = (orderId) => {
-    db.collection("orders")
+    db.collection(COLLECTION_ORDERS)
       .doc(orderId)
       .get()
       .then((doc) => {
@@ -74,7 +75,7 @@ function OrderDetail() {
   const handleConfirmClick = () => {
     const orderId = sessionStorage.getItem(STORAGE_ORDER_ID);
     if (orderId) {
-      db.collection("orders")
+      db.collection(COLLECTION_ORDERS)
         .doc(orderId)
         .update({
           ...orderDetail,

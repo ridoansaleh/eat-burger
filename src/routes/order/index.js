@@ -24,6 +24,7 @@ import Step3 from "./sections/Step3";
 import useStyles from "./_orderStyle";
 import { FirebaseContext, UserContext } from "../../context";
 import { ORDER_SUCCESS_PATH } from "../../constant/path";
+import { COLLECTION_ORDERS } from "../../constant/collection";
 import {
   STORAGE_ORDER_LIST,
   STORAGE_ORDER_CREATOR,
@@ -151,7 +152,7 @@ function Order() {
     } else {
       setLoading(true);
       const order_id = uuidv4();
-      db.collection("orders")
+      db.collection(COLLECTION_ORDERS)
         .doc(order_id)
         .set({
           ...orderCreator,

@@ -19,6 +19,7 @@ import {
 import useStyles from "./_orderSuccessStyle";
 import { FirebaseContext } from "../../context";
 import { STORAGE_ORDER_ID } from "../../constant/storage";
+import { COLLECTION_ORDERS } from "../../constant/collection";
 
 const threeBoxSkeleton = [1, 2, 3];
 
@@ -37,7 +38,7 @@ function OrderSuccess() {
 
   useEffect(() => {
     const orderId = sessionStorage.getItem(STORAGE_ORDER_ID);
-    db.collection("orders")
+    db.collection(COLLECTION_ORDERS)
       .doc(orderId)
       .get()
       .then((doc) => {

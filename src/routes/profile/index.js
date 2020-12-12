@@ -12,6 +12,7 @@ import { Skeleton } from "@material-ui/lab";
 import { LocationOn as Location, Phone, AccessTime } from "@material-ui/icons";
 import useStyles from "./_profileStyle";
 import { FirebaseContext, UserContext } from "../../context";
+import { COLLECTION_USERS } from "../../constant/collection";
 
 function Profile() {
   const [userData, setUserData] = useState({
@@ -29,12 +30,15 @@ function Profile() {
 
   const createAvatarName = (fullname) => {
     let arrName = fullname.split(" ");
-    return arrName[0].charAt(0) + arrName[1].charAt(0);
+    let firstLetter = arrName[0].charAt(0);
+    let secondLetter = arrName[1] ? arrName[1].charAt(0) : arrName[0].charAt(1);
+    let result = firstLetter + secondLetter;
+    return result.toUpperCase();
   };
 
   useEffect(() => {
     if (isLogin) {
-      db.collection("users")
+      db.collection(COLLECTION_USERS)
         .where("email", "==", email)
         .get()
         .then((querySnapshot) => {

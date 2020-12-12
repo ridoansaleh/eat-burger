@@ -16,10 +16,10 @@ function DialogAuthentication(props) {
   return (
     <Dialog
       onClose={props.onDialogClose}
-      aria-labelledby="signup-success-dialog"
+      aria-labelledby="login-required-dialog"
       open={props.isOpen}
     >
-      <DialogTitle id="signup-success-dialog">Authentication</DialogTitle>
+      <DialogTitle id="login-required-dialog">Authentication</DialogTitle>
       <DialogContent dividers className={classes.content}>
         <LockOutlinedIcon className={classes.lockIcon} />
         <Typography variant="h3" component="h3" className={classes.title}>

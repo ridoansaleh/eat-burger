@@ -44,6 +44,7 @@ import {
   PROFILE_PATH,
 } from "../../constant/path";
 import { STORAGE_SHOPPING_CART } from "../../constant/storage";
+import { COLLECTION_SHOPPING_CART } from "../../constant/collection";
 
 function Header() {
   const [anchor, setAnchor] = useState(false);
@@ -74,7 +75,7 @@ function Header() {
 
   useEffect(() => {
     if (isLogin) {
-      db.collection("shopping_cart")
+      db.collection(COLLECTION_SHOPPING_CART)
         .where("user_id", "==", userId)
         .get()
         .then((querySnapshot) => {
@@ -147,125 +148,123 @@ function Header() {
 
   return (
     <>
-      <div className={classes.root}>
-        <AppBar position="static" className={classes.navbar}>
-          <Toolbar className={classes.toolbar}>
-            <Grid container className={classes.innerNavbar}>
-              <Grid item xs={2} md={0} className={classes.hamburgerIcon}>
-                <IconButton
-                  edge="start"
-                  className={classes.menuButton}
-                  color="inherit"
-                  aria-label="menu"
-                  onClick={toggleDrawer}
-                >
-                  <MenuIcon />
-                </IconButton>
-              </Grid>
-              <Grid item xs={8} md={10} className={classes.middle}>
-                <IconButton aria-label="website icon" color="inherit">
-                  <FastfoodOutlinedIcon />
-                  <Typography variant="h6" className={classes.title}>
-                    Eat Burger
-                  </Typography>
-                </IconButton>
-                <Typography
-                  variant="h6"
-                  className={classes.homeLink}
-                  onClick={handleHomeClick}
-                >
-                  Home
-                </Typography>
-                <Typography
-                  variant="h6"
-                  className={classes.menusLink}
-                  onClick={handleMenusClick}
-                >
-                  Menus
-                </Typography>
-              </Grid>
-              <Grid item xs={2} md={2} className={classes.right}>
-                {isLogin ? (
-                  <div className={classes.account}>
-                    <IconButton
-                      ref={anchorRef}
-                      aria-label="Account Logo"
-                      color="inherit"
-                      aria-controls={open ? "menu-list-grow" : undefined}
-                      aria-haspopup="true"
-                      onClick={handleAccountClick}
-                    >
-                      <AccountCircleIcon />
-                    </IconButton>
-                    <Popper
-                      open={open}
-                      anchorEl={anchorRef.current}
-                      role={undefined}
-                      transition
-                      disablePortal
-                      className={classes.paper}
-                    >
-                      {({ TransitionProps, placement }) => (
-                        <Grow
-                          {...TransitionProps}
-                          style={{
-                            transformOrigin:
-                              placement === "bottom"
-                                ? "center top"
-                                : "center bottom",
-                          }}
-                        >
-                          <Paper>
-                            <ClickAwayListener onClickAway={handleClose}>
-                              <MenuList
-                                autoFocusItem={open}
-                                id="menu-list-grow"
-                                onKeyDown={handleListKeyDown}
-                              >
-                                <MenuItem onClick={handleProfileClick}>
-                                  Profile
-                                </MenuItem>
-                                <MenuItem onClick={handleOrderListClick}>
-                                  Order List
-                                </MenuItem>
-                                <MenuItem onClick={handleLogoutClick}>
-                                  Logout
-                                </MenuItem>
-                              </MenuList>
-                            </ClickAwayListener>
-                          </Paper>
-                        </Grow>
-                      )}
-                    </Popper>
-                  </div>
-                ) : (
-                  <Typography
-                    variant="h6"
-                    className={classes.loginLink}
-                    onClick={handleLoginClick}
-                  >
-                    Login
-                  </Typography>
-                )}
-                <IconButton
-                  edge="end"
-                  aria-label="show 4 new items in Shopping Cart"
-                  color="inherit"
-                  onClick={handleShoppingCartClick}
-                >
-                  {totalProduct > 0 ? (
-                    <Badge badgeContent={totalProduct} color="secondary">
-                      <ShoppingCartIcon />
-                    </Badge>
-                  ) : (
-                    <ShoppingCartIcon />
-                  )}
-                </IconButton>
-              </Grid>
+      <AppBar position="static" className={classes.navbar}>
+        <Toolbar className={classes.toolbar}>
+          <Grid container className={classes.innerNavbar}>
+            <Grid item xs={2} md={0} className={classes.hamburgerIcon}>
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="menu"
+                onClick={toggleDrawer}
+              >
+                <MenuIcon />
+              </IconButton>
             </Grid>
-          </Toolbar>
-        </AppBar>
-      </div>
+            <Grid item xs={8} md={10} className={classes.middle}>
+              <IconButton aria-label="website icon" color="inherit">
+                <FastfoodOutlinedIcon />
+                <Typography variant="h6" className={classes.title}>
+                  Eat Burger
+                </Typography>
+              </IconButton>
+              <Typography
+                variant="h6"
+                className={classes.homeLink}
+                onClick={handleHomeClick}
+              >
+                Home
+              </Typography>
+              <Typography
+                variant="h6"
+                className={classes.menusLink}
+                onClick={handleMenusClick}
+              >
+                Menus
+              </Typography>
+            </Grid>
+            <Grid item xs={2} md={2} className={classes.right}>
+              {isLogin ? (
+                <div className={classes.account}>
+                  <IconButton
+                    ref={anchorRef}
+                    aria-label="Account Logo"
+                    color="inherit"
+                    aria-controls={open ? "menu-list-grow" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleAccountClick}
+                  >
+                    <AccountCircleIcon />
+                  </IconButton>
+                  <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    transition
+                    disablePortal
+                    className={classes.paper}
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{
+                          transformOrigin:
+                            placement === "bottom"
+                              ? "center top"
+                              : "center bottom",
+                        }}
+                      >
+                        <Paper>
+                          <ClickAwayListener onClickAway={handleClose}>
+                            <MenuList
+                              autoFocusItem={open}
+                              id="menu-list-grow"
+                              onKeyDown={handleListKeyDown}
+                            >
+                              <MenuItem onClick={handleProfileClick}>
+                                Profile
+                              </MenuItem>
+                              <MenuItem onClick={handleOrderListClick}>
+                                Order List
+                              </MenuItem>
+                              <MenuItem onClick={handleLogoutClick}>
+                                Logout
+                              </MenuItem>
+                            </MenuList>
+                          </ClickAwayListener>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
+                </div>
+              ) : (
+                <Typography
+                  variant="h6"
+                  className={classes.loginLink}
+                  onClick={handleLoginClick}
+                >
+                  Login
+                </Typography>
+              )}
+              <IconButton
+                edge="end"
+                aria-label={`show ${totalProduct} new items in Shopping Cart`}
+                color="inherit"
+                onClick={handleShoppingCartClick}
+              >
+                {totalProduct > 0 ? (
+                  <Badge badgeContent={totalProduct} color="secondary">
+                    <ShoppingCartIcon />
+                  </Badge>
+                ) : (
+                  <ShoppingCartIcon />
+                )}
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
       <Drawer
         anchor="top"
         open={anchor}

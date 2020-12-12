@@ -11,7 +11,7 @@ function Footer() {
   const classes = useStyles();
 
   return (
-    <div className={classes.footer}>
+    <footer className={classes.footer}>
       <div className={classes.wrapper}>
         <div className={classes.left}>
           <h2>Eat Burger</h2>
@@ -36,7 +36,7 @@ function Footer() {
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
 

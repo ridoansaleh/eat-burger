@@ -3,6 +3,7 @@ import Slider from "react-material-ui-carousel";
 import { Skeleton } from "@material-ui/lab";
 import useStyles from "./_carouselStyle";
 import { FirebaseContext } from "../../../context";
+import { COLLECTION_BANNERS } from "../../../constant/collection";
 
 function Carousel() {
   const [banners, setBanners] = useState([]);
@@ -13,7 +14,7 @@ function Carousel() {
   const { db } = useContext(FirebaseContext);
 
   useEffect(() => {
-    db.collection("banners")
+    db.collection(COLLECTION_BANNERS)
       .get()
       .then((querySnapshot) => {
         let data = [];

@@ -26,6 +26,10 @@ import {
 } from "../../context";
 import { ORDER_PATH, LOGIN_PATH } from "../../constant/path";
 import {
+  COLLECTION_PRODUCTS,
+  COLLECTION_SHOPPING_CART,
+} from "../../constant/collection";
+import {
   STORAGE_ORDER_LIST,
   STORAGE_SHOPPING_CART,
 } from "../../constant/storage";
@@ -56,7 +60,7 @@ function Menus() {
   const { isLogin, id: userId } = useContext(UserContext);
 
   const getProducts = () => {
-    db.collection("products")
+    db.collection(COLLECTION_PRODUCTS)
       .get()
       .then((querySnapshot) => {
         let data = [];
@@ -110,7 +114,7 @@ function Menus() {
 
   const handleAddToCartClick = (selectedProduct) => {
     if (isLogin) {
-      db.collection("shopping_cart")
+      db.collection(COLLECTION_SHOPPING_CART)
         .where("user_id", "==", userId)
         .where("id", "==", selectedProduct.id)
         .get()
@@ -121,7 +125,7 @@ function Menus() {
           });
           if (!data) {
             const cart_id = uuidv4();
-            db.collection("shopping_cart")
+            db.collection(COLLECTION_SHOPPING_CART)
               .doc(cart_id)
               .set({
                 ...selectedProduct,
