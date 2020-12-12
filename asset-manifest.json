@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/eat-burger/static/css/main.6b0f788d.chunk.css",
-    "main.js": "/eat-burger/static/js/main.18db02d3.chunk.js",
-    "main.js.map": "/eat-burger/static/js/main.18db02d3.chunk.js.map",
+    "main.js": "/eat-burger/static/js/main.1a478b64.chunk.js",
+    "main.js.map": "/eat-burger/static/js/main.1a478b64.chunk.js.map",
     "runtime-main.js": "/eat-burger/static/js/runtime-main.08a557bb.js",
     "runtime-main.js.map": "/eat-burger/static/js/runtime-main.08a557bb.js.map",
-    "static/js/2.25152b78.chunk.js": "/eat-burger/static/js/2.25152b78.chunk.js",
-    "static/js/2.25152b78.chunk.js.map": "/eat-burger/static/js/2.25152b78.chunk.js.map",
+    "static/js/2.9aa822df.chunk.js": "/eat-burger/static/js/2.9aa822df.chunk.js",
+    "static/js/2.9aa822df.chunk.js.map": "/eat-burger/static/js/2.9aa822df.chunk.js.map",
     "index.html": "/eat-burger/index.html",
-    "precache-manifest.a7fdd8a872a639cbd45697341f55d9bd.js": "/eat-burger/precache-manifest.a7fdd8a872a639cbd45697341f55d9bd.js",
+    "precache-manifest.13075147b655e4080f4c6a66fdf6a8d6.js": "/eat-burger/precache-manifest.13075147b655e4080f4c6a66fdf6a8d6.js",
     "service-worker.js": "/eat-burger/service-worker.js",
     "static/css/main.6b0f788d.chunk.css.map": "/eat-burger/static/css/main.6b0f788d.chunk.css.map",
-    "static/js/2.25152b78.chunk.js.LICENSE.txt": "/eat-burger/static/js/2.25152b78.chunk.js.LICENSE.txt"
+    "static/js/2.9aa822df.chunk.js.LICENSE.txt": "/eat-burger/static/js/2.9aa822df.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.08a557bb.js",
-    "static/js/2.25152b78.chunk.js",
+    "static/js/2.9aa822df.chunk.js",
     "static/css/main.6b0f788d.chunk.css",
-    "static/js/main.18db02d3.chunk.js"
+    "static/js/main.1a478b64.chunk.js"
   ]
 }
