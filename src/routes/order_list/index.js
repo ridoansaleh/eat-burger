@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
   AppBar,
@@ -12,12 +12,18 @@ import {
   TableCell,
 } from "@material-ui/core";
 import useStyles from "./_orderListStyle";
+import { FirebaseContext, UserContext } from "../../context";
 import { ORDER_DETAIL } from "../../constant/path";
 
-function OrderList(props) {
+function OrderList() {
   const [value, setValue] = useState(0);
+  const [activeOrders, setActiveOrders] = useState([]);
+  const [completedOrders, setCompletedOrders] = useState([]);
+
   const classes = useStyles();
   const history = useHistory();
+  const { db } = useContext(FirebaseContext);
+  const { isLogin, id } = useContext(UserContext);
 
   const handleChange = (_, newValue) => {
     setValue(newValue);
@@ -26,6 +32,25 @@ function OrderList(props) {
   const handleOrderClick = () => {
     history.push(ORDER_DETAIL);
   };
+
+  useEffect(() => {
+    if (isLogin) {
+      db.collection("orders")
+        .where("user_id", "==", id)
+        .get()
+        .then((querySnapshot) => {
+          let data = [];
+          querySnapshot.forEach((doc) => {
+            data.push({ id: doc.id, ...doc.data() });
+          });
+          setActiveOrders(data.filter((d) => d.status === "process"));
+          setCompletedOrders(data.filter((d) => d.status === "completed"));
+        })
+        .catch((error) => {
+          console.log("Error getting order list: ", error);
+        });
+    }
+  }, []);
 
   const a11yProps = (index) => ({
     id: `simple-tab-${index}`,
@@ -40,8 +65,8 @@ function OrderList(props) {
             value={value}
             indicatorColor="primary"
             textColor="primary"
-            onChange={handleChange}
             aria-label="simple tabs example"
+            onChange={handleChange}
           >
             <Tab label="Active Orders" {...a11yProps(0)} />
             <Tab label="Completed Orders" {...a11yProps(1)} />
@@ -55,27 +80,29 @@ function OrderList(props) {
         >
           <Table aria-label="simple table" className={classes.table}>
             <TableBody>
-              <TableRow className={classes.tableRow} onClick={handleOrderClick}>
-                <TableCell component="th" scope="row">
-                  Frozen yoghurt, Ice cream sandwich, Eclair etc
-                </TableCell>
-                <TableCell align="right">$ 30</TableCell>
-                <TableCell align="right">12 June 2020</TableCell>
-              </TableRow>
-              <TableRow className={classes.tableRow} onClick={handleOrderClick}>
-                <TableCell component="th" scope="row">
-                  Cupcake, Ice cream sandwich, Eclair etc
-                </TableCell>
-                <TableCell align="right">$ 40</TableCell>
-                <TableCell align="right">7 May 2020</TableCell>
-              </TableRow>
-              <TableRow className={classes.tableRow} onClick={handleOrderClick}>
-                <TableCell component="th" scope="row">
-                  Gingerbread, Cupcake, Eclair etc
-                </TableCell>
-                <TableCell align="right">$ 39</TableCell>
-                <TableCell align="right">9 May 2020</TableCell>
-              </TableRow>
+              {activeOrders.length > 0 ? (
+                <>
+                  {activeOrders.map((order) => (
+                    <TableRow
+                      key={order.id}
+                      className={classes.tableRow}
+                      onClick={handleOrderClick}
+                    >
+                      <TableCell component="th" scope="row">
+                        {order.menus.map((d) => d.name).join(", ")}
+                      </TableCell>
+                      <TableCell align="right">$ {order.total_price}</TableCell>
+                      <TableCell align="right">
+                        {order.time.split(",")[2].trim()}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </>
+              ) : (
+                <Box p={3}>
+                  <Typography>No Orders</Typography>
+                </Box>
+              )}
             </TableBody>
           </Table>
         </div>
@@ -85,9 +112,33 @@ function OrderList(props) {
           id={`simple-tabpanel-1`}
           aria-labelledby={`simple-tab-1`}
         >
-          <Box p={3}>
-            <Typography>No Orders</Typography>
-          </Box>
+          <Table aria-label="simple table" className={classes.table}>
+            <TableBody>
+              {completedOrders.length > 0 ? (
+                <>
+                  {completedOrders.map((order) => (
+                    <TableRow
+                      key={order.id}
+                      className={classes.tableRow}
+                      onClick={handleOrderClick}
+                    >
+                      <TableCell component="th" scope="row">
+                        {order.menus.map((d) => d.name).join(", ")}
+                      </TableCell>
+                      <TableCell align="right">$ {order.total_price}</TableCell>
+                      <TableCell align="right">
+                        {order.time.split(",")[2].trim()}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </>
+              ) : (
+                <Box p={3}>
+                  <Typography>No Orders</Typography>
+                </Box>
+              )}
+            </TableBody>
+          </Table>
         </div>
       </div>
     </div>

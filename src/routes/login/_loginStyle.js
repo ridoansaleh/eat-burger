@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
     color: "blue",
     cursor: "pointer",
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
 }));
 
 export default useStyles;

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { v4 as uuidv4 } from "uuid";
+import { format } from "date-fns";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {
   Step,
@@ -160,9 +161,9 @@ function Order() {
             getTotalPrice(storageOrderList) +
             0.1 * getTotalPrice(storageOrderList),
           status: "process",
+          time: format(new Date(), "EEEE, HH:mm:ss aaaa, dd MMM yyyy"),
         })
         .then(() => {
-          console.log("Document successfully written!");
           sessionStorage.setItem(STORAGE_ORDER_ID, order_id);
           history.replace(ORDER_SUCCESS_PATH);
         })
