@@ -23,15 +23,23 @@ import {
 } from "@material-ui/icons";
 import useStyles from "./_shoppingCartStyle";
 import DialogAuthentication from "../../components/Authentication";
-import { FirebaseContext } from "../../database";
+import {
+  FirebaseContext,
+  UserContext,
+  ShoppingCartContext,
+} from "../../context";
 import { MENUS_PATH, ORDER_PATH, LOGIN_PATH } from "../../constant/path";
+import {
+  STORAGE_SHOPPING_CART,
+  STORAGE_ORDER_LIST,
+} from "../../constant/storage";
 
-function QuantityField() {
-  const [total, setTotal] = useState(1);
+function QuantityField({ item, updateProduct }) {
+  const [total, setTotal] = useState(item.count);
   const classes = useStyles();
 
   const handleDecreaseClick = () => {
-    if (total !== 0) {
+    if (total !== 1) {
       setTotal((prevState) => prevState - 1);
     }
   };
@@ -41,6 +49,10 @@ function QuantityField() {
       setTotal((prevState) => prevState + 1);
     }
   };
+
+  useEffect(() => {
+    updateProduct(total, item);
+  }, [total]);
 
   return (
     <OutlinedInput
@@ -74,36 +86,88 @@ function QuantityField() {
   );
 }
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0),
-  createData("Ice cream sandwich", 237, 9.0),
-  createData("Eclair", 262, 16.0),
-  createData("Cupcake", 305, 3.7),
-  createData("Gingerbread", 356, 16.0),
-];
+const getTotalPrice = (arr) => {
+  const { total_price } = arr.reduce(
+    (ac, cr) => ({
+      total_price: parseInt(ac.total_price) + parseInt(cr.total_price),
+    }),
+    { total_price: 0 }
+  );
+  return total_price;
+};
 
 function ShoppingCart() {
-  const [isLogin, setLogin] = useState(false);
   const [displayAuth, setDisplayAuth] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [totalOrder, setTotalOrder] = useState(0);
 
   const classes = useStyles();
   const history = useHistory();
 
-  const { auth } = useContext(FirebaseContext);
+  const { db } = useContext(FirebaseContext);
+  const { onSetStatus } = useContext(ShoppingCartContext);
+  const { isLogin, id: userId } = useContext(UserContext);
+
+  const getProducts = () => {
+    if (isLogin) {
+      db.collection("shopping_cart")
+        .where("user_id", "==", userId)
+        .get()
+        .then((querySnapshot) => {
+          let data = [];
+          querySnapshot.forEach((doc) => {
+            data.push({ ...doc.data() });
+          });
+          setProducts(data);
+        });
+    } else {
+      let shoppingCart = localStorage.getItem(STORAGE_SHOPPING_CART);
+      shoppingCart = shoppingCart ? JSON.parse(shoppingCart) : [];
+      setProducts(shoppingCart);
+    }
+  };
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setLogin(true);
-      } else {
-        setLogin(false);
-      }
-    });
-  }, []);
+    getProducts();
+  }, [isLogin]);
+
+  useEffect(() => {
+    setTotalOrder(getTotalPrice(products));
+  }, [products]);
+
+  const updateProduct = (total, item) => {
+    if (isLogin) {
+      db.collection("shopping_cart")
+        .doc(item.cart_id)
+        .update({
+          ...item,
+          count: total,
+          total_price: total * item.price,
+        })
+        .then(() => {
+          console.log("Document successfully updated!");
+          getProducts();
+        })
+        .catch((error) => {
+          console.error("Error updating document: ", error);
+        });
+    } else {
+      let shoppingCart = localStorage.getItem(STORAGE_SHOPPING_CART);
+      shoppingCart = shoppingCart ? JSON.parse(shoppingCart) : [];
+      const modifiedData = shoppingCart.map((d) => {
+        if (d.cart_id === item.cart_id) {
+          return {
+            ...d,
+            count: total,
+            total_price: total * item.price,
+          };
+        }
+        return d;
+      });
+      localStorage.setItem(STORAGE_SHOPPING_CART, JSON.stringify(modifiedData));
+      setProducts(modifiedData);
+    }
+  };
 
   const handleShoppingBtnClick = () => {
     history.push(MENUS_PATH);
@@ -111,6 +175,13 @@ function ShoppingCart() {
 
   const handleOrderBtnClick = () => {
     if (isLogin) {
+      const modifiedProducts = products.map((e) => {
+        let data = { ...e };
+        delete data.user_id;
+        return data;
+      });
+      const data = JSON.stringify(modifiedProducts);
+      sessionStorage.setItem(STORAGE_ORDER_LIST, data);
       history.push(ORDER_PATH);
     } else {
       setDisplayAuth(true);
@@ -119,6 +190,29 @@ function ShoppingCart() {
 
   const handleLoginClick = () => {
     history.push(LOGIN_PATH);
+  };
+
+  const handleDeleteProduct = (cartId) => {
+    if (isLogin) {
+      db.collection("shopping_cart")
+        .doc(cartId)
+        .delete()
+        .then(() => {
+          console.log("Document successfully deleted!");
+          getProducts();
+          onSetStatus(`changed ${Date.now()}`);
+        })
+        .catch((error) => {
+          console.error("Error delating document: ", error);
+        });
+    } else {
+      let shoppingCart = localStorage.getItem(STORAGE_SHOPPING_CART);
+      shoppingCart = shoppingCart ? JSON.parse(shoppingCart) : [];
+      const modifiedData = shoppingCart.filter((d) => d.cart_id !== cartId);
+      localStorage.setItem(STORAGE_SHOPPING_CART, JSON.stringify(modifiedData));
+      setProducts(modifiedData);
+      onSetStatus(`changed ${Date.now()}`);
+    }
   };
 
   return (
@@ -136,19 +230,22 @@ function ShoppingCart() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {products.map((row) => (
                   <TableRow key={row.name}>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
                     <TableCell>
-                      <QuantityField />
+                      <QuantityField item={row} updateProduct={updateProduct} />
                     </TableCell>
                     <TableCell align="center">
-                      <span>$ {row.fat}</span>
+                      <span>$ {row.total_price}</span>
                     </TableCell>
                     <TableCell>
-                      <DeleteOutlineIcon className={classes.deleteIcon} />
+                      <DeleteOutlineIcon
+                        className={classes.deleteIcon}
+                        onClick={() => handleDeleteProduct(row.cart_id)}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -161,7 +258,7 @@ function ShoppingCart() {
             <CardContent>
               <Typography component="h2">ORDER TOTAL*</Typography>
               <Typography variant="body2" component="p">
-                $ 30
+                $ {totalOrder}
               </Typography>
               <Typography
                 color="textSecondary"
@@ -183,6 +280,7 @@ function ShoppingCart() {
           <Button
             variant="contained"
             color="primary"
+            disabled={products.length === 0}
             className={classes.cartButton}
             onClick={handleOrderBtnClick}
           >

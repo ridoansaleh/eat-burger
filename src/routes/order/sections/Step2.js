@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Paper, TextField, TextareaAutosize } from "@material-ui/core";
 import useStyles from "../_orderStyle";
-import { FirebaseContext } from "../../../database";
+import { FirebaseContext, UserContext } from "../../../context";
 import { STORAGE_ORDER_CREATOR } from "../../../constant/storage";
 
 function Step2(props) {
@@ -11,46 +11,41 @@ function Step2(props) {
 
   const classes = useStyles();
 
-  const { db, auth } = useContext(FirebaseContext);
+  const { db } = useContext(FirebaseContext);
+  const { email } = useContext(UserContext);
 
   useEffect(() => {
     let orderCreator = sessionStorage.getItem(STORAGE_ORDER_CREATOR);
     orderCreator = orderCreator ? JSON.parse(orderCreator) : null;
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        db.collection("users")
-          .where("email", "==", user.email)
-          .get()
-          .then((querySnapshot) => {
-            let data = null;
-            querySnapshot.forEach((doc) => {
-              data = doc.data();
-            });
-            if (orderCreator) {
-              setFullname(orderCreator.fullname);
-              setAddress(orderCreator.address);
-              setPhoneNumber(orderCreator.phone_number);
-            } else {
-              setFullname(data.fullname);
-              setAddress(data.address);
-              setPhoneNumber(data.phone_number);
-              sessionStorage.setItem(
-                STORAGE_ORDER_CREATOR,
-                JSON.stringify({
-                  fullname: data.fullname,
-                  address: data.address,
-                  phone_number: data.phone_number,
-                })
-              );
-            }
-          })
-          .catch((error) => {
-            console.log("Error getting documents: ", error);
-          });
-      } else {
-        console.log("Is not login");
-      }
-    });
+    db.collection("users")
+      .where("email", "==", email)
+      .get()
+      .then((querySnapshot) => {
+        let data = null;
+        querySnapshot.forEach((doc) => {
+          data = doc.data();
+        });
+        if (orderCreator) {
+          setFullname(orderCreator.fullname);
+          setAddress(orderCreator.address);
+          setPhoneNumber(orderCreator.phone_number);
+        } else {
+          setFullname(data.fullname);
+          setAddress(data.address);
+          setPhoneNumber(data.phone_number);
+          sessionStorage.setItem(
+            STORAGE_ORDER_CREATOR,
+            JSON.stringify({
+              fullname: data.fullname,
+              address: data.address,
+              phone_number: data.phone_number,
+            })
+          );
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
   }, []);
 
   useEffect(() => {

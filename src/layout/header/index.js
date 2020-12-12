@@ -30,7 +30,11 @@ import {
   ListAlt as ListAltIcon,
 } from "@material-ui/icons";
 import useStyles from "./_headerStyle";
-import { FirebaseContext } from "../../database";
+import {
+  FirebaseContext,
+  UserContext,
+  ShoppingCartContext,
+} from "../../context";
 import {
   LOGIN_PATH,
   HOME_PATH,
@@ -39,16 +43,20 @@ import {
   ORDER_LIST_PATH,
   PROFILE_PATH,
 } from "../../constant/path";
+import { STORAGE_SHOPPING_CART } from "../../constant/storage";
 
 function Header() {
   const [anchor, setAnchor] = useState(false);
-  const [isLogin, setLogin] = useState(false);
   const [open, setOpen] = useState(false);
+  const [totalProduct, setTotalProduct] = useState(0);
 
+  const prevOpen = useRef(open);
   const anchorRef = useRef(null);
   const classes = useStyles();
   const history = useHistory();
-  const { auth, signOut } = useContext(FirebaseContext);
+  const { db, signOut } = useContext(FirebaseContext);
+  const { status } = useContext(ShoppingCartContext);
+  const { isLogin, id: userId } = useContext(UserContext);
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -65,17 +73,25 @@ function Header() {
   };
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setLogin(true);
-      } else {
-        setLogin(false);
-      }
-    });
-  }, []);
+    if (isLogin) {
+      db.collection("shopping_cart")
+        .where("user_id", "==", userId)
+        .get()
+        .then((querySnapshot) => {
+          let data = [];
+          querySnapshot.forEach((doc) => {
+            data.push({ ...doc.data() });
+          });
+          setTotalProduct(data.length);
+        });
+    } else {
+      let shoppingCart = localStorage.getItem(STORAGE_SHOPPING_CART);
+      shoppingCart = shoppingCart ? JSON.parse(shoppingCart) : [];
+      setTotalProduct(shoppingCart.length);
+    }
+  }, [isLogin, status]);
 
   // return focus to the button when we transitioned from !open -> open
-  const prevOpen = useRef(open);
   useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current.focus();
@@ -237,9 +253,13 @@ function Header() {
                   color="inherit"
                   onClick={handleShoppingCartClick}
                 >
-                  <Badge badgeContent={4} color="secondary">
+                  {totalProduct > 0 ? (
+                    <Badge badgeContent={totalProduct} color="secondary">
+                      <ShoppingCartIcon />
+                    </Badge>
+                  ) : (
                     <ShoppingCartIcon />
-                  </Badge>
+                  )}
                 </IconButton>
               </Grid>
             </Grid>

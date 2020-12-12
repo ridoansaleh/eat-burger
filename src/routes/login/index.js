@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { TextField, Button, Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import useStyles from "./_loginStyle";
-import { FirebaseContext } from "../../database";
+import { FirebaseContext } from "../../context";
 import { HOME_PATH, REGISTRATION_PATH } from "../../constant/path";
 
 function Login() {

@@ -17,7 +17,7 @@ import {
   Payment as PaymentIcon,
 } from "@material-ui/icons";
 import useStyles from "./_orderSuccessStyle";
-import { FirebaseContext } from "../../database";
+import { FirebaseContext } from "../../context";
 import { STORAGE_ORDER_ID } from "../../constant/storage";
 
 const threeBoxSkeleton = [1, 2, 3];
