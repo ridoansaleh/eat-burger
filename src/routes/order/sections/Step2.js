@@ -3,6 +3,7 @@ import { Paper, TextField, TextareaAutosize } from "@material-ui/core";
 import useStyles from "../_orderStyle";
 import { FirebaseContext, UserContext } from "../../../context";
 import { STORAGE_ORDER_CREATOR } from "../../../constant/storage";
+import { COLLECTION_USERS } from "../../../constant/collection";
 
 function Step2(props) {
   const [fullname, setFullname] = useState();
@@ -17,7 +18,7 @@ function Step2(props) {
   useEffect(() => {
     let orderCreator = sessionStorage.getItem(STORAGE_ORDER_CREATOR);
     orderCreator = orderCreator ? JSON.parse(orderCreator) : null;
-    db.collection("users")
+    db.collection(COLLECTION_USERS)
       .where("email", "==", email)
       .get()
       .then((querySnapshot) => {

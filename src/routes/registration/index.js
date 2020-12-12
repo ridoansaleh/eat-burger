@@ -15,9 +15,11 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import DialogSuccess from "./DialogSuccess";
+import DialogSuccess from "./dialog/DialogSuccess";
+import DialogFailed from "./dialog/DialogFailed";
 import useStyles from "./_registrationStyle";
 import { FirebaseContext, UserContext } from "../../context";
+import { COLLECTION_USERS } from "../../constant/collection";
 import validateForm from "./validation";
 
 const changeBorderColor = (color) => {
@@ -40,11 +42,12 @@ function Registration() {
   const [password, setPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
   const [isFormSubmitted, setFormSubmitted] = useState(false);
-  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [isDialogSuccessOpen, setDialogSuccessOpen] = useState(false);
+  const [isDialogFailedOpen, setDialogFailedOpen] = useState(false);
 
   const classes = useStyles();
 
-  const { db, auth, signUp } = useContext(FirebaseContext);
+  const { db, auth, signUp, signOut } = useContext(FirebaseContext);
   const { isLogin } = useContext(UserContext);
 
   useEffect(() => {
@@ -71,45 +74,51 @@ function Registration() {
     if (isValid) {
       signUp(email, password)
         .then(() => {
-          if (isLogin) {
-            console.log("User is signed in");
-            // send email verification
-            auth.currentUser
-              .sendEmailVerification()
-              .then(() => {
-                console.log("Email sent");
-              })
-              .catch((error) => {
-                console.log("An error happened while send email: ", error);
-              });
-            // add user to database
-            db.collection("users")
-              .add({
-                fullname,
-                phone_number: phoneNumber,
-                gender,
-                birthdate,
-                address,
-                email,
-              })
-              .then(() => {
-                setFullname("");
-                setPhoneNumber("");
-                setGender("");
-                setBirthdate(null);
-                setAddress("");
-                setEmail("");
-                setPassword("");
-                setRetypePassword("");
-                setFormSubmitted(false);
-                setDialogOpen(true);
-              })
-              .catch((error) => {
-                console.error("Error adding document: ", error);
-              });
-          }
+          // send email verification
+          auth.currentUser
+            .sendEmailVerification()
+            .then(() => {
+              console.log("Email sent");
+            })
+            .catch((error) => {
+              console.log("An error happened while send email: ", error);
+            });
+          // add user to database
+          db.collection(COLLECTION_USERS)
+            .add({
+              fullname,
+              phone_number: phoneNumber,
+              gender,
+              birthdate,
+              address,
+              email,
+            })
+            .then(() => {
+              setFullname("");
+              setPhoneNumber("");
+              setGender("");
+              setBirthdate(null);
+              setAddress("");
+              setEmail("");
+              setPassword("");
+              setRetypePassword("");
+              setFormSubmitted(false);
+              setDialogSuccessOpen(true);
+              // sign out user immediately
+              signOut();
+            })
+            .catch((error) => {
+              console.error("Error adding document: ", error);
+              // sign out user immediately
+              signOut();
+            });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          if (error.code === "auth/email-already-in-use") {
+            setDialogFailedOpen(true);
+          }
+        });
     }
   };
 
@@ -248,8 +257,12 @@ function Registration() {
         </form>
       </div>
       <DialogSuccess
-        isOpen={isDialogOpen}
-        onDialogClose={() => setDialogOpen(false)}
+        isOpen={isDialogSuccessOpen}
+        onDialogClose={() => setDialogSuccessOpen(false)}
+      />
+      <DialogFailed
+        isOpen={isDialogFailedOpen}
+        onDialogClose={() => setDialogFailedOpen(false)}
       />
     </div>
   );

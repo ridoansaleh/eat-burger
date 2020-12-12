@@ -7,6 +7,7 @@ import useStyles from "./_menusListStyle";
 import { FirebaseContext, UserContext } from "../../../context";
 import { ORDER_PATH, LOGIN_PATH } from "../../../constant/path";
 import { STORAGE_ORDER_LIST } from "../../../constant/storage";
+import { COLLECTION_PRODUCTS } from "../../../constant/collection";
 
 function MenusList() {
   const [products, setProducts] = useState([]);
@@ -20,7 +21,7 @@ function MenusList() {
   const { isLogin } = useContext(UserContext);
 
   useEffect(() => {
-    db.collection("products")
+    db.collection(COLLECTION_PRODUCTS)
       .get()
       .then((querySnapshot) => {
         let data = [];

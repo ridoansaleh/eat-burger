@@ -29,6 +29,7 @@ import {
   ShoppingCartContext,
 } from "../../context";
 import { MENUS_PATH, ORDER_PATH, LOGIN_PATH } from "../../constant/path";
+import { COLLECTION_SHOPPING_CART } from "../../constant/collection";
 import {
   STORAGE_SHOPPING_CART,
   STORAGE_ORDER_LIST,
@@ -110,7 +111,7 @@ function ShoppingCart() {
 
   const getProducts = () => {
     if (isLogin) {
-      db.collection("shopping_cart")
+      db.collection(COLLECTION_SHOPPING_CART)
         .where("user_id", "==", userId)
         .get()
         .then((querySnapshot) => {
@@ -137,7 +138,7 @@ function ShoppingCart() {
 
   const updateProduct = (total, item) => {
     if (isLogin) {
-      db.collection("shopping_cart")
+      db.collection(COLLECTION_SHOPPING_CART)
         .doc(item.cart_id)
         .update({
           ...item,
@@ -194,7 +195,7 @@ function ShoppingCart() {
 
   const handleDeleteProduct = (cartId) => {
     if (isLogin) {
-      db.collection("shopping_cart")
+      db.collection(COLLECTION_SHOPPING_CART)
         .doc(cartId)
         .delete()
         .then(() => {

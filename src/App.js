@@ -3,6 +3,7 @@ import { HashRouter, Switch, Route } from "react-router-dom";
 import Layout from "./layout";
 import { FirebaseContext, UserContext, ShoppingCartContext } from "./context";
 import { app_routes, protected_routes } from "./routes";
+import { COLLECTION_USERS } from "./constant/collection";
 
 function App() {
   const [isLogin, setLogin] = useState(false);
@@ -16,7 +17,7 @@ function App() {
     auth.onAuthStateChanged((user) => {
       if (user) {
         setLogin(true);
-        db.collection("users")
+        db.collection(COLLECTION_USERS)
           .where("email", "==", user.email)
           .get()
           .then((querySnapshot) => {
