@@ -1,9 +1,15 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import { TextField, Button, Snackbar } from "@material-ui/core";
+import { useHistory, Redirect } from "react-router-dom";
+import {
+  TextField,
+  Button,
+  Snackbar,
+  Backdrop,
+  CircularProgress,
+} from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import useStyles from "./_loginStyle";
-import { FirebaseContext } from "../../context";
+import { FirebaseContext, UserContext } from "../../context";
 import { HOME_PATH, REGISTRATION_PATH } from "../../constant/path";
 
 function Login() {
@@ -12,12 +18,13 @@ function Login() {
   const [isFormSubmitted, setFormSubmitted] = useState(false);
   const [isAlertOpen, setAlertOpen] = useState(false);
   const [isWarningOpen, setWarningOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const classes = useStyles();
   const history = useHistory();
 
-  const context = useContext(FirebaseContext);
-  const { signIn } = context;
+  const { signIn } = useContext(FirebaseContext);
+  const { isLogin } = useContext(UserContext);
 
   const handleRegistrationClick = () => {
     history.push(REGISTRATION_PATH);
@@ -27,21 +34,28 @@ function Login() {
     e.preventDefault();
     setFormSubmitted(true);
     if (email && password) {
+      setLoading(true);
       signIn(email, password)
         .then(({ user }) => {
           if (user.emailVerified) {
             // set session etc
-            history.push(HOME_PATH);
+            history.replace(HOME_PATH);
           } else {
+            setLoading(false);
             setWarningOpen(true);
           }
         })
         .catch((error) => {
           console.log(error);
+          setLoading(false);
           setAlertOpen(true);
         });
     }
   };
+
+  if (isLogin) {
+    return <Redirect to={HOME_PATH} />;
+  }
 
   return (
     <div className={classes.container}>
@@ -106,6 +120,9 @@ function Login() {
           Your email is not verified yet. Please verify and login again!
         </Alert>
       </Snackbar>
+      <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }
