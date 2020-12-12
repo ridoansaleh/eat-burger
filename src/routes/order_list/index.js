@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import useStyles from "./_orderListStyle";
 import { FirebaseContext, UserContext } from "../../context";
+import { STORAGE_ORDER_ID } from "../../constant/storage";
 import { ORDER_DETAIL } from "../../constant/path";
 
 function OrderList() {
@@ -29,7 +30,8 @@ function OrderList() {
     setValue(newValue);
   };
 
-  const handleOrderClick = () => {
+  const handleOrderClick = (orderId) => {
+    sessionStorage.setItem(STORAGE_ORDER_ID, orderId);
     history.push(ORDER_DETAIL);
   };
 
@@ -86,7 +88,7 @@ function OrderList() {
                     <TableRow
                       key={order.id}
                       className={classes.tableRow}
-                      onClick={handleOrderClick}
+                      onClick={() => handleOrderClick(order.id)}
                     >
                       <TableCell component="th" scope="row">
                         {order.menus.map((d) => d.name).join(", ")}
@@ -120,7 +122,7 @@ function OrderList() {
                     <TableRow
                       key={order.id}
                       className={classes.tableRow}
-                      onClick={handleOrderClick}
+                      onClick={() => handleOrderClick(order.id)}
                     >
                       <TableCell component="th" scope="row">
                         {order.menus.map((d) => d.name).join(", ")}
