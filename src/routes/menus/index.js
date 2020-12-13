@@ -13,7 +13,9 @@ import {
   Button,
   Select,
   MenuItem,
+  Snackbar,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import { Search as SearchIcon } from "@material-ui/icons";
 import ProductsSkeleton from "../../components/ProductsSkeleton";
 import Product from "../../components/Product";
@@ -51,10 +53,11 @@ function Menus() {
   const [category, setCategory] = useState("All");
   const [displayAuth, setDisplayAuth] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [displayAlertCart, setDisplayAlertCart] = useState(false);
+  const [productName, setProductName] = useState("");
 
   const classes = useStyles();
   const history = useHistory();
-
   const { db } = useContext(FirebaseContext);
   const { onSetStatus } = useContext(ShoppingCartContext);
   const { isLogin, id: userId } = useContext(UserContext);
@@ -135,8 +138,9 @@ function Menus() {
                 total_price: selectedProduct.price,
               })
               .then(() => {
-                console.log("Document successfully written!");
                 onSetStatus(`changed ${Date.now()}`);
+                setProductName(selectedProduct.name);
+                setDisplayAlertCart(true);
               })
               .catch((error) => {
                 console.error("Error writing document: ", error);
@@ -162,6 +166,8 @@ function Menus() {
       ];
       localStorage.setItem(STORAGE_SHOPPING_CART, JSON.stringify(finalData));
       onSetStatus(`changed ${Date.now()}`);
+      setProductName(selectedProduct.name);
+      setDisplayAlertCart(true);
     }
   };
 
@@ -272,6 +278,16 @@ function Menus() {
         onDialogClose={() => setDisplayAuth(false)}
         onLoginClick={handleLoginClick}
       />
+      <Snackbar
+        open={displayAlertCart}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={2000}
+        onClose={() => setDisplayAlertCart(false)}
+      >
+        <Alert onClose={() => setDisplayAlertCart(false)} severity="success">
+          {productName} have added to Shopping Cart
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
