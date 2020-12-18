@@ -16,7 +16,6 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        setLogin(true);
         db.collection(COLLECTION_USERS)
           .where("email", "==", user.email)
           .get()
@@ -30,6 +29,7 @@ function App() {
               email: data.email,
               lastSignInTime: user.metadata.lastSignInTime,
             });
+            setLogin(true);
             setChecked(true);
           })
           .catch((error) => {

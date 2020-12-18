@@ -127,7 +127,7 @@ function Header() {
   const handleLogoutClick = () => {
     signOut();
     setOpen(false);
-    history.push(LOGIN_PATH);
+    history.push(HOME_PATH);
   };
 
   const handleHomeClick = () => {
@@ -162,7 +162,7 @@ function Header() {
                 <MenuIcon />
               </IconButton>
             </Grid>
-            <Grid item xs={8} md={10} className={classes.middle}>
+            <Grid item xs={8} md={10} className={classes.navbarItemsCenter}>
               <IconButton aria-label="website icon" color="inherit">
                 <FastfoodOutlinedIcon />
                 <Typography variant="h6" className={classes.title}>
@@ -184,7 +184,7 @@ function Header() {
                 Menus
               </Typography>
             </Grid>
-            <Grid item xs={2} md={2} className={classes.right}>
+            <Grid item xs={2} md={2} className={classes.navbarItemsRight}>
               {isLogin ? (
                 <div className={classes.account}>
                   <IconButton
