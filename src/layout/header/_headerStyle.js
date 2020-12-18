@@ -21,9 +21,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     height: "66px",
   },
-  middle: {
+  navbarItemsCenter: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
+    [theme.breakpoints.up("md")]: {
+      justifyContent: "flex-start",
+    },
   },
   title: {
     marginLeft: "5px",
@@ -44,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     },
   },
-  right: {
+  navbarItemsRight: {
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
