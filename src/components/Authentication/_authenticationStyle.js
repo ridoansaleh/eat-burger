@@ -7,6 +7,16 @@ const useStyles = makeStyles((theme) => ({
       padding: "15px 80px",
     },
   },
+  dialogHead: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
   lockIcon: {
     fontSize: "6.2rem",
   },
@@ -17,11 +27,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "3rem",
     },
   },
-  loginText: {
-    color: "#1797EA",
-    cursor: "pointer",
-  },
-  okBtn: {
+  loginBtn: {
     width: "150px",
     marginTop: "20px",
   },
