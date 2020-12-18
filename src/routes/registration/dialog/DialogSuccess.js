@@ -8,15 +8,18 @@ import {
 } from "@material-ui/core";
 import { CheckCircleOutlined as CheckCircleOutlinedIcon } from "@material-ui/icons";
 import useStyles from "./_dialogSuccessStyle";
+import useWindowSize from "../../../hook/useWindowSize";
 
 function DialogSuccess(props) {
   const classes = useStyles();
+  const isMobile = useWindowSize();
 
   return (
     <Dialog
-      onClose={props.onDialogClose}
       aria-labelledby="signup-success-dialog"
+      fullScreen={isMobile}
       open={props.isOpen}
+      onClose={props.onDialogClose}
     >
       <DialogTitle id="signup-success-dialog">Sign Up Success</DialogTitle>
       <DialogContent dividers className={classes.content}>

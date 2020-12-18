@@ -9,15 +9,18 @@ import {
 } from "@material-ui/core";
 import { Cancel as CancelIcon } from "@material-ui/icons";
 import useStyles from "./_dialogFailedStyle";
+import useWindowSize from "../../../hook/useWindowSize";
 
 function DialogFailed(props) {
   const classes = useStyles();
+  const isMobile = useWindowSize();
 
   return (
     <Dialog
-      onClose={props.onDialogClose}
       aria-labelledby="signup-failed-dialog"
+      fullScreen={isMobile}
       open={props.isOpen}
+      onClose={props.onDialogClose}
     >
       <DialogTitle id="signup-failed-dialog">Sign Up Failed</DialogTitle>
       <DialogContent dividers className={classes.content}>

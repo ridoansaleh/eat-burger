@@ -6,20 +6,40 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
+  IconButton,
 } from "@material-ui/core";
-import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
+import {
+  LockOutlined as LockOutlinedIcon,
+  Close as CloseIcon,
+} from "@material-ui/icons";
 import useStyles from "./_authenticationStyle";
+import useWindowSize from "../../hook/useWindowSize";
 
 function DialogAuthentication(props) {
   const classes = useStyles();
+  const isMobile = useWindowSize();
 
   return (
     <Dialog
-      onClose={props.onDialogClose}
       aria-labelledby="login-required-dialog"
+      fullScreen={isMobile}
       open={props.isOpen}
+      onClose={props.onDialogClose}
     >
-      <DialogTitle id="login-required-dialog">Authentication</DialogTitle>
+      <DialogTitle
+        id="login-required-dialog"
+        disableTypography
+        className={classes.dialogHead}
+      >
+        <Typography variant="h6">Authentication</Typography>
+        <IconButton
+          aria-label="close"
+          className={classes.closeButton}
+          onClick={props.onDialogClose}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
       <DialogContent dividers className={classes.content}>
         <LockOutlinedIcon className={classes.lockIcon} />
         <Typography variant="h3" component="h3" className={classes.title}>
@@ -29,20 +49,13 @@ function DialogAuthentication(props) {
           You're <b>not</b> login yet. Before you make an order, we need you to
           login into our system.
         </Typography>
-        <Typography gutterBottom>
-          Click{" "}
-          <span className={classes.loginText} onClick={props.onLoginClick}>
-            here
-          </span>{" "}
-          to login.
-        </Typography>
         <Button
           variant="contained"
           color="primary"
-          className={classes.okBtn}
-          onClick={props.onDialogClose}
+          className={classes.loginBtn}
+          onClick={props.onLoginClick}
         >
-          Close
+          Login
         </Button>
       </DialogContent>
     </Dialog>
