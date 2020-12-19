@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, Suspense } from "react";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import Layout from "./layout";
+import useStyles from "./_appStyle";
 import { FirebaseContext, UserContext, ShoppingCartContext } from "./context";
 import { app_routes, protected_routes } from "./routes";
 import { COLLECTION_USERS } from "./constant/collection";
@@ -11,6 +12,7 @@ function App() {
   const [status, setStatus] = useState("initial");
   const [isChecked, setChecked] = useState(false);
 
+  const classes = useStyles();
   const { auth, db } = useContext(FirebaseContext);
 
   useEffect(() => {
@@ -54,7 +56,7 @@ function App() {
       <ShoppingCartContext.Provider value={{ status, onSetStatus: setStatus }}>
         <HashRouter>
           <Layout>
-            <Suspense fallback={null}>
+            <Suspense fallback={<div className={classes.emptyScreen} />}>
               <Switch>
                 {appRoutes.map((data, index) => (
                   <Route key={index} {...data} />
