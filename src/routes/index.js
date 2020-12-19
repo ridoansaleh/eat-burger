@@ -1,13 +1,4 @@
-import Home from "./home";
-import Menus from "./menus";
-import Order from "./order";
-import OrderSuccess from "./order_success";
-import OrderList from "./order_list";
-import OrderDetail from "./order_detail";
-import ShoppingCart from "./shopping_cart";
-import Registration from "./registration";
-import Profile from "./profile";
-import Login from "./login";
+import { lazy } from "react";
 import {
   HOME_PATH,
   MENUS_PATH,
@@ -20,6 +11,17 @@ import {
   PROFILE_PATH,
   LOGIN_PATH,
 } from "../constant/path";
+
+const Home = lazy(() => import("./home"));
+const Menus = lazy(() => import("./menus"));
+const Order = lazy(() => import("./order"));
+const OrderSuccess = lazy(() => import("./order_success"));
+const OrderList = lazy(() => import("./order_list"));
+const OrderDetail = lazy(() => import("./order_detail"));
+const ShoppingCart = lazy(() => import("./shopping_cart"));
+const Registration = lazy(() => import("./registration"));
+const Profile = lazy(() => import("./profile"));
+const Login = lazy(() => import("./login"));
 
 const app_routes = [
   {

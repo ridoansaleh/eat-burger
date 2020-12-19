@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Suspense } from "react";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import Layout from "./layout";
 import { FirebaseContext, UserContext, ShoppingCartContext } from "./context";
@@ -54,11 +54,13 @@ function App() {
       <ShoppingCartContext.Provider value={{ status, onSetStatus: setStatus }}>
         <HashRouter>
           <Layout>
-            <Switch>
-              {appRoutes.map((data, index) => (
-                <Route key={index} {...data} />
-              ))}
-            </Switch>
+            <Suspense fallback={null}>
+              <Switch>
+                {appRoutes.map((data, index) => (
+                  <Route key={index} {...data} />
+                ))}
+              </Switch>
+            </Suspense>
           </Layout>
         </HashRouter>
       </ShoppingCartContext.Provider>
