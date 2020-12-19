@@ -9,6 +9,7 @@ import {
   Button,
   Typography,
 } from "@material-ui/core";
+import LazyLoad from "react-lazyload";
 import useStyles from "./_productStyle";
 
 function Product({
@@ -22,12 +23,14 @@ function Product({
   return (
     <Card className={classes.menuItem}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={item.image}
-          title={item.name}
-          alt={item.credit}
-        />
+        <LazyLoad height={300}>
+          <CardMedia
+            className={classes.media}
+            image={item.image}
+            title={item.name}
+            alt={item.credit}
+          />
+        </LazyLoad>
         <CardContent>
           <Typography gutterBottom variant="h6">
             {item.name}
