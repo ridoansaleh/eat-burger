@@ -22,6 +22,7 @@ function MenusList() {
 
   useEffect(() => {
     db.collection(COLLECTION_PRODUCTS)
+      .limit(9)
       .get()
       .then((querySnapshot) => {
         let data = [];

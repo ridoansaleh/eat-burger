@@ -35,16 +35,7 @@ import {
   STORAGE_ORDER_LIST,
   STORAGE_SHOPPING_CART,
 } from "../../constant/storage";
-
-const CATEGORY_LIST = [
-  "All",
-  "Latest Event",
-  "Promotion",
-  "Favorite",
-  "New Burger",
-  "Group Menu",
-  "Best Deals",
-];
+import CATEGORY_LIST from "../../constant/product_category";
 
 function Menus() {
   const [search, setSearch] = useState("");
@@ -62,8 +53,12 @@ function Menus() {
   const { onSetStatus } = useContext(ShoppingCartContext);
   const { isLogin, id: userId } = useContext(UserContext);
 
-  const getProducts = () => {
+  const getProducts = (category) => {
+    const selectedCategories = ["All", "all"].includes(category)
+      ? CATEGORY_LIST.map((d) => d.value)
+      : [category];
     db.collection(COLLECTION_PRODUCTS)
+      .where("category", "in", selectedCategories)
       .get()
       .then((querySnapshot) => {
         let data = [];
@@ -76,12 +71,12 @@ function Menus() {
   };
 
   useEffect(() => {
-    getProducts();
+    getProducts("All");
   }, []);
 
   const handleClickSearch = () => {
     if (search === "" || search === " ") {
-      getProducts();
+      getProducts(category.toLowerCase());
       return;
     }
     const foundList = burgerList.filter((d) =>
@@ -171,8 +166,9 @@ function Menus() {
     }
   };
 
-  const handleChange = (e) => {
-    setCategory(e.target.value);
+  const handleCategoryChange = (label, value) => {
+    setCategory(label);
+    getProducts(value);
   };
 
   return (
@@ -184,14 +180,19 @@ function Menus() {
               labelId="menu-category-label"
               id="menu-category-id"
               value={category}
-              onChange={handleChange}
+              onChange={(e) => {
+                const label = e.target.value;
+                const value = CATEGORY_LIST.find((d) => d.label === label)
+                  .value;
+                handleCategoryChange(label, value);
+              }}
             >
               <MenuItem value="" disabled>
                 Select Menu's Category
               </MenuItem>
               {CATEGORY_LIST.map((d) => (
-                <MenuItem key={d} value={d}>
-                  {d}
+                <MenuItem key={d.value} value={d.label}>
+                  {d.label}
                 </MenuItem>
               ))}
             </Select>
@@ -202,15 +203,12 @@ function Menus() {
           <List component="nav" aria-label="secondary mailbox folders">
             {CATEGORY_LIST.map((d) => (
               <ListItem
-                key={d}
+                key={d.label}
                 button
-                style={category === d ? { backgroundColor: "pink" } : {}}
-                onClick={() => {
-                  getProducts();
-                  setCategory(d);
-                }}
+                style={category === d.label ? { backgroundColor: "pink" } : {}}
+                onClick={() => handleCategoryChange(d.label, d.value)}
               >
-                <ListItemText primary={d} />
+                <ListItemText primary={d.label} />
               </ListItem>
             ))}
           </List>
@@ -264,7 +262,7 @@ function Menus() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => getProducts()}
+                  onClick={() => getProducts(category.toLowerCase())}
                 >
                   Reset
                 </Button>
