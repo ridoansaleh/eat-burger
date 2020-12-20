@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3969f710bb38f989a08f09c505982cdc",
+    "revision": "488e1ecf34427064da4715df4afb2f12",
     "url": "/eat-burger/index.html"
   },
   {
-    "revision": "8ce24eee04b9b3670bc3",
+    "revision": "9c76a2c828fd67f0801f",
     "url": "/eat-burger/static/css/main.6b0f788d.chunk.css"
   },
   {
@@ -36,12 +36,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/eat-burger/static/js/14.15d2baea.chunk.js"
   },
   {
-    "revision": "563871039e3e9009e871",
-    "url": "/eat-burger/static/js/15.7d454e48.chunk.js"
+    "revision": "f1a87dc1c97c87dfc9df",
+    "url": "/eat-burger/static/js/15.f59ab611.chunk.js"
   },
   {
-    "revision": "60eb8625fc0665321477",
-    "url": "/eat-burger/static/js/16.1060edc1.chunk.js"
+    "revision": "9d7b1ad13f8a756dfdf0",
+    "url": "/eat-burger/static/js/16.468738b5.chunk.js"
   },
   {
     "revision": "ccbda82caccfc810fa77",
@@ -84,19 +84,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/eat-burger/static/js/7.02fa79ee.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "948fa684538db845405d",
-    "url": "/eat-burger/static/js/8.0ce2d8d7.chunk.js"
+    "revision": "a1b39780b4b46e428d34",
+    "url": "/eat-burger/static/js/8.8b8845df.chunk.js"
   },
   {
     "revision": "c279a9c980b2aaf7a56a",
     "url": "/eat-burger/static/js/9.423bc5e3.chunk.js"
   },
   {
-    "revision": "8ce24eee04b9b3670bc3",
-    "url": "/eat-burger/static/js/main.3a1351c4.chunk.js"
+    "revision": "9c76a2c828fd67f0801f",
+    "url": "/eat-burger/static/js/main.ca39779e.chunk.js"
   },
   {
-    "revision": "9552589646c19e642bfe",
-    "url": "/eat-burger/static/js/runtime-main.146cd354.js"
+    "revision": "d1826ddb368011d1bad3",
+    "url": "/eat-burger/static/js/runtime-main.5ac009a5.js"
   }
 ]);
