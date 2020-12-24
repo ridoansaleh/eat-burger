@@ -70,8 +70,11 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     },
   },
-  list: {
-    width: "auto",
+  drawer: {
+    top: "60px !important",
+    "& > .MuiBackdrop-root": {
+      top: "60px !important",
+    },
   },
   paperAnchorTop: {
     top: "60px",

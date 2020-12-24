@@ -31,15 +31,15 @@ function Product({
             alt={item.credit}
           />
         </LazyLoad>
-        <CardContent>
-          <Typography gutterBottom variant="h6">
+        <CardContent className={classes.cardContent}>
+          <Typography gutterBottom variant="h6" className={classes.productName}>
             {item.name}
           </Typography>
           <Grid container direction="row" justify="space-between">
-            <Typography gutterBottom component="h5">
+            <Typography gutterBottom component="h5" className={classes.price}>
               Price
             </Typography>
-            <Typography gutterBottom component="h5">
+            <Typography gutterBottom component="h5" className={classes.price}>
               ${item.price}
             </Typography>
           </Grid>
