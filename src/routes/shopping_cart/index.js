@@ -250,6 +250,13 @@ function ShoppingCart() {
                     </TableCell>
                   </TableRow>
                 ))}
+                {products.length === 0 && (
+                  <TableRow>
+                    <TableCell component="th" scope="row" colSpan="4">
+                      Your shopping cart is empty
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>

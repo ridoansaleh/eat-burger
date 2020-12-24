@@ -270,11 +270,11 @@ function Header() {
         open={anchor}
         onClose={toggleDrawer}
         classes={{
+          root: classes.drawer,
           paperAnchorTop: classes.paperAnchorTop,
         }}
       >
         <div
-          className={classes.list}
           role="presentation"
           onClick={toggleDrawer}
           onKeyDown={toggleDrawer}

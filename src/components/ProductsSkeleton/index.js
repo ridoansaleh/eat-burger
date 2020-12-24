@@ -24,16 +24,28 @@ function ProductsSkeleton() {
               animation="wave"
               classes={{ root: classes.media }}
             />
-            <CardContent>
-              <Typography gutterBottom variant="h6">
+            <CardContent className={classes.cardContent}>
+              <Typography
+                gutterBottom
+                variant="h6"
+                className={classes.productName}
+              >
                 <Skeleton animation="wave" />
               </Typography>
               <Grid container direction="row" justify="space-between">
                 <Skeleton animation="wave" width="30%" height="20px">
-                  <Typography gutterBottom component="h5"></Typography>
+                  <Typography
+                    gutterBottom
+                    component="h5"
+                    className={classes.price}
+                  ></Typography>
                 </Skeleton>
                 <Skeleton animation="wave" width="30%" height="20px">
-                  <Typography gutterBottom component="h5"></Typography>
+                  <Typography
+                    gutterBottom
+                    component="h5"
+                    className={classes.price}
+                  ></Typography>
                 </Skeleton>
               </Grid>
               <Skeleton variant="rect" animation="wave" />

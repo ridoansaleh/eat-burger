@@ -5,8 +5,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     minHeight: "calc(100vh - 318px)",
+    margin: "0 10px 10px",
     paddingTop: "20px",
     [theme.breakpoints.up("md")]: {
+      margin: "0",
       paddingTop: "100px",
     },
   },
@@ -20,8 +22,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   table: {
+    marginBottom: "15px",
     [theme.breakpoints.up("md")]: {
       width: "70%",
+      marginBottom: "0",
     },
   },
   quantityInput: {
@@ -46,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
   cartButton: {
     width: "180px",
     marginTop: "20px",
-    marginLeft: "10px",
+    marginRight: "10px",
     [theme.breakpoints.up("md")]: {
-      marginLeft: "0",
+      marginRight: "0",
     },
   },
 }));

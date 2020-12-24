@@ -61,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     marginTop: "30px",
     maxWidth: "1000px",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center",
+    },
   },
   notFoundWrapper: {
     width: "100%",
