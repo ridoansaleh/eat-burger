@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "488e1ecf34427064da4715df4afb2f12",
+    "revision": "1bb071b673eabfbea79964073bfd23bb",
     "url": "/eat-burger/index.html"
   },
   {
-    "revision": "9c76a2c828fd67f0801f",
+    "revision": "977b38de6e83fd77ea4c",
     "url": "/eat-burger/static/css/main.6b0f788d.chunk.css"
   },
   {
@@ -36,8 +36,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/eat-burger/static/js/14.15d2baea.chunk.js"
   },
   {
-    "revision": "f1a87dc1c97c87dfc9df",
-    "url": "/eat-burger/static/js/15.f59ab611.chunk.js"
+    "revision": "5b6c0e51ca8fc9fb5870",
+    "url": "/eat-burger/static/js/15.dfd93430.chunk.js"
   },
   {
     "revision": "9d7b1ad13f8a756dfdf0",
@@ -52,8 +52,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/eat-burger/static/js/18.4d46bef4.chunk.js"
   },
   {
-    "revision": "1b7c1fdc0053a8b492aa",
-    "url": "/eat-burger/static/js/19.cb15dc14.chunk.js"
+    "revision": "4e72378db195481b85cb",
+    "url": "/eat-burger/static/js/19.8129d341.chunk.js"
   },
   {
     "revision": "ce857b911e9bb5bad54b",
@@ -84,19 +84,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/eat-burger/static/js/7.02fa79ee.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a1b39780b4b46e428d34",
-    "url": "/eat-burger/static/js/8.8b8845df.chunk.js"
+    "revision": "835470ce9104c50ae7f6",
+    "url": "/eat-burger/static/js/8.4663e199.chunk.js"
   },
   {
     "revision": "c279a9c980b2aaf7a56a",
     "url": "/eat-burger/static/js/9.423bc5e3.chunk.js"
   },
   {
-    "revision": "9c76a2c828fd67f0801f",
-    "url": "/eat-burger/static/js/main.ca39779e.chunk.js"
+    "revision": "977b38de6e83fd77ea4c",
+    "url": "/eat-burger/static/js/main.c16a74fd.chunk.js"
   },
   {
-    "revision": "d1826ddb368011d1bad3",
-    "url": "/eat-burger/static/js/runtime-main.5ac009a5.js"
+    "revision": "1959949e5462f4813d6d",
+    "url": "/eat-burger/static/js/runtime-main.1cf7247a.js"
   }
 ]);
