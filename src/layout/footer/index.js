@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Facebook as FacebookIcon,
   Instagram as InstagramIcon,
@@ -6,6 +7,7 @@ import {
   YouTube as YouTubeIcon,
 } from "@material-ui/icons";
 import useStyles from "./_footerStyle";
+import { PRIVACY_POLICY } from "../../constant/path";
 
 function Footer() {
   const classes = useStyles();
@@ -16,9 +18,9 @@ function Footer() {
         <div className={classes.left}>
           <h2>Eat Burger</h2>
           <div className={classes.linkWrapper}>
-            <a href="#" className={classes.generalLink}>
+            <Link to={PRIVACY_POLICY} className={classes.generalLink}>
               Privacy Policy
-            </a>
+            </Link>
             <a href="#" className={classes.generalLink}>
               Terms and Conditions
             </a>
@@ -28,10 +30,30 @@ function Footer() {
           <div>
             <h3>Follow us on:</h3>
             <div className={classes.socialMediaWrapper}>
-              <FacebookIcon className={classes.socialMediaIcon} />
-              <InstagramIcon className={classes.socialMediaIcon} />
-              <TwitterIcon className={classes.socialMediaIcon} />
-              <YouTubeIcon className={classes.socialMediaIcon} />
+              <a
+                href="https://www.facebook.com/"
+                className={classes.socialMediaLink}
+              >
+                <FacebookIcon />
+              </a>
+              <a
+                href="https://www.instagram.com/"
+                className={classes.socialMediaLink}
+              >
+                <InstagramIcon />
+              </a>
+              <a
+                href="https://twitter.com/"
+                className={classes.socialMediaLink}
+              >
+                <TwitterIcon />
+              </a>
+              <a
+                href="https://www.youtube.com/"
+                className={classes.socialMediaLink}
+              >
+                <YouTubeIcon />
+              </a>
             </div>
           </div>
         </div>
