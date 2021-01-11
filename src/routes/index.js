@@ -7,6 +7,7 @@ import {
   ORDER_LIST_PATH,
   ORDER_DETAIL,
   SHOPPING_CART_PATH,
+  PRIVACY_POLICY,
   REGISTRATION_PATH,
   PROFILE_PATH,
   LOGIN_PATH,
@@ -19,6 +20,7 @@ const OrderSuccess = lazy(() => import("./order_success"));
 const OrderList = lazy(() => import("./order_list"));
 const OrderDetail = lazy(() => import("./order_detail"));
 const ShoppingCart = lazy(() => import("./shopping_cart"));
+const PrivacyPolicy = lazy(() => import("./privacy_policy"));
 const Registration = lazy(() => import("./registration"));
 const Profile = lazy(() => import("./profile"));
 const Login = lazy(() => import("./login"));
@@ -36,6 +38,10 @@ const app_routes = [
   {
     path: SHOPPING_CART_PATH,
     component: ShoppingCart,
+  },
+  {
+    path: PRIVACY_POLICY,
+    component: PrivacyPolicy,
   },
   {
     path: REGISTRATION_PATH,

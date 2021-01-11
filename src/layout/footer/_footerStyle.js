@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
   socialMediaWrapper: {
     display: "flex",
   },
-  socialMediaIcon: {
+  socialMediaLink: {
+    color: "white",
     marginRight: "10px",
   },
   linkWrapper: {
