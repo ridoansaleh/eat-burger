@@ -3,7 +3,8 @@ import { HashRouter, Switch, Route } from "react-router-dom";
 import Layout from "./layout";
 import useStyles from "./_appStyle";
 import { FirebaseContext, UserContext, ShoppingCartContext } from "./context";
-import { app_routes, protected_routes } from "./routes";
+import useFirebaseAuth from "./hook/useFirebaseAuth";
+import { logout_routes, logged_in_routes } from "./routes";
 import { COLLECTION_USERS } from "./constant/collection";
 
 function App() {
@@ -14,38 +15,37 @@ function App() {
 
   const classes = useStyles();
   const { auth, db } = useContext(FirebaseContext);
+  const authUser = useFirebaseAuth(auth);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        db.collection(COLLECTION_USERS)
-          .where("email", "==", user.email)
-          .get()
-          .then((querySnapshot) => {
-            let data = null;
-            querySnapshot.forEach((doc) => {
-              data = { id: doc.id, ...doc.data() };
-            });
-            setUser({
-              id: data.id,
-              email: data.email,
-              lastSignInTime: user.metadata.lastSignInTime,
-            });
-            setLogin(true);
-            setChecked(true);
-          })
-          .catch((error) => {
-            console.log("Error getting user information: ", error);
-            setChecked(true);
+    if (authUser) {
+      db.collection(COLLECTION_USERS)
+        .where("email", "==", authUser.email)
+        .get()
+        .then((querySnapshot) => {
+          let data = null;
+          querySnapshot.forEach((doc) => {
+            data = { id: doc.id, ...doc.data() };
           });
-      } else {
-        setLogin(false);
-        setChecked(true);
-      }
-    });
-  }, []);
+          setUser({
+            id: data.id,
+            email: data.email,
+            lastSignInTime: authUser.metadata.lastSignInTime,
+          });
+          setLogin(true);
+          setChecked(true);
+        })
+        .catch((error) => {
+          console.log("Error getting user information: ", error);
+          setChecked(true);
+        });
+    } else {
+      setLogin(false);
+      setChecked(true);
+    }
+  }, [authUser]);
 
-  const appRoutes = isLogin ? [...app_routes, ...protected_routes] : app_routes;
+  const appRoutes = isLogin ? logged_in_routes : logout_routes;
 
   if (!isChecked) {
     return null;

@@ -14,7 +14,7 @@ import {
 import useStyles from "./_orderListStyle";
 import { FirebaseContext, UserContext } from "../../context";
 import { STORAGE_ORDER_ID } from "../../constant/storage";
-import { ORDER_DETAIL } from "../../constant/path";
+import { ORDER_DETAIL_PATH } from "../../constant/path";
 import { COLLECTION_ORDERS } from "../../constant/collection";
 
 function OrderList() {
@@ -33,7 +33,7 @@ function OrderList() {
 
   const handleOrderClick = (orderId) => {
     sessionStorage.setItem(STORAGE_ORDER_ID, orderId);
-    history.push(ORDER_DETAIL);
+    history.push(ORDER_DETAIL_PATH);
   };
 
   useEffect(() => {

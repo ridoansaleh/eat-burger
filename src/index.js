@@ -6,7 +6,6 @@ import App from "./App";
 import "./index.css";
 import Firebase from "./database";
 import { FirebaseContext } from "./context";
-import * as serviceWorker from "./serviceWorker";
 
 const customTheme = createMuiTheme({
   breakpoints: {
@@ -20,19 +19,16 @@ const customTheme = createMuiTheme({
   },
 });
 
+const firebase = new Firebase();
+
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
     <ThemeProvider theme={customTheme}>
-      <FirebaseContext.Provider value={{ ...new Firebase() }}>
+      <FirebaseContext.Provider value={firebase}>
         <App />
       </FirebaseContext.Provider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

@@ -5,9 +5,10 @@ import {
   ORDER_PATH,
   ORDER_SUCCESS_PATH,
   ORDER_LIST_PATH,
-  ORDER_DETAIL,
+  ORDER_DETAIL_PATH,
   SHOPPING_CART_PATH,
-  PRIVACY_POLICY,
+  PRIVACY_POLICY_PATH,
+  TERMS_AND_CONDITIONS_PATH,
   REGISTRATION_PATH,
   PROFILE_PATH,
   LOGIN_PATH,
@@ -21,11 +22,23 @@ const OrderList = lazy(() => import("./order_list"));
 const OrderDetail = lazy(() => import("./order_detail"));
 const ShoppingCart = lazy(() => import("./shopping_cart"));
 const PrivacyPolicy = lazy(() => import("./privacy_policy"));
+const TermsAndConditions = lazy(() => import("./terms_and_conditions"));
 const Registration = lazy(() => import("./registration"));
 const Profile = lazy(() => import("./profile"));
 const Login = lazy(() => import("./login"));
 
-const app_routes = [
+const auth_routes = [
+  {
+    path: REGISTRATION_PATH,
+    component: Registration,
+  },
+  {
+    path: LOGIN_PATH,
+    component: Login,
+  },
+];
+
+const unprotected_routes = [
   {
     exact: true,
     path: HOME_PATH,
@@ -40,16 +53,12 @@ const app_routes = [
     component: ShoppingCart,
   },
   {
-    path: PRIVACY_POLICY,
+    path: PRIVACY_POLICY_PATH,
     component: PrivacyPolicy,
   },
   {
-    path: REGISTRATION_PATH,
-    component: Registration,
-  },
-  {
-    path: LOGIN_PATH,
-    component: Login,
+    path: TERMS_AND_CONDITIONS_PATH,
+    component: TermsAndConditions,
   },
 ];
 
@@ -71,9 +80,12 @@ const protected_routes = [
     component: OrderList,
   },
   {
-    path: ORDER_DETAIL,
+    path: ORDER_DETAIL_PATH,
     component: OrderDetail,
   },
 ];
 
-export { app_routes, protected_routes };
+const logout_routes = [...unprotected_routes, ...auth_routes];
+const logged_in_routes = [...unprotected_routes, ...protected_routes];
+
+export { logout_routes, logged_in_routes };

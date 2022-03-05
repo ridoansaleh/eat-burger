@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -38,7 +38,6 @@ function Login() {
       signIn(email, password)
         .then(({ user }) => {
           if (user.emailVerified) {
-            // set session etc
             history.replace(HOME_PATH);
           } else {
             setLoading(false);
@@ -52,10 +51,6 @@ function Login() {
         });
     }
   };
-
-  if (isLogin) {
-    return <Redirect to={HOME_PATH} />;
-  }
 
   return (
     <div className={classes.container}>

@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   productName: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
     [theme.breakpoints.down("sm")]: {
       fontSize: "17px",
     },

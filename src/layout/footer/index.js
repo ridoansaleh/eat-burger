@@ -7,7 +7,10 @@ import {
   YouTube as YouTubeIcon,
 } from "@material-ui/icons";
 import useStyles from "./_footerStyle";
-import { PRIVACY_POLICY } from "../../constant/path";
+import {
+  PRIVACY_POLICY_PATH,
+  TERMS_AND_CONDITIONS_PATH,
+} from "../../constant/path";
 
 function Footer() {
   const classes = useStyles();
@@ -18,12 +21,15 @@ function Footer() {
         <div className={classes.left}>
           <h2>Eat Burger</h2>
           <div className={classes.linkWrapper}>
-            <Link to={PRIVACY_POLICY} className={classes.generalLink}>
+            <Link to={PRIVACY_POLICY_PATH} className={classes.generalLink}>
               Privacy Policy
             </Link>
-            <a href="#" className={classes.generalLink}>
+            <Link
+              to={TERMS_AND_CONDITIONS_PATH}
+              className={classes.generalLink}
+            >
               Terms and Conditions
-            </a>
+            </Link>
           </div>
         </div>
         <div className={classes.right}>

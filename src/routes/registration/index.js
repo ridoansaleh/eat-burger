@@ -18,7 +18,7 @@ import {
 import DialogSuccess from "./dialog/DialogSuccess";
 import DialogFailed from "./dialog/DialogFailed";
 import useStyles from "./_registrationStyle";
-import { FirebaseContext, UserContext } from "../../context";
+import { FirebaseContext } from "../../context";
 import { COLLECTION_USERS } from "../../constant/collection";
 import validateForm from "./validation";
 
@@ -47,8 +47,7 @@ function Registration() {
 
   const classes = useStyles();
 
-  const { db, auth, signUp, signOut } = useContext(FirebaseContext);
-  const { isLogin } = useContext(UserContext);
+  const { db, auth, signUp } = useContext(FirebaseContext);
 
   useEffect(() => {
     if (isFormSubmitted && !birthdate) {
@@ -104,13 +103,9 @@ function Registration() {
               setRetypePassword("");
               setFormSubmitted(false);
               setDialogSuccessOpen(true);
-              // sign out user immediately
-              signOut();
             })
             .catch((error) => {
               console.error("Error adding document: ", error);
-              // sign out user immediately
-              signOut();
             });
         })
         .catch((error) => {
