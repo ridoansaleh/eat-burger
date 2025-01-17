@@ -12,8 +12,10 @@ import {
   REGISTRATION_PATH,
   PROFILE_PATH,
   LOGIN_PATH,
+  FORGOT_PASSWORD_PATH,
 } from "../constant/path";
 
+const ForgotPassword = lazy(() => import("./forgot_password"));
 const Home = lazy(() => import("./home"));
 const Menus = lazy(() => import("./menus"));
 const Order = lazy(() => import("./order"));
@@ -43,6 +45,10 @@ const unprotected_routes = [
     exact: true,
     path: HOME_PATH,
     component: Home,
+  },
+  {
+    path: FORGOT_PASSWORD_PATH,
+    component: ForgotPassword,
   },
   {
     path: MENUS_PATH,

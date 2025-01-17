@@ -1,3 +1,4 @@
+const FORGOT_PASSWORD_PATH = "/forgot-password";
 const HOME_PATH = "/";
 const MENUS_PATH = "/menus";
 const ORDER_PATH = "/order";
@@ -12,6 +13,7 @@ const PROFILE_PATH = "/profile";
 const LOGIN_PATH = "/login";
 
 export {
+  FORGOT_PASSWORD_PATH,
   HOME_PATH,
   MENUS_PATH,
   ORDER_PATH,
