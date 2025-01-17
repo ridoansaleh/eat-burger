@@ -15,6 +15,15 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
   },
+  forgotPasswordWrapper: {
+    textAlign: "right",
+    marginBottom: "10px"
+  },
+  forgotPasswordLink: {
+    color: "blue",
+    cursor: "pointer",
+    fontSize: "12px",
+  },
   registrationBox: {
     marginTop: "40px",
   },

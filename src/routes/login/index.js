@@ -9,13 +9,15 @@ import {
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import useStyles from "./_loginStyle";
-import { FirebaseContext, UserContext } from "../../context";
+import { FirebaseContext } from "../../context";
 import { HOME_PATH, REGISTRATION_PATH } from "../../constant/path";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFormSubmitted, setFormSubmitted] = useState(false);
+  const [isPasswordResetSucceedOpen, setPasswordResetSucceedOpen] = useState(false);
+  const [isPasswordResetFailedOpen, setPasswordResetFailedOpen] = useState(false);
   const [isAlertOpen, setAlertOpen] = useState(false);
   const [isWarningOpen, setWarningOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -23,12 +25,26 @@ function Login() {
   const classes = useStyles();
   const history = useHistory();
 
-  const { signIn } = useContext(FirebaseContext);
-  const { isLogin } = useContext(UserContext);
+  const { auth, signIn } = useContext(FirebaseContext);
 
   const handleRegistrationClick = () => {
     history.push(REGISTRATION_PATH);
   };
+
+  const handleForgotPasswordClick = () => {
+    if (!email) {
+      alert("Email is required");
+      return;
+    }
+    auth.sendPasswordResetEmail(email)
+      .then(() => {
+        setPasswordResetSucceedOpen(true);
+      })
+      .catch((error) => {
+        console.log("Failed to send password reset email: " + error);
+        setPasswordResetFailedOpen(true);
+      });
+  }
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -81,6 +97,14 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <div className={classes.forgotPasswordWrapper}>
+            <span
+              className={classes.forgotPasswordLink}
+              onClick={handleForgotPasswordClick}
+            >
+              Forgot password?
+            </span>
+          </div>
           <Button type="submit" variant="contained" color="secondary">
             Login
           </Button>
@@ -95,6 +119,26 @@ function Login() {
           </span>
         </div>
       </div>
+      <Snackbar
+        open={isPasswordResetSucceedOpen}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={6000}
+        onClose={() => setPasswordResetSucceedOpen(false)}
+      >
+        <Alert onClose={() => setPasswordResetSucceedOpen(false)} severity="success">
+          Password reset email sent. Please check your inbox!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={isPasswordResetFailedOpen}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={5000}
+        onClose={() => setPasswordResetFailedOpen(false)}
+      >
+        <Alert onClose={() => setPasswordResetFailedOpen(false)} severity="error">
+          Failed to send password reset email
+        </Alert>
+      </Snackbar>
       <Snackbar
         open={isAlertOpen}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
