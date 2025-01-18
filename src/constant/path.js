@@ -9,6 +9,7 @@ const SHOPPING_CART_PATH = "/shopping-cart";
 const PRIVACY_POLICY_PATH = "/privacy-policy";
 const TERMS_AND_CONDITIONS_PATH = "/terms-and-conditions";
 const REGISTRATION_PATH = "/registration";
+const RESET_PASSWORD_PATH = "/reset-password";
 const PROFILE_PATH = "/profile";
 const LOGIN_PATH = "/login";
 
@@ -24,6 +25,7 @@ export {
   PRIVACY_POLICY_PATH,
   TERMS_AND_CONDITIONS_PATH,
   REGISTRATION_PATH,
+  RESET_PASSWORD_PATH,
   PROFILE_PATH,
   LOGIN_PATH,
 };
