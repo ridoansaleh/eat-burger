@@ -32,7 +32,7 @@ function ResetPassword() {
       return;
 
     // Extract the oobCode from the URL
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.hash);
     const oobCode = urlParams.get("oobCode");
 
     if (!oobCode) {
