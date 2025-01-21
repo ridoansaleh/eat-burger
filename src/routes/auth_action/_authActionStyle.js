@@ -22,6 +22,35 @@ const useStyles = makeStyles((theme) => ({
   pageDescription: {
     textAlign: "center",
   },
+  verifyEmailBox: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  succeedIcon: {
+    fontSize: "120px",
+    color: "green",
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "140px",
+    }
+  },
+  failedIcon: {
+    fontSize: "120px",
+    color: "red",
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "140px",
+    }
+  },
+  verifyLabel: {
+    fontSize: "18px",
+    marginBottom: "10px",
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "24px",
+    }
+  },
+  verifyDescription: {
+    textAlign: "center"
+  },
   boxForm: {
     width: "100%",
     display: "flex",

@@ -10,7 +10,7 @@ import {
   PRIVACY_POLICY_PATH,
   TERMS_AND_CONDITIONS_PATH,
   REGISTRATION_PATH,
-  RESET_PASSWORD_PATH,
+  AUTH_ACTION_PATH,
   PROFILE_PATH,
   LOGIN_PATH,
   FORGOT_PASSWORD_PATH,
@@ -27,7 +27,7 @@ const ShoppingCart = lazy(() => import("./shopping_cart"));
 const PrivacyPolicy = lazy(() => import("./privacy_policy"));
 const TermsAndConditions = lazy(() => import("./terms_and_conditions"));
 const Registration = lazy(() => import("./registration"));
-const ResetPassword = lazy(() => import("./reset_password"));
+const AuthAction = lazy(() => import("./auth_action"));
 const Profile = lazy(() => import("./profile"));
 const Login = lazy(() => import("./login"));
 
@@ -53,8 +53,8 @@ const unprotected_routes = [
     component: ForgotPassword,
   },
   {
-    path: RESET_PASSWORD_PATH,
-    component: ResetPassword,
+    path: AUTH_ACTION_PATH,
+    component: AuthAction,
   },
   {
     path: MENUS_PATH,
