@@ -59,6 +59,9 @@ function Header() {
   const { status } = useContext(ShoppingCartContext);
   const { isLogin, id: userId } = useContext(UserContext);
 
+  const { hash } = window.location;
+  const pathWithoutHash = hash.replace("#", "");
+
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
@@ -172,6 +175,9 @@ function Header() {
               <Typography
                 variant="h6"
                 className={classes.homeLink}
+                style={{
+                  color: pathWithoutHash === HOME_PATH ? "#f50057" : "#fff",
+                }}
                 onClick={handleHomeClick}
               >
                 Home
@@ -179,6 +185,9 @@ function Header() {
               <Typography
                 variant="h6"
                 className={classes.menusLink}
+                style={{
+                  color: pathWithoutHash === MENUS_PATH ? "#f50057" : "#fff",
+                }}
                 onClick={handleMenusClick}
               >
                 Menus
