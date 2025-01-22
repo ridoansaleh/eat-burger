@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   emailInput: {
     marginBottom: "20px"
   },
-  continueBtn: {
+  sendBtn: {
     marginBottom: "14px"
   }
 }));

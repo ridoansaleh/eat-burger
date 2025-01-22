@@ -77,10 +77,10 @@ function ForgotPassword() {
           <Button
             type="submit"
             variant="contained"
-            color="primary"
-            className={classes.continueBtn}
+            color="secondary"
+            className={classes.sendBtn}
           >
-            Continue
+            Send
           </Button>
           <Button color="primary" onClick={handleBackClick}>
             Back
