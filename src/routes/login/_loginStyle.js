@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
   },
+  emailInput: {
+    marginBottom: "12px",
+  },
   forgotPasswordWrapper: {
     textAlign: "right",
     marginBottom: "10px"

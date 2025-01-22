@@ -90,6 +90,7 @@ function Login() {
             type="email"
             variant="outlined"
             size="small"
+            className={classes.emailInput}
             error={isFormSubmitted && !email}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
