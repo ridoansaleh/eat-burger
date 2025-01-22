@@ -46,7 +46,7 @@ function Product({
           <Button
             fullWidth
             variant="contained"
-            color="primary"
+            color="secondary"
             onClick={() => handleOrderClick(item)}
           >
             Order
@@ -54,8 +54,8 @@ function Product({
           {displayCartBtn && (
             <Button
               fullWidth
-              variant="contained"
-              color="secondary"
+              variant="outlined"
+              color="primary"
               className={classes.addCartBtn}
               onClick={handleAddToCartClick}
             >
