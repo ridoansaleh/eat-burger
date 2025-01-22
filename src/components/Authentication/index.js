@@ -51,7 +51,7 @@ function DialogAuthentication(props) {
         </Typography>
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           className={classes.loginBtn}
           onClick={props.onLoginClick}
         >
