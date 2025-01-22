@@ -278,8 +278,8 @@ function ShoppingCart() {
             </CardContent>
           </Card>
           <Button
-            variant="contained"
-            color="secondary"
+            variant="outlined"
+            color="primary"
             className={classes.cartButton}
             onClick={handleShoppingBtnClick}
           >
@@ -287,7 +287,7 @@ function ShoppingCart() {
           </Button>
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             disabled={products.length === 0}
             className={classes.cartButton}
             onClick={handleOrderBtnClick}
