@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: "70px",
     },
   },
+  pageDescription: {
+    textAlign: "center",
+  },
   boxForm: {
     height: "170px",
     display: "flex",

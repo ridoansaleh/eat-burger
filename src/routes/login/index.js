@@ -78,7 +78,9 @@ function Login() {
     <div className={classes.container}>
       <div>
         <h1>Welcome to Eat Burger</h1>
-        <p>Please write down your email &amp; password</p>
+        <p className={classes.pageDescription}>
+          Enter your email and password to log in.
+        </p>
         <form
           noValidate
           autoComplete="off"
