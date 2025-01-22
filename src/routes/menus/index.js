@@ -20,7 +20,7 @@ import { Search as SearchIcon } from "@material-ui/icons";
 import ProductsSkeleton from "../../components/ProductsSkeleton";
 import Product from "../../components/Product";
 import DialogAuthentication from "../../components/Authentication";
-import useStyles from "./_menusStyle";
+import useStyles, { selectedCategoryStyles } from "./_menusStyle";
 import {
   FirebaseContext,
   UserContext,
@@ -205,7 +205,7 @@ function Menus() {
               <ListItem
                 key={d.label}
                 button
-                style={category === d.label ? { backgroundColor: "pink" } : {}}
+                style={category === d.label ? selectedCategoryStyles : {}}
                 onClick={() => handleCategoryChange(d.label, d.value)}
               >
                 <ListItemText primary={d.label} />

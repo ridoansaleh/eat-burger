@@ -1,5 +1,13 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+export const selectedCategoryStyles = {
+  color: "#f50057",
+  border: "1px solid #f50057",
+  borderLeftWidth: "15px",
+  borderRadius: "4px",
+  transition: "border-color 0.3s ease, border-width 0.3s ease",
+};
+
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
