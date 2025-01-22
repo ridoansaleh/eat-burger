@@ -6,11 +6,21 @@ import {
   Snackbar,
   Backdrop,
   CircularProgress,
+  InputAdornment,
+  IconButton,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
+import {
+  Visibility as VisibilityIcon,
+  VisibilityOff as VisibilityOffIcon,
+} from "@material-ui/icons";
 import useStyles from "./_loginStyle";
 import { FirebaseContext } from "../../context";
-import { HOME_PATH, REGISTRATION_PATH, FORGOT_PASSWORD_PATH } from "../../constant/path";
+import {
+  HOME_PATH,
+  REGISTRATION_PATH,
+  FORGOT_PASSWORD_PATH,
+} from "../../constant/path";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -19,6 +29,7 @@ function Login() {
   const [isAlertOpen, setAlertOpen] = useState(false);
   const [isWarningOpen, setWarningOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const classes = useStyles();
   const history = useHistory();
@@ -31,7 +42,7 @@ function Login() {
 
   const handleForgotPasswordClick = () => {
     history.push(FORGOT_PASSWORD_PATH);
-  }
+  };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -53,6 +64,14 @@ function Login() {
           setAlertOpen(true);
         });
     }
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   return (
@@ -77,12 +96,26 @@ function Login() {
           />
           <TextField
             label="Password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             variant="outlined"
             size="small"
             error={isFormSubmitted && !password}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment>
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    edge="end"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <div className={classes.forgotPasswordWrapper}>
             <span
