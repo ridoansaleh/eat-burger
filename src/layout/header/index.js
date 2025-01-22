@@ -59,8 +59,7 @@ function Header() {
   const { status } = useContext(ShoppingCartContext);
   const { isLogin, id: userId } = useContext(UserContext);
 
-  const { hash } = window.location;
-  const pathWithoutHash = hash.replace("#", "");
+  const currentPath = window.location.hash.replace("#", "");
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -176,7 +175,7 @@ function Header() {
                 variant="h6"
                 className={classes.homeLink}
                 style={{
-                  color: pathWithoutHash === HOME_PATH ? "#f50057" : "#fff",
+                  color: currentPath === HOME_PATH ? "#f50057" : "#fff",
                 }}
                 onClick={handleHomeClick}
               >
@@ -186,7 +185,7 @@ function Header() {
                 variant="h6"
                 className={classes.menusLink}
                 style={{
-                  color: pathWithoutHash === MENUS_PATH ? "#f50057" : "#fff",
+                  color: currentPath === MENUS_PATH ? "#f50057" : "#fff",
                 }}
                 onClick={handleMenusClick}
               >
