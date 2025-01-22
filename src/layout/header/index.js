@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -50,16 +50,16 @@ function Header() {
   const [anchor, setAnchor] = useState(false);
   const [open, setOpen] = useState(false);
   const [totalProduct, setTotalProduct] = useState(0);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
   const prevOpen = useRef(open);
   const anchorRef = useRef(null);
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
   const { db, signOut } = useContext(FirebaseContext);
   const { status } = useContext(ShoppingCartContext);
   const { isLogin, id: userId } = useContext(UserContext);
-
-  const currentPath = window.location.hash.replace("#", "");
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -74,6 +74,10 @@ function Header() {
       setOpen(false);
     }
   };
+
+  useEffect(() => {
+    setCurrentPath(location.pathname);
+  }, [location]);
 
   useEffect(() => {
     if (isLogin) {
