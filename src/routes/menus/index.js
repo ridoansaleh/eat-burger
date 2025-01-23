@@ -65,6 +65,10 @@ function Menus() {
         querySnapshot.forEach((doc) => {
           data.push({ id: doc.id, ...doc.data() });
         });
+        data = data.map(item => ({
+          ...item,
+          price: Number(item.price)
+        }));
         setBurgerList(data);
         setLoading(false);
       });
