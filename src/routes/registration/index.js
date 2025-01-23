@@ -151,7 +151,7 @@ function Registration() {
               aria-label="gender"
               name="gender"
               className={classes.gender}
-              error={isFormSubmitted && !gender}
+              error={isFormSubmitted && !gender ? true : undefined}
               value={gender}
               onChange={(e) => setGender(e.target.value)}
             >
