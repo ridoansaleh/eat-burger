@@ -22,7 +22,7 @@ function Product({
 
   return (
     <Card className={classes.menuItem}>
-      <CardActionArea>
+      <CardActionArea component="div">
         <LazyLoad height={300}>
           <CardMedia
             className={classes.media}
