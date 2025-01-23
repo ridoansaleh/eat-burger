@@ -157,7 +157,7 @@ function Header() {
       <AppBar position="static" className={classes.navbar}>
         <Toolbar className={classes.toolbar}>
           <Grid container className={classes.innerNavbar}>
-            <Grid item xs={2} md={0} className={classes.hamburgerIcon}>
+            <Grid item xs={2} md={false} className={classes.hamburgerIcon}>
               <IconButton
                 edge="start"
                 className={classes.menuButton}
