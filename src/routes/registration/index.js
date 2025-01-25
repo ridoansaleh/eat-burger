@@ -72,7 +72,11 @@ function Registration() {
     setFormSubmitted(true);
     if (isValid) {
       signUp(email, password)
-        .then(() => {
+        .then(async ({ user }) => {
+          // Update the display name
+          await user.updateProfile({
+            displayName: fullname,
+          });
           // send email verification
           auth.currentUser
             .sendEmailVerification()
