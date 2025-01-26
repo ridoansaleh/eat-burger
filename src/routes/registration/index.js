@@ -1,24 +1,22 @@
 import "date-fns";
 import React, { useState, useEffect, useContext } from "react";
-import clsx from "clsx";
+import { useHistory } from "react-router-dom";
 import {
   TextField,
   Button,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-  TextareaAutosize,
+  Link,
+  InputAdornment,
+  IconButton,
 } from "@material-ui/core";
-import DateFnsUtils from "@date-io/date-fns";
 import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+  Visibility as VisibilityIcon,
+  VisibilityOff as VisibilityOffIcon,
+} from "@material-ui/icons";
 import DialogSuccess from "./dialog/DialogSuccess";
 import DialogFailed from "./dialog/DialogFailed";
 import useStyles from "./_registrationStyle";
 import { FirebaseContext } from "../../context";
+import { LOGIN_PATH } from "../../constant/path";
 import { COLLECTION_USERS } from "../../constant/collection";
 import validateForm from "./validation";
 
@@ -44,8 +42,10 @@ function Registration() {
   const [isFormSubmitted, setFormSubmitted] = useState(false);
   const [isDialogSuccessOpen, setDialogSuccessOpen] = useState(false);
   const [isDialogFailedOpen, setDialogFailedOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const classes = useStyles();
+  const history = useHistory();
 
   const { db, auth, signUp } = useContext(FirebaseContext);
 
@@ -56,6 +56,10 @@ function Registration() {
       changeBorderColor("rgba(0, 0, 0, 0.23)");
     }
   }, [isFormSubmitted, birthdate]);
+
+  const redirectToLogin = () => {
+    history.push(LOGIN_PATH);
+  };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -121,6 +125,14 @@ function Registration() {
     }
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <div className={classes.container}>
       <div>
@@ -141,77 +153,6 @@ function Registration() {
             onChange={(e) => setFullname(e.target.value)}
           />
           <TextField
-            label="Phone Number"
-            variant="outlined"
-            type="number"
-            size="small"
-            className={classes.field}
-            error={isFormSubmitted && phoneNumber.length < 8}
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-          <FormControl component="fieldset" className={classes.field}>
-            <RadioGroup
-              aria-label="gender"
-              name="gender"
-              className={classes.gender}
-              error={isFormSubmitted && !gender ? true : undefined}
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-            >
-              <FormControlLabel
-                value="male"
-                control={
-                  <Radio
-                    classes={{
-                      root: clsx({
-                        [classes.errorGender]: isFormSubmitted && !gender,
-                      }),
-                    }}
-                  />
-                }
-                label="Male"
-              />
-              <FormControlLabel
-                value="female"
-                control={
-                  <Radio
-                    classes={{
-                      root: clsx({
-                        [classes.errorGender]: isFormSubmitted && !gender,
-                      }),
-                    }}
-                  />
-                }
-                label="Female"
-              />
-            </RadioGroup>
-          </FormControl>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              size="small"
-              inputVariant="outlined"
-              label="Birth Date"
-              format="MM/dd/yyyy"
-              value={birthdate}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-              className={classes.field}
-              onChange={(date) => setBirthdate(date)}
-            />
-          </MuiPickersUtilsProvider>
-          <TextareaAutosize
-            aria-label="address"
-            rowsMin={5}
-            placeholder="Address"
-            className={clsx(classes.address, {
-              [classes.errorAddress]: isFormSubmitted && address.length < 10,
-            })}
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <TextField
             label="Email"
             type="email"
             variant="outlined"
@@ -223,16 +164,30 @@ function Registration() {
           />
           <TextField
             label="Password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             variant="outlined"
             size="small"
             className={classes.field}
             error={isFormSubmitted && password.length < 8}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment>
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    edge="end"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
-            label="Re-enter Password"
+            label="Confirm Password"
             type="password"
             variant="outlined"
             size="small"
@@ -253,6 +208,10 @@ function Registration() {
           >
             Register
           </Button>
+          <div className={classes.hasAccount}>
+            Already have an account?{" "}
+            <Link onClick={redirectToLogin}>Log in</Link>
+          </div>
         </form>
       </div>
       <DialogSuccess

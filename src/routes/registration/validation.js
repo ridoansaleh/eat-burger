@@ -14,22 +14,6 @@ export default function validateForm(
     errors.push("fullname");
   }
 
-  if (phoneNumber.length < 8) {
-    errors.push("phoneNumber");
-  }
-
-  if (!gender) {
-    errors.push("gender");
-  }
-
-  if (!birthdate) {
-    errors.push("birthdate");
-  }
-
-  if (address.length < 10) {
-    errors.push("address");
-  }
-
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     errors.push("email");
   }
