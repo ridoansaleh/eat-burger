@@ -20,22 +20,8 @@ import { LOGIN_PATH } from "../../constant/path";
 import { COLLECTION_USERS } from "../../constant/collection";
 import validateForm from "./validation";
 
-const changeBorderColor = (color) => {
-  let birthdateField = document.getElementsByClassName(
-    "MuiOutlinedInput-notchedOutline"
-  );
-  birthdateField = birthdateField.length > 3 ? birthdateField[2] : null;
-  if (birthdateField) {
-    birthdateField.style.borderColor = color;
-  }
-};
-
 function Registration() {
   const [fullname, setFullname] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [gender, setGender] = useState("");
-  const [birthdate, setBirthdate] = useState(null);
-  const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
@@ -49,14 +35,6 @@ function Registration() {
 
   const { db, auth, signUp } = useContext(FirebaseContext);
 
-  useEffect(() => {
-    if (isFormSubmitted && !birthdate) {
-      changeBorderColor("red");
-    } else {
-      changeBorderColor("rgba(0, 0, 0, 0.23)");
-    }
-  }, [isFormSubmitted, birthdate]);
-
   const redirectToLogin = () => {
     history.push(LOGIN_PATH);
   };
@@ -65,10 +43,6 @@ function Registration() {
     e.preventDefault();
     const isValid = validateForm(
       fullname,
-      phoneNumber,
-      gender,
-      birthdate,
-      address,
       email,
       password,
       retypePassword
@@ -94,18 +68,10 @@ function Registration() {
           db.collection(COLLECTION_USERS)
             .add({
               fullname,
-              phone_number: phoneNumber,
-              gender,
-              birthdate,
-              address,
               email,
             })
             .then(() => {
               setFullname("");
-              setPhoneNumber("");
-              setGender("");
-              setBirthdate(null);
-              setAddress("");
               setEmail("");
               setPassword("");
               setRetypePassword("");

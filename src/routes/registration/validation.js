@@ -1,9 +1,5 @@
 export default function validateForm(
   fullname,
-  phoneNumber,
-  gender,
-  birthdate,
-  address,
   email,
   password,
   retypePassword
@@ -22,7 +18,7 @@ export default function validateForm(
     errors.push("password");
   }
 
-  if (password.length >= 8 && retypePassword !== password) {
+  if (retypePassword !== password) {
     errors.push("retypePassword");
   }
 
