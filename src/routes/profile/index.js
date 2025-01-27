@@ -7,6 +7,8 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  TextField,
+  Button,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { LocationOn as Location, Phone, AccessTime } from "@material-ui/icons";
@@ -23,6 +25,13 @@ function Profile() {
     lastimeLogin: "",
   });
   const [loading, setLoading] = useState(true);
+  const [isAddressFormSubmitted, setAddressFormSubmitted] = useState(false);
+  const [isPhoneFormSubmitted, setPhoneFormSubmitted] = useState(false);
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [showAddAddress, setShowAddAddress] = useState(true);
+  const [showAddPhone, setShowAddPhone] = useState(true);
+  const [userDocId, setUserDocId] = useState("");
 
   const classes = useStyles();
   const { db } = useContext(FirebaseContext);
@@ -43,9 +52,12 @@ function Profile() {
         .get()
         .then((querySnapshot) => {
           let data = null;
+          let docId = null;
           querySnapshot.forEach((doc) => {
             data = doc.data();
+            docId = doc.id;
           });
+          setUserDocId(docId);
           setUserData({
             avatarName: createAvatarName(data.fullname),
             name: data.fullname,
@@ -73,6 +85,48 @@ function Profile() {
     );
   };
 
+  const handleEditAddress = (e) => {
+    e.preventDefault();
+    if (isAddressFormSubmitted) return;
+    setAddressFormSubmitted(true);
+    if (!address) return;
+    db.collection(COLLECTION_USERS)
+      .doc(userDocId)
+      .update({ address })
+      .then(() => {
+        setUserData({ ...userData, address });
+        setAddress("");
+        setShowAddAddress(true);
+      })
+      .catch((error) => {
+        alert("Error updating user's address: ", error);
+      })
+      .finally(() => {
+        setAddressFormSubmitted(false);
+      });
+  };
+
+  const handleEditPhoneNumber = (e) => {
+    e.preventDefault();
+    if (isPhoneFormSubmitted) return;
+    setPhoneFormSubmitted(true);
+    if (!phoneNumber) return;
+    db.collection(COLLECTION_USERS)
+      .doc(userDocId)
+      .update({ phone_number: phoneNumber })
+      .then(() => {
+        setUserData({ ...userData, phoneNumber });
+        setPhoneNumber("");
+        setShowAddPhone(true);
+      })
+      .catch((error) => {
+        alert("Error updating user's phone number: ", error);
+      })
+      .finally(() => {
+        setPhoneFormSubmitted(false);
+      });
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.wrapper}>
@@ -87,13 +141,67 @@ function Profile() {
             <ListItemIcon>
               <Location />
             </ListItemIcon>
-            <ListItemText primary={renderText(userData.address)} />
+            {userData.address ? (
+              <ListItemText primary={renderText(userData.address)} />
+            ) : showAddAddress ? (
+              <Button color="primary" onClick={() => setShowAddAddress(false)}>
+                Add your address
+              </Button>
+            ) : (
+              <form
+                noValidate
+                autoComplete="off"
+                className={classes.editForm}
+                onSubmit={handleEditAddress}
+              >
+                <TextField
+                  label="Address"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  className={classes.formInput}
+                  error={isAddressFormSubmitted && !address}
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+                <Button type="submit" variant="outlined" color="secondary">
+                  Save
+                </Button>
+              </form>
+            )}
           </ListItem>
           <ListItem button>
             <ListItemIcon>
               <Phone />
             </ListItemIcon>
-            <ListItemText primary={renderText(userData.phoneNumber)} />
+            {userData.phoneNumber ? (
+              <ListItemText primary={renderText(userData.phoneNumber)} />
+            ) : showAddPhone ? (
+              <Button color="primary" onClick={() => setShowAddPhone(false)}>
+                Add your phone number
+              </Button>
+            ) : (
+              <form
+                noValidate
+                autoComplete="off"
+                className={classes.editForm}
+                onSubmit={handleEditPhoneNumber}
+              >
+                <TextField
+                  label="Phone Number"
+                  type="number"
+                  variant="outlined"
+                  size="small"
+                  className={classes.formInput}
+                  error={isPhoneFormSubmitted && phoneNumber.length < 8}
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+                <Button type="submit" variant="outlined" color="secondary">
+                  Save
+                </Button>
+              </form>
+            )}
           </ListItem>
         </List>
         <Divider />
