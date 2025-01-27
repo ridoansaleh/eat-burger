@@ -1,9 +1,5 @@
 export default function validateForm(
   fullname,
-  phoneNumber,
-  gender,
-  birthdate,
-  address,
   email,
   password,
   retypePassword
@@ -14,22 +10,6 @@ export default function validateForm(
     errors.push("fullname");
   }
 
-  if (phoneNumber.length < 8) {
-    errors.push("phoneNumber");
-  }
-
-  if (!gender) {
-    errors.push("gender");
-  }
-
-  if (!birthdate) {
-    errors.push("birthdate");
-  }
-
-  if (address.length < 10) {
-    errors.push("address");
-  }
-
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     errors.push("email");
   }
@@ -38,7 +18,7 @@ export default function validateForm(
     errors.push("password");
   }
 
-  if (password.length >= 8 && retypePassword !== password) {
+  if (retypePassword !== password) {
     errors.push("retypePassword");
   }
 

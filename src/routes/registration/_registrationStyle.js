@@ -7,7 +7,6 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "calc(100vh - 318px)",
     [theme.breakpoints.up("md")]: {
       paddingTop: "70px",
-      minHeight: "initial",
     },
   },
   title: {
@@ -48,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
   registerBtn: {
     marginTop: "20px",
   },
+  hasAccount: {
+    marginTop: "10px",
+    textAlign: "center",
+  }
 }));
 
 export default useStyles;

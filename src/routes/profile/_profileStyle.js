@@ -54,6 +54,15 @@ const useStyles = makeStyles((theme) => ({
       width: "35%",
     },
   },
+  editForm: {
+    display: "flex",
+  },
+  formInput: {
+    marginRight: "10px",
+    [theme.breakpoints.up("md")]: {
+      width: "400px"
+    }
+  }
 }));
 
 export default useStyles;
