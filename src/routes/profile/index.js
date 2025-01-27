@@ -11,7 +11,12 @@ import {
   Button,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { LocationOn as Location, Phone, AccessTime } from "@material-ui/icons";
+import {
+  Email as EmailIcon,
+  LocationOn as Location,
+  Phone,
+  AccessTime,
+} from "@material-ui/icons";
 import useStyles from "./_profileStyle";
 import { FirebaseContext, UserContext } from "../../context";
 import { COLLECTION_USERS } from "../../constant/collection";
@@ -20,6 +25,7 @@ function Profile() {
   const [userData, setUserData] = useState({
     avatarName: "",
     name: "",
+    email: "",
     address: "",
     phoneNumber: "",
     lastimeLogin: "",
@@ -61,6 +67,7 @@ function Profile() {
           setUserData({
             avatarName: createAvatarName(data.fullname),
             name: data.fullname,
+            email: data.email,
             address: data.address,
             phoneNumber: data.phone_number,
             lastimeLogin: lastSignInTime,
@@ -137,6 +144,12 @@ function Profile() {
           </Typography>
         </div>
         <List component="nav" aria-label="user detail">
+          <ListItem button>
+            <ListItemIcon>
+              <EmailIcon />
+            </ListItemIcon>
+            <ListItemText primary={renderText(userData.email)} />
+          </ListItem>
           <ListItem button>
             <ListItemIcon>
               <Location />
