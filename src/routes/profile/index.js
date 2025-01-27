@@ -17,6 +17,7 @@ import {
   Phone,
   AccessTime,
 } from "@material-ui/icons";
+import { format } from "date-fns";
 import useStyles from "./_profileStyle";
 import { FirebaseContext, UserContext } from "../../context";
 import { COLLECTION_USERS } from "../../constant/collection";
@@ -70,7 +71,7 @@ function Profile() {
             email: data.email,
             address: data.address,
             phoneNumber: data.phone_number,
-            lastimeLogin: lastSignInTime,
+            lastimeLogin: format(new Date(lastSignInTime), "EEEE, MMMM do yyyy hh:mm:ss a"),
           });
           setLoading(false);
         })
