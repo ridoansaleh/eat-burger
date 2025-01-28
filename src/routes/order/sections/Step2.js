@@ -26,14 +26,10 @@ function Step2(props) {
         querySnapshot.forEach((doc) => {
           data = doc.data();
         });
-        if (orderCreator) {
-          setFullname(orderCreator.fullname);
-          setAddress(orderCreator.address);
-          setPhoneNumber(orderCreator.phone_number);
-        } else {
-          setFullname(data.fullname);
-          setAddress(data.address);
-          setPhoneNumber(data.phone_number);
+        setFullname(orderCreator.fullname || data.fullname);
+        setAddress(orderCreator.address || data.address);
+        setPhoneNumber(orderCreator.phone_number || data.phone_number);
+        if (orderCreator === null) {
           sessionStorage.setItem(
             STORAGE_ORDER_CREATOR,
             JSON.stringify({
