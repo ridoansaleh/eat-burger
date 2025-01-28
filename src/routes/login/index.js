@@ -83,13 +83,13 @@ function Login() {
         </p>
         <form
           noValidate
-          autoComplete="off"
           className={classes.boxForm}
           onSubmit={handleFormSubmit}
         >
           <TextField
             label="Email"
             type="email"
+            autoComplete="off"
             variant="outlined"
             size="small"
             className={classes.emailInput}
@@ -100,6 +100,7 @@ function Login() {
           <TextField
             label="Password"
             type={showPassword ? "text" : "password"}
+            autoComplete="off"
             variant="outlined"
             size="small"
             error={isFormSubmitted && !password}
