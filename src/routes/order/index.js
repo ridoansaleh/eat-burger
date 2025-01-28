@@ -216,8 +216,8 @@ function Order() {
         <div className={classes.buttonGroup}>
           <Button
             disabled={activeStep === 0}
-            variant="contained"
-            color="secondary"
+            variant="outlined"
+            color="primary"
             onClick={handleBack}
             className={classes.backButton}
           >
@@ -225,7 +225,7 @@ function Order() {
           </Button>
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             disabled={activeStep === 1 && disableNextBtn}
             onClick={handleNext}
           >
