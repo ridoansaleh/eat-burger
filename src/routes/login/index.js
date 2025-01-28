@@ -90,7 +90,7 @@ function Login() {
           <TextField
             label="Email"
             type="email"
-            name="login-email"
+            autoComplete="off"
             variant="outlined"
             size="small"
             className={classes.emailInput}
@@ -101,7 +101,7 @@ function Login() {
           <TextField
             label="Password"
             type={showPassword ? "text" : "password"}
-            name="login-password"
+            autoComplete="new-password"
             variant="outlined"
             size="small"
             error={isFormSubmitted && !password}
