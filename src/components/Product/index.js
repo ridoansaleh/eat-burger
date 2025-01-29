@@ -15,6 +15,8 @@ import useStyles from "./_productStyle";
 function Product({
   item,
   displayCartBtn,
+  cartBtnColor,
+  cartBtnLabel,
   handleOrderClick,
   handleAddToCartClick,
 }) {
@@ -55,11 +57,11 @@ function Product({
             <Button
               fullWidth
               variant="outlined"
-              color="primary"
+              color={cartBtnColor}
               className={classes.addCartBtn}
               onClick={handleAddToCartClick}
             >
-              Add to Cart
+              {cartBtnLabel}
             </Button>
           )}
         </CardContent>
@@ -77,6 +79,8 @@ Product.propTypes = {
     price: PropTypes.number,
   }),
   displayCartBtn: PropTypes.bool,
+  cartBtnColor: PropTypes.string,
+  cartBtnLabel: PropTypes.string,
   handleOrderClick: PropTypes.func,
   handleAddToCartClick: PropTypes.func,
 };
@@ -90,6 +94,8 @@ Product.defaultProps = {
     price: 0,
   },
   displayCartBtn: false,
+  cartBtnColor: "",
+  cartBtnLabel: "",
   handleOrderClick: () => null,
   handleAddToCartClick: () => null,
 };

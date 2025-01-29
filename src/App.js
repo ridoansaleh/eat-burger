@@ -18,31 +18,29 @@ function App() {
   const authUser = useFirebaseAuth(auth);
 
   useEffect(() => {
-    if (authUser) {
-      db.collection(COLLECTION_USERS)
-        .where("email", "==", authUser.email)
-        .get()
-        .then((querySnapshot) => {
-          let data = null;
-          querySnapshot.forEach((doc) => {
-            data = { id: doc.id, ...doc.data() };
-          });
-          setUser({
-            id: data.id,
-            email: data.email,
-            lastSignInTime: authUser.metadata.lastSignInTime,
-          });
-          setLogin(true);
-          setChecked(true);
-        })
-        .catch((error) => {
-          console.log("Error getting user information: ", error);
-          setChecked(true);
+    db.collection(COLLECTION_USERS)
+      .where("email", "==", authUser?.email || "")
+      .get()
+      .then((querySnapshot) => {
+        let data = null;
+        querySnapshot.forEach((doc) => {
+          data = { id: doc.id, ...doc.data() };
         });
-    } else {
-      setLogin(false);
-      setChecked(true);
-    }
+        if (!data) throw new Error(`No user found with email: ${authUser?.email}`);
+        setUser({
+          id: data.id,
+          email: data.email,
+          lastSignInTime: authUser.metadata.lastSignInTime,
+        });
+        setLogin(true);
+      })
+      .catch((error) => {
+        console.log("Error getting user information: ", error);
+        setLogin(false);
+      })
+      .finally(() => {
+        setChecked(true);
+      });
   }, [authUser]);
 
   const appRoutes = isLogin ? logged_in_routes : logout_routes;

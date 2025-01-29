@@ -26,7 +26,11 @@ import {
   UserContext,
   ShoppingCartContext,
 } from "../../context";
-import { ORDER_PATH, LOGIN_PATH } from "../../constant/path";
+import {
+  ORDER_PATH,
+  LOGIN_PATH,
+  SHOPPING_CART_PATH,
+} from "../../constant/path";
 import {
   COLLECTION_PRODUCTS,
   COLLECTION_SHOPPING_CART,
@@ -46,6 +50,7 @@ function Menus() {
   const [loading, setLoading] = useState(true);
   const [displayAlertCart, setDisplayAlertCart] = useState(false);
   const [productName, setProductName] = useState("");
+  const [cartItems, setCartItems] = useState([]);
 
   const classes = useStyles();
   const history = useHistory();
@@ -65,17 +70,41 @@ function Menus() {
         querySnapshot.forEach((doc) => {
           data.push({ id: doc.id, ...doc.data() });
         });
-        data = data.map(item => ({
+        data = data.map((item) => ({
           ...item,
-          price: Number(item.price)
+          price: Number(item.price),
         }));
         setBurgerList(data);
         setLoading(false);
       });
   };
 
+  const getShoppingCart = () => {
+    console.log("getShoppingCart() -> isLogin -> ", isLogin);
+    if (isLogin) {
+      db.collection(COLLECTION_SHOPPING_CART)
+        .where("user_id", "==", userId)
+        .get()
+        .then((querySnapshot) => {
+          let data = [];
+          querySnapshot.forEach((doc) => {
+            data.push({ id: doc.id, ...doc.data() });
+          });
+          setCartItems(data);
+        })
+        .catch((error) => {
+          console.log("Error getting shopping cart's data: ", error);
+        });
+    } else {
+      let shoppingCart = localStorage.getItem(STORAGE_SHOPPING_CART);
+      shoppingCart = shoppingCart ? JSON.parse(shoppingCart) : [];
+      setCartItems(shoppingCart);
+    }
+  };
+
   useEffect(() => {
     getProducts("All");
+    getShoppingCart();
   }, []);
 
   const handleClickSearch = () => {
@@ -115,47 +144,35 @@ function Menus() {
   };
 
   const handleAddToCartClick = (selectedProduct) => {
+    const isProductInCart = cartItems.find(
+      (item) => item.id === selectedProduct.id
+    );
+    if (isProductInCart) {
+      history.push(SHOPPING_CART_PATH);
+      return;
+    }
     if (isLogin) {
+      const cart_id = uuidv4();
       db.collection(COLLECTION_SHOPPING_CART)
-        .where("user_id", "==", userId)
-        .where("id", "==", selectedProduct.id)
-        .get()
-        .then((querySnapshot) => {
-          let data = null;
-          querySnapshot.forEach((doc) => {
-            data = doc.data();
-          });
-          if (!data) {
-            const cart_id = uuidv4();
-            db.collection(COLLECTION_SHOPPING_CART)
-              .doc(cart_id)
-              .set({
-                ...selectedProduct,
-                user_id: userId,
-                cart_id,
-                count: 1,
-                total_price: selectedProduct.price,
-              })
-              .then(() => {
-                onSetStatus(`changed ${Date.now()}`);
-                setProductName(selectedProduct.name);
-                setDisplayAlertCart(true);
-              })
-              .catch((error) => {
-                console.error("Error writing document: ", error);
-              });
-          }
+        .doc(cart_id)
+        .set({
+          ...selectedProduct,
+          user_id: userId,
+          cart_id,
+          count: 1,
+          total_price: selectedProduct.price,
+        })
+        .then(() => {
+          onSetStatus(`changed ${Date.now()}`);
+          setProductName(selectedProduct.name);
+          setDisplayAlertCart(true);
         })
         .catch((error) => {
-          console.log("Error getting documents: ", error);
+          console.error("Error writing document: ", error);
         });
     } else {
-      let shoppingCart = localStorage.getItem(STORAGE_SHOPPING_CART);
-      shoppingCart = shoppingCart ? JSON.parse(shoppingCart) : [];
-      const isExist = shoppingCart.some((d) => d.id === selectedProduct.id);
-      if (isExist) return;
       const finalData = [
-        ...shoppingCart,
+        ...cartItems,
         {
           ...selectedProduct,
           cart_id: uuidv4(),
@@ -168,6 +185,8 @@ function Menus() {
       setProductName(selectedProduct.name);
       setDisplayAlertCart(true);
     }
+    // Refresh the cart data
+    getShoppingCart();
   };
 
   const handleCategoryChange = (label, value) => {
@@ -186,8 +205,9 @@ function Menus() {
               value={category}
               onChange={(e) => {
                 const label = e.target.value;
-                const value = CATEGORY_LIST.find((d) => d.label === label)
-                  .value;
+                const value = CATEGORY_LIST.find(
+                  (d) => d.label === label
+                ).value;
                 handleCategoryChange(label, value);
               }}
             >
@@ -245,11 +265,21 @@ function Menus() {
               <ProductsSkeleton />
             ) : (
               <>
-                {burgerList.map((item, index) => (
+                {burgerList.map((item) => (
                   <Product
-                    key={index}
+                    key={item.id}
                     item={item}
                     displayCartBtn
+                    cartBtnColor={
+                      cartItems.some((product) => product.id === item.id)
+                        ? ""
+                        : "primary"
+                    }
+                    cartBtnLabel={
+                      cartItems.some((product) => product.id === item.id)
+                        ? "Update Cart"
+                        : "Add to Cart"
+                    }
                     handleOrderClick={() => handleOrderClick(item)}
                     handleAddToCartClick={() => handleAddToCartClick(item)}
                   />
