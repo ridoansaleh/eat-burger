@@ -132,7 +132,7 @@ function Registration() {
           <TextField
             label="Password"
             type={showPassword ? "text" : "password"}
-            autoComplete="off"
+            autoComplete="new-password"
             variant="outlined"
             size="small"
             className={classes.field}
@@ -157,6 +157,7 @@ function Registration() {
           <TextField
             label="Confirm Password"
             type="password"
+            autoComplete="new-password"
             variant="outlined"
             size="small"
             className={classes.field}
