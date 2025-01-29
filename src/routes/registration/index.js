@@ -121,6 +121,7 @@ function Registration() {
           <TextField
             label="Email"
             type="email"
+            autoComplete="off"
             variant="outlined"
             size="small"
             className={classes.field}
@@ -131,6 +132,7 @@ function Registration() {
           <TextField
             label="Password"
             type={showPassword ? "text" : "password"}
+            autoComplete="off"
             variant="outlined"
             size="small"
             className={classes.field}
