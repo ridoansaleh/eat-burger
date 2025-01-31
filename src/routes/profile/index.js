@@ -17,7 +17,9 @@ import {
   Phone,
   AccessTime,
 } from "@material-ui/icons";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import { format } from "date-fns";
+import PhoneNumber from "../../components/PhoneNumber";
 import useStyles from "./_profileStyle";
 import { FirebaseContext, UserContext } from "../../context";
 import { COLLECTION_USERS } from "../../constant/collection";
@@ -39,6 +41,7 @@ function Profile() {
   const [showAddAddress, setShowAddAddress] = useState(true);
   const [showAddPhone, setShowAddPhone] = useState(true);
   const [userDocId, setUserDocId] = useState("");
+  const [isPhoneNumberValid, setPhoneNumberValid] = useState(true);
 
   const classes = useStyles();
   const { db } = useContext(FirebaseContext);
@@ -71,7 +74,10 @@ function Profile() {
             email: data.email,
             address: data.address,
             phoneNumber: data.phone_number,
-            lastimeLogin: format(new Date(lastSignInTime), "EEEE, MMMM do yyyy hh:mm:ss a"),
+            lastimeLogin: format(
+              new Date(lastSignInTime),
+              "EEEE, MMMM do yyyy hh:mm:ss a"
+            ),
           });
           setLoading(false);
         })
@@ -116,9 +122,12 @@ function Profile() {
 
   const handleEditPhoneNumber = (e) => {
     e.preventDefault();
-    if (isPhoneFormSubmitted) return;
+    if (!phoneNumber || isPhoneFormSubmitted) return;
     setPhoneFormSubmitted(true);
-    if (!phoneNumber) return;
+    if (!isPhoneNumberValid) {
+      setPhoneFormSubmitted(false);
+      return;
+    }
     db.collection(COLLECTION_USERS)
       .doc(userDocId)
       .update({ phone_number: phoneNumber })
@@ -133,6 +142,12 @@ function Profile() {
       .finally(() => {
         setPhoneFormSubmitted(false);
       });
+  };
+
+  const handlePhoneNumberChange = (value) => {
+    const isValid = isValidPhoneNumber(value || "");
+    setPhoneNumberValid(isValid);
+    setPhoneNumber(value);
   };
 
   return (
@@ -201,15 +216,10 @@ function Profile() {
                 className={classes.editForm}
                 onSubmit={handleEditPhoneNumber}
               >
-                <TextField
-                  label="Phone Number"
-                  type="number"
-                  variant="outlined"
-                  size="small"
+                <PhoneNumber
                   className={classes.formInput}
-                  error={isPhoneFormSubmitted && phoneNumber.length < 8}
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onChange={handlePhoneNumberChange}
                 />
                 <Button type="submit" variant="outlined" color="secondary">
                   Save
@@ -217,6 +227,15 @@ function Profile() {
               </form>
             )}
           </ListItem>
+          {!isPhoneNumberValid && (
+            <ListItem className={classes.phoneInvalidWrapper}>
+              <ListItemIcon />
+              <ListItemText
+                className={classes.phoneInvalid}
+                primary="Phone number is invalid"
+              />
+            </ListItem>
+          )}
         </List>
         <Divider />
         <List component="nav" aria-label="last login">

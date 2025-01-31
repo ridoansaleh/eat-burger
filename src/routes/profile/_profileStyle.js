@@ -62,6 +62,13 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: {
       width: "400px"
     }
+  },
+  phoneInvalidWrapper: {
+    paddingTop: "0",
+  },
+  phoneInvalid: {
+    color: "#f44336",
+    fontSize: "12px !important"
   }
 }));
 
