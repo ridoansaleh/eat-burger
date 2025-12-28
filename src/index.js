@@ -19,13 +19,11 @@ const customTheme = createMuiTheme({
   },
 });
 
-const firebase = new Firebase();
-
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
     <ThemeProvider theme={customTheme}>
-      <FirebaseContext.Provider value={firebase}>
+      <FirebaseContext.Provider value={Firebase}>
         <App />
       </FirebaseContext.Provider>
     </ThemeProvider>
